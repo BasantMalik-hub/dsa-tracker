@@ -1,11 +1,12 @@
 # C++ & DSA Master Tracker
 
-A comprehensive 21-unit dynamic tracker for mastering C++ and Data Structures & Algorithms.
+A comprehensive 23-unit dynamic tracker (21 Core Units + 2 Phase-4 Extension Units) for mastering C++ and Data Structures & Algorithms, fully aligned with the complete 144-lecture Apna College C++ DSA course.
 
 ## Features
-- **21 Curriculum Units**: From C++ fundamentals and STL to Advanced DP, Graph algorithms, Tries, and System Design foundations.
+- **23 Curriculum Units (4 Phases)**: From C++ fundamentals, OOP, and STL to advanced Graphs, Trees, Tries, Dynamic Programming, and Knapsack.
+- **144 Apna College Video Lectures**: Full playlist mapping with lecture runtime, playlist positions, and in-app YouTube player.
+- **290+ Curated Problems**: Follow-up practice on LeetCode, Codeforces, CSES, GFG, and SPOJ directly linked to corresponding lectures.
 - **Dynamic Scheduling**: Supports 60-day, 90-day, and 120-day pace targets calculated proportionally.
-- **Problem & Topic Tracking**: Track completion across LeetCode, Codeforces, and standard interview problems.
 - **Export & Import**: Save your progress as JSON and restore it at any time.
 - **Dark Modern UI**: Built with React, Tailwind CSS, and Lucide icons.
 
