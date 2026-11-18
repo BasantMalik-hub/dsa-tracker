@@ -5204,6 +5204,7 @@ function TrackerApp() {
   const [toast, setToast] = useState(null);
   const [newProblemDrafts, setNewProblemDrafts] = useState({});
   const selectedDayPillRef = useRef(null);
+  const fileInputRef = useRef(null);
 
   // Auto-scroll selected day into view on day change or tab switch
   useEffect(() => {
@@ -5798,6 +5799,42 @@ function TrackerApp() {
     } catch (err) {
       showToast('Failed to copy. Try downloading the backup file instead.');
     }
+  };
+
+  const handleFileUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const content = event.target?.result;
+        if (typeof content !== 'string') throw new Error('File read error');
+        const parsed = JSON.parse(content);
+        if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+          showToast('Invalid backup file: expected a JSON object.');
+          return;
+        }
+        setState((prev) => ({
+          ...DEFAULT_STATE,
+          ...prev,
+          ...parsed,
+          completedSubtopics: parsed.completedSubtopics || prev.completedSubtopics,
+          watchedVideos: migrateVideoAliases(parsed.watchedVideos || prev.watchedVideos),
+          solvedProblems: parsed.solvedProblems || prev.solvedProblems,
+          unitNotes: migrateVideoAliases(parsed.unitNotes || prev.unitNotes),
+          customProblems: parsed.customProblems || prev.customProblems,
+          dayNotes: migrateVideoAliases(parsed.dayNotes || prev.dayNotes),
+          fuzzyDays: migrateVideoAliases(parsed.fuzzyDays || prev.fuzzyDays)
+        }));
+        setImportJsonText('');
+        setBackupModalOpen(false);
+        showToast(`Progress restored from ${file.name}`);
+      } catch (err) {
+        showToast("Could not read backup file. Make sure it's valid JSON.");
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = '';
   };
 
   const handleImportJson = () => {
@@ -7649,12 +7686,36 @@ function TrackerApp() {
               </div>
             </div>
 
-            <div className="space-y-2 pt-3 border-t border-stone-800">
+            <div className="space-y-3 pt-3 border-t border-stone-800">
               <label className="text-xs font-bold text-stone-300 block">
-                Restore from JSON Backup Paste:
+                Restore Progress:
               </label>
+
+              {/* Upload JSON file option */}
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept=".json,application/json"
+                onChange={handleFileUpload}
+                className="hidden"
+              />
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                className="w-full py-2.5 px-4 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-stone-950 font-bold text-xs flex items-center justify-center gap-2 shadow transition cursor-pointer"
+              >
+                <Upload className="w-4 h-4 shrink-0" />
+                <span>Upload JSON Backup File</span>
+              </button>
+
+              <div className="relative flex items-center justify-center py-1">
+                <div className="border-t border-stone-800 w-full" />
+                <span className="bg-stone-900 px-2.5 text-[10px] text-stone-500 font-mono absolute">OR PASTE JSON</span>
+              </div>
+
+              {/* Paste JSON text option */}
               <textarea
-                rows={4}
+                rows={3}
                 value={importJsonText}
                 onChange={(e) => setImportJsonText(e.target.value)}
                 placeholder='Paste exported JSON content here...'
@@ -7663,10 +7724,10 @@ function TrackerApp() {
               <button
                 type="button"
                 onClick={handleImportJson}
-                className="w-full py-2 px-4 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-stone-950 font-bold text-xs flex items-center justify-center gap-2 transition"
+                disabled={!importJsonText.trim()}
+                className="w-full py-2 px-4 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-200 border border-stone-700 font-bold text-xs flex items-center justify-center gap-2 transition disabled:opacity-40 disabled:cursor-not-allowed"
               >
-                <Upload className="w-4 h-4" />
-                <span>Restore Progress from JSON</span>
+                <span>Restore from Pasted JSON</span>
               </button>
             </div>
 
