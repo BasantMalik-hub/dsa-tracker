@@ -31,3 +31,30 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
 ```bash
 npm run build
 ```
+
+## Maintenance & Verification Tools
+
+The project includes built-in Python tools for verifying problem links and updating YouTube video IDs:
+
+### Check Problem Links
+Checks practice problem links across LeetCode, Codeforces, CSES, and GeeksforGeeks:
+```bash
+# Count problem links
+npm run check:links:list
+
+# Run verification and generate problem_link_report.csv
+npm run check:links
+```
+
+### Video ID Resolver & Migration
+Updates playlist position lectures (`ACnnn`) to real YouTube video IDs while preserving user ticks and notes via `VIDEO_ID_ALIASES`:
+```bash
+# View usage options
+python fix_video_links.py --help
+
+# Automatic resolution using yt-dlp
+npm run fix:videos
+
+# Or using an exported playlist.txt
+python fix_video_links.py c_dsa_master_tracker.tsx --list playlist.txt
+```

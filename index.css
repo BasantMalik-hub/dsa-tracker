@@ -1,1 +1,51 @@
 @import "tailwindcss";
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    color-scheme: dark;
+    background-color: #0c0a09;
+  }
+
+  body {
+    overflow-x: hidden;
+    overscroll-behavior-y: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Eliminate 300ms mobile touch delay */
+  button,
+  a,
+  input,
+  select,
+  textarea {
+    touch-action: manipulation;
+  }
+
+  /* Custom subtle dark scrollbar for desktop Windows */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #44403c #1c1917;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #0c0a09;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #292524;
+    border-radius: 9999px;
+    border: 2px solid #0c0a09;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #44403c;
+  }
+}
