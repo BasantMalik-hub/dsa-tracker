@@ -5511,32 +5511,39 @@ function TrackerApp() {
             {solvedCount}/{linked.length} solved
           </span>
         </div>
-        <div className="space-y-1.5">
+        <div className="space-y-2">
           {linked.map((p) => {
             const done = !!state.solvedProblems[p.id];
             return (
-              <div key={p.id} className="flex items-start gap-2">
-                <button
-                  type="button"
-                  onClick={() => toggleProblem(p.id)}
-                  aria-label={done ? 'Mark unsolved' : 'Mark solved'}
-                  className={`mt-0.5 w-3.5 h-3.5 rounded flex items-center justify-center border shrink-0 ${
-                    done ? 'bg-emerald-500 border-emerald-500 text-stone-950' : 'border-stone-600'
-                  }`}
-                >
-                  {done && <Check className="w-2.5 h-2.5 stroke-[3]" />}
-                </button>
-                <a
-                  href={p.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`flex-1 text-xs leading-snug hover:underline ${
-                    done ? 'line-through text-stone-500' : 'text-stone-200'
-                  }`}
-                >
-                  {p.title}
-                </a>
-                <span className="text-[10px] font-mono text-stone-500 shrink-0">
+              <div key={p.id} className="flex items-start justify-between gap-2 py-0.5">
+                <div className="flex items-start gap-2 min-w-0 flex-1">
+                  <button
+                    type="button"
+                    onClick={() => toggleProblem(p.id)}
+                    aria-label={done ? 'Mark unsolved' : 'Mark solved'}
+                    className={`mt-0.5 w-4 h-4 rounded flex items-center justify-center border shrink-0 transition ${
+                      done ? 'bg-emerald-500 border-emerald-500 text-stone-950' : 'border-stone-600 bg-stone-900'
+                    }`}
+                  >
+                    {done && <Check className="w-2.5 h-2.5 stroke-[3]" />}
+                  </button>
+                  <div className="min-w-0 flex-1">
+                    <a
+                      href={p.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`text-xs leading-snug hover:underline block break-words ${
+                        done ? 'line-through text-stone-500' : 'text-stone-200 hover:text-emerald-300'
+                      }`}
+                    >
+                      {p.title}
+                    </a>
+                    <div className="text-[10px] font-mono text-stone-500 sm:hidden">
+                      {p.platform} &bull; {p.difficulty}
+                    </div>
+                  </div>
+                </div>
+                <span className="hidden sm:inline-block text-[10px] font-mono text-stone-500 shrink-0">
                   {p.platform} &bull; {p.difficulty}
                 </span>
               </div>
@@ -5880,15 +5887,15 @@ function TrackerApp() {
       )}
 
       {/* STICKY HEADER */}
-      <header className="sticky top-0 z-30 backdrop-blur-xl bg-stone-950/90 border-b border-stone-800/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-3">
+      <header className="sticky top-0 z-30 backdrop-blur-xl bg-stone-950/95 border-b border-stone-800/80">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2.5 sm:py-3 flex items-center justify-between gap-2 sm:gap-3">
           {/* Brand Title */}
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg border border-stone-700 bg-stone-900 flex items-center justify-center font-display text-base text-emerald-300">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg border border-stone-700 bg-stone-900 flex items-center justify-center font-display text-sm sm:text-base text-emerald-300 shrink-0">
               C++
             </div>
-            <div>
-              <h1 className="font-display text-lg sm:text-xl text-white leading-tight">My DSA Notebook</h1>
+            <div className="min-w-0">
+              <h1 className="font-display text-base sm:text-xl text-white leading-tight truncate">My DSA Notebook</h1>
               <p className="text-[11px] text-stone-400 hidden sm:block">
                 {SYLLABUS_DATA.length} units &middot; {globalStats.totalSubs} topics &middot; {PLAYLIST_LECTURE_COUNT} playlist lectures &middot; {globalStats.totalProbs} problems
               </p>
@@ -5936,12 +5943,12 @@ function TrackerApp() {
           </div>
 
           {/* Right Controls: Streak + Backup + Playlist */}
-          <div className="flex items-center gap-2">
-            <div className="flex items-center gap-1.5 bg-stone-900 border border-stone-800 px-2.5 py-1.5 rounded-xl text-xs">
-              <Flame className="w-4 h-4 text-amber-400" />
-              <span className="font-bold text-white">{displayStreak}d</span>
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+            <div className="flex items-center gap-1 sm:gap-1.5 bg-stone-900 border border-stone-800 px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-xl text-xs">
+              <Flame className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-400 shrink-0" />
+              <span className="font-bold text-white text-[11px] sm:text-xs">{displayStreak}d</span>
               <span className="text-stone-700">|</span>
-              <span className="text-emerald-400 font-mono font-semibold">
+              <span className="text-emerald-400 font-mono font-semibold text-[11px] sm:text-xs">
                 {globalStats.overallPct}%
               </span>
             </div>
@@ -5949,7 +5956,7 @@ function TrackerApp() {
             <button
               type="button"
               onClick={() => setBackupModalOpen(true)}
-              className="flex items-center gap-1.5 text-xs font-semibold bg-stone-900 hover:bg-stone-800 text-stone-200 border border-stone-800 px-3 py-1.5 rounded-xl transition"
+              className="flex items-center gap-1 sm:gap-1.5 text-xs font-semibold bg-stone-900 hover:bg-stone-800 text-stone-200 border border-stone-800 p-1.5 sm:px-3 sm:py-1.5 rounded-xl transition"
               title="Backup or Restore Progress"
             >
               <Download className="w-3.5 h-3.5 text-indigo-400" />
@@ -5960,11 +5967,12 @@ function TrackerApp() {
               href="https://www.youtube.com/playlist?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 text-xs font-bold bg-rose-600 hover:bg-rose-500 text-white px-3 py-1.5 rounded-xl transition"
+              className="flex items-center gap-1 sm:gap-1.5 text-xs font-bold bg-rose-600 hover:bg-rose-500 text-white p-1.5 sm:px-3 sm:py-1.5 rounded-xl transition"
+              title="Open Apna College Playlist on YouTube"
             >
-              <Youtube className="w-4 h-4" />
+              <Youtube className="w-3.5 h-3.5 fill-white" />
               <span className="hidden lg:inline">Playlist</span>
-              <ExternalLink className="w-3 h-3" />
+              <ExternalLink className="w-3 h-3 hidden sm:inline" />
             </a>
           </div>
         </div>
@@ -6587,38 +6595,38 @@ function TrackerApp() {
                       onClick={() =>
                         setExpandedWeeks((prev) => ({ ...prev, [weekNum]: !prev[weekNum] }))
                       }
-                      className="w-full px-5 py-3.5 flex items-center justify-between bg-stone-900 hover:bg-stone-800/70 transition text-left"
+                      className="w-full px-3.5 sm:px-5 py-3 flex items-center justify-between gap-2 bg-stone-900 hover:bg-stone-800/70 transition text-left"
                     >
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
                         {isExpanded ? (
-                          <ChevronDown className="w-4 h-4 text-emerald-400" />
+                          <ChevronDown className="w-4 h-4 text-emerald-400 shrink-0" />
                         ) : (
-                          <ChevronRight className="w-4 h-4 text-stone-400" />
+                          <ChevronRight className="w-4 h-4 text-stone-400 shrink-0" />
                         )}
-                        <span className="text-sm font-semibold text-white">
-                          Week {weekNum}
-                        </span>
-                        <span className="text-xs font-mono text-stone-400">
-                          (Days {weekDays[0]?.dayNumber}–{weekDays[weekDays.length - 1]?.dayNumber} &bull;{' '}
-                          {weekDays[0]?.formattedDate} to {weekDays[weekDays.length - 1]?.formattedDate})
-                        </span>
+                        <div className="min-w-0 flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+                          <span className="text-sm font-semibold text-white whitespace-nowrap">
+                            Week {weekNum}
+                          </span>
+                          <span className="text-[11px] sm:text-xs font-mono text-stone-400">
+                            (Days {weekDays[0]?.dayNumber}–{weekDays[weekDays.length - 1]?.dayNumber} &bull;{' '}
+                            {weekDays[0]?.formattedDate} to {weekDays[weekDays.length - 1]?.formattedDate})
+                          </span>
+                        </div>
                       </div>
 
-                      <div className="flex items-center gap-3">
-                        <span
-                          className={`text-xs font-mono px-2.5 py-0.5 rounded-full border ${
-                            weekCompleted === weekDays.length
-                              ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
-                              : 'bg-stone-950 text-stone-400 border-stone-800'
-                          }`}
-                        >
-                          {weekCompleted}/{weekDays.length} Days Done
-                        </span>
-                      </div>
+                      <span
+                        className={`shrink-0 text-[10px] sm:text-xs font-mono px-2 sm:px-2.5 py-0.5 rounded-full border ${
+                          weekCompleted === weekDays.length
+                            ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
+                            : 'bg-stone-950 text-stone-400 border-stone-800'
+                        }`}
+                      >
+                        {weekCompleted}/{weekDays.length} Done
+                      </span>
                     </button>
 
                     {isExpanded && (
-                      <div className="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 border-t border-stone-800/80">
+                      <div className="p-3 sm:p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 border-t border-stone-800/80">
                         {weekDays.map((dayObj) => {
                           const prog = getDayProgress(dayObj);
                           const isToday = dayObj.dayNumber === scheduleMeta.calendarDayNumber;
@@ -6737,28 +6745,37 @@ function TrackerApp() {
                                     })
                                   )}
 
-                                  <div className="flex items-center gap-1.5 pt-2 border-t border-stone-800">
-                                    <button
-                                      type="button"
-                                      onClick={() => toggleProblem(dayObj.problemKey)}
-                                      className={`py-1 px-2 rounded-lg border text-[11px] font-semibold ${
-                                        prog.probDone
-                                          ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
-                                          : 'bg-stone-950 text-stone-400 border-stone-800'
-                                      }`}
-                                      title={dayObj.problem.title}
-                                    >
-                                      {prog.probDone ? '✓ Prob' : '○ Prob'}
-                                    </button>
+                                  <div className="pt-2 border-t border-stone-800/80 flex items-center justify-between gap-2">
+                                    <div className="flex items-center gap-2 min-w-0 flex-1">
+                                      <button
+                                        type="button"
+                                        onClick={() => toggleProblem(dayObj.problemKey)}
+                                        aria-label={prog.probDone ? 'Mark unsolved' : 'Mark solved'}
+                                        className={`w-3.5 h-3.5 rounded flex items-center justify-center border shrink-0 ${
+                                          prog.probDone
+                                            ? 'bg-emerald-500 border-emerald-500 text-stone-950'
+                                            : 'border-stone-600 bg-stone-950'
+                                        }`}
+                                      >
+                                        {prog.probDone && <Check className="w-2.5 h-2.5 stroke-[3]" />}
+                                      </button>
+                                      <div className="min-w-0 flex-1">
+                                        <span className={`text-xs block truncate ${prog.probDone ? 'line-through text-stone-500' : 'text-stone-200'}`}>
+                                          {dayObj.problem.title}
+                                        </span>
+                                        <span className="text-[10px] font-mono text-stone-500 block">
+                                          {dayObj.problem.platform} &bull; {dayObj.problem.difficulty}
+                                        </span>
+                                      </div>
+                                    </div>
                                     <a
                                       href={dayObj.problem.url}
                                       target="_blank"
                                       rel="noopener noreferrer"
-                                      className="flex-1 py-1 px-2 rounded-lg bg-stone-950 hover:bg-stone-800 text-emerald-300 border border-stone-800 text-[11px] font-medium flex items-center justify-center gap-1"
-                                      title={dayObj.problem.title}
+                                      className="shrink-0 py-1 px-2.5 rounded-lg bg-stone-950 hover:bg-stone-800 text-emerald-400 border border-stone-800 text-xs font-semibold flex items-center gap-1"
                                     >
                                       <span>Solve</span>
-                                      <ExternalLink className="w-2.5 h-2.5" />
+                                      <ExternalLink className="w-3 h-3" />
                                     </a>
                                   </div>
                                 </div>
@@ -6848,7 +6865,7 @@ function TrackerApp() {
                 </div>
 
                 <div className="relative flex-1 sm:w-64">
-                  <Search className="w-4 h-4 text-stone-500 absolute left-3 top-1/2 -transtone-y-1/2 pointer-events-none" />
+                  <Search className="w-4 h-4 text-stone-500 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                   <input
                     type="text"
                     value={searchQuery}
@@ -6860,7 +6877,7 @@ function TrackerApp() {
                     <button
                       type="button"
                       onClick={() => setSearchQuery('')}
-                      className="absolute right-2.5 top-1/2 -transtone-y-1/2 text-stone-500 hover:text-stone-300"
+                      className="absolute right-2.5 top-1/2 -translate-y-1/2 text-stone-500 hover:text-stone-300"
                     >
                       <X className="w-3.5 h-3.5" />
                     </button>
@@ -7014,21 +7031,27 @@ function TrackerApp() {
                                       >
                                         {watched && <Check className="w-3 h-3 stroke-[3]" />}
                                       </div>
-                                      <div className="text-xs sm:text-sm font-semibold leading-snug">
-                                        <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-rose-500/15 text-rose-300 border border-rose-500/30 mr-1.5">
-                                          {vid.type}
-                                        </span>
-                                        {vid.playlistIndex ? (
-                                          <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-stone-900 text-stone-400 border border-stone-800">
-                                            #{vid.playlistIndex}
+                                      <div className="flex-1 min-w-0">
+                                        <div className="flex flex-wrap items-center gap-1.5 mb-1">
+                                          <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-rose-500/15 text-rose-300 border border-rose-500/30">
+                                            {vid.type}
                                           </span>
-                                        ) : null}
-                                        {vid.minutes ? (
-                                          <span className="text-[10px] font-mono text-stone-500">~{vid.minutes}m</span>
-                                        ) : null}
-                                        <span className={watched ? 'line-through text-stone-500' : 'text-white'}>
+                                          {vid.playlistIndex ? (
+                                            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-stone-900 text-stone-400 border border-stone-800">
+                                              #{vid.playlistIndex}
+                                            </span>
+                                          ) : null}
+                                          {vid.minutes ? (
+                                            <span className="text-[10px] font-mono text-stone-400">~{vid.minutes}m</span>
+                                          ) : null}
+                                        </div>
+                                        <div
+                                          className={`text-xs sm:text-sm font-semibold leading-snug break-words ${
+                                            watched ? 'line-through text-stone-500' : 'text-white'
+                                          }`}
+                                        >
                                           {vid.title}
-                                        </span>
+                                        </div>
                                       </div>
                                     </div>
                                     <div className="flex items-center gap-2 pl-6">
@@ -7186,50 +7209,69 @@ function TrackerApp() {
                             return (
                               <div
                                 key={prob.id}
-                                className="p-2.5 rounded-xl bg-stone-950 border border-stone-800 flex items-center justify-between gap-2"
+                                className="p-2.5 sm:p-3 rounded-xl bg-stone-950 border border-stone-800/90 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 transition hover:border-stone-700"
                               >
-                                <div
-                                  onClick={() => toggleProblem(prob.id)}
-                                  className="flex items-center gap-2.5 cursor-pointer truncate"
-                                >
-                                  <div
-                                    className={`w-4 h-4 rounded flex items-center justify-center border shrink-0 ${
+                                <div className="flex items-start gap-2.5 min-w-0 flex-1">
+                                  <button
+                                    type="button"
+                                    onClick={() => toggleProblem(prob.id)}
+                                    aria-label={solved ? 'Mark unsolved' : 'Mark solved'}
+                                    className={`mt-0.5 w-4 h-4 rounded flex items-center justify-center border shrink-0 transition ${
                                       solved
                                         ? 'bg-emerald-500 border-emerald-500 text-stone-950'
-                                        : 'border-stone-600'
+                                        : 'border-stone-600 bg-stone-900'
                                     }`}
                                   >
-                                    {solved && <Check className="w-3 h-3 stroke-[3]" />}
+                                    {solved && <Check className="w-2.5 h-2.5 stroke-[3]" />}
+                                  </button>
+                                  <div className="min-w-0 flex-1">
+                                    <div
+                                      onClick={() => toggleProblem(prob.id)}
+                                      className={`text-xs sm:text-sm font-semibold cursor-pointer break-words ${
+                                        solved ? 'line-through text-stone-500' : 'text-stone-100 hover:text-emerald-300'
+                                      }`}
+                                    >
+                                      {prob.title}
+                                    </div>
+                                    <div className="flex flex-wrap items-center gap-1.5 mt-1">
+                                      <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-stone-900 text-stone-400 border border-stone-800">
+                                        {prob.platform}
+                                      </span>
+                                      <span
+                                        className={`text-[10px] font-mono px-1.5 py-0.5 rounded border ${
+                                          prob.difficulty === 'Easy'
+                                            ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
+                                            : prob.difficulty === 'Medium'
+                                            ? 'bg-amber-500/10 text-amber-400 border-amber-500/20'
+                                            : 'bg-rose-500/10 text-rose-400 border-rose-500/20'
+                                        }`}
+                                      >
+                                        {prob.difficulty}
+                                      </span>
+                                      {(prob.videoIds || []).length > 0 && unit.videos.find((v) => v.id === prob.videoIds[0]) ? (
+                                        <span className="text-[10px] font-mono text-stone-500 truncate max-w-[200px]">
+                                          &bull; after: {unit.videos.find((v) => v.id === prob.videoIds[0]).title.replace(/^Lec \d+:\s*/i, '')}
+                                        </span>
+                                      ) : null}
+                                    </div>
                                   </div>
-                                  <span
-                                    className={`text-xs font-semibold truncate ${
-                                      solved ? 'line-through text-stone-500' : 'text-stone-100'
-                                    }`}
-                                  >
-                                    {prob.title}
-                                  </span>
                                 </div>
 
-                                <div className="flex items-center gap-2 shrink-0">
-                                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-stone-900 text-stone-400 border border-stone-800">
-                                    {prob.platform} &bull; {prob.difficulty}
-                                    {(prob.videoIds || []).length > 0 && unit.videos.find((v) => v.id === prob.videoIds[0])
-                                      ? ` \u2022 after: ${unit.videos.find((v) => v.id === prob.videoIds[0]).title.replace(/^Lec \d+:\s*/i, '').slice(0, 28)}`
-                                      : ''}
-                                  </span>
+                                <div className="flex items-center gap-2 self-end sm:self-auto shrink-0 pt-1 sm:pt-0">
                                   <a
                                     href={prob.url}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="text-indigo-400 hover:text-indigo-300"
+                                    className="py-1 px-2.5 rounded-lg bg-indigo-500/15 hover:bg-indigo-500/25 text-indigo-300 border border-indigo-500/30 text-xs font-semibold flex items-center gap-1 transition"
                                   >
-                                    <ExternalLink className="w-3.5 h-3.5" />
+                                    <span>Solve</span>
+                                    <ExternalLink className="w-3 h-3" />
                                   </a>
                                   {prob.isCustom && (
                                     <button
                                       type="button"
                                       onClick={() => handleDeleteCustomProblem(unit.id, prob.id)}
-                                      className="text-rose-400 hover:text-rose-300"
+                                      className="p-1 rounded-lg text-rose-400 hover:bg-rose-500/20 transition"
                                       title="Delete Custom Problem"
                                     >
                                       <Trash2 className="w-3.5 h-3.5" />
@@ -7390,26 +7432,26 @@ function TrackerApp() {
           onClick={(e) => {
             if (e.target === e.currentTarget) setActiveVideoModal(null);
           }}
-          className="fixed inset-0 z-50 bg-stone-950/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 overflow-y-auto"
+          className="fixed inset-0 z-50 bg-stone-950/85 backdrop-blur-md flex items-center justify-center p-2 sm:p-6 overflow-y-auto"
         >
           <div className="bg-stone-900 border border-stone-700 rounded-2xl max-w-6xl w-full overflow-hidden shadow-2xl my-auto">
             {/* Modal Header */}
-            <div className="px-4 sm:px-6 py-3.5 bg-stone-950 border-b border-stone-800 flex items-center justify-between gap-3">
-              <div className="truncate">
-                <div className="flex items-center gap-2">
-                  <span className={`text-[10px] font-mono px-2 py-0.5 rounded border ${getPhaseBadgeStyle(activeVideoModal.unit.phase)}`}>
+            <div className="px-3 sm:px-6 py-2.5 sm:py-3.5 bg-stone-950 border-b border-stone-800 flex items-center justify-between gap-2 sm:gap-3">
+              <div className="min-w-0 flex-1 truncate">
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  <span className={`text-[10px] font-mono px-1.5 py-0.5 rounded border ${getPhaseBadgeStyle(activeVideoModal.unit.phase)}`}>
                     {activeVideoModal.unit.courseCode}
                   </span>
                   <span className="text-xs font-bold text-stone-400 truncate">
                     {activeVideoModal.unit.unitTitle}
                   </span>
                 </div>
-                <h3 className="text-sm sm:text-base font-semibold text-white truncate mt-0.5">
+                <h3 className="text-xs sm:text-base font-semibold text-white truncate mt-0.5">
                   {activeVideoModal.video.title}
                 </h3>
               </div>
 
-              <div className="flex items-center gap-2 shrink-0">
+              <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
                 <button
                   type="button"
                   onClick={() =>
@@ -7418,7 +7460,7 @@ function TrackerApp() {
                       getLinkedProblems(activeVideoModal.unit, activeVideoModal.video).length
                     )
                   }
-                  className={`px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 border transition ${
+                  className={`px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 border transition ${
                     state.watchedVideos[
                       `${activeVideoModal.unit.id}_vid_${activeVideoModal.video.id}`
                     ]
@@ -7427,7 +7469,7 @@ function TrackerApp() {
                   }`}
                 >
                   <CheckCircle2 className="w-3.5 h-3.5" />
-                  <span>
+                  <span className="hidden xs:inline sm:inline">
                     {state.watchedVideos[
                       `${activeVideoModal.unit.id}_vid_${activeVideoModal.video.id}`
                     ]
@@ -7440,9 +7482,9 @@ function TrackerApp() {
                   href={activeVideoModal.video.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-3 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold flex items-center gap-1"
+                  className="px-2.5 sm:px-3 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold flex items-center gap-1"
                 >
-                  <span>Open YT</span>
+                  <span>YT</span>
                   <ExternalLink className="w-3 h-3" />
                 </a>
 
@@ -7451,7 +7493,7 @@ function TrackerApp() {
                   onClick={() => setActiveVideoModal(null)}
                   className="p-1.5 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-300"
                 >
-                  <X className="w-5 h-5" />
+                  <X className="w-4 h-4 sm:w-5 sm:h-5" />
                 </button>
               </div>
             </div>
