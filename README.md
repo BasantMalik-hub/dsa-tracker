@@ -1,16 +1,45 @@
 # C++ & DSA Master Tracker
 
-page is live on https://basantmalik-hub.github.io/dsa-tracker/
+Live site: [https://basantmalik-hub.github.io/dsa-tracker/](https://basantmalik-hub.github.io/dsa-tracker/)
 
-A comprehensive 23-unit dynamic tracker (21 Core Units + 2 Phase-4 Extension Units) for mastering C++ and Data Structures & Algorithms, fully aligned with the complete 144-lecture Apna College C++ DSA course.
+A comprehensive 23-unit dynamic tracker (21 Core Units + 2 Phase-4 Extension Units) for mastering C++ and Data Structures & Algorithms, fully aligned with the complete Apna College C++ DSA course.
 
 ## Features
 - **23 Curriculum Units (4 Phases)**: From C++ fundamentals, OOP, and STL to advanced Graphs, Trees, Tries, Dynamic Programming, and Knapsack.
-- **144 Apna College Video Lectures**: Full playlist mapping with lecture runtime, playlist positions, and in-app YouTube player.
+- **152 Apna College Video Lectures**: Full playlist mapping with lecture runtime, playlist positions, and in-app YouTube player.
 - **290+ Curated Problems**: Follow-up practice on LeetCode, Codeforces, CSES, GFG, and SPOJ directly linked to corresponding lectures.
 - **Dynamic Scheduling**: Supports 60-day, 90-day, and 120-day pace targets calculated proportionally.
-- **Export & Import**: Save your progress as JSON and restore it at any time.
-- **Dark Modern UI**: Built with React, Tailwind CSS, and Lucide icons.
+- **Export & Import**: Save your progress as JSON, copy to clipboard, or upload a backup file at any time.
+- **Responsive Dark UI**: Built with React 18, Tailwind CSS v4, and Lucide icons.
+- **Modular Architecture**: Cleanly separated into custom hooks, typed datasets, and atomic UI components.
+
+## Project Structure
+
+```
+dsa-tracker/
+├── index.html                     # HTML shell and entry point
+├── vite.config.ts                 # Vite bundler configuration
+├── tsconfig.json                  # TypeScript compiler settings
+├── package.json                   # Dependencies & npm scripts
+├── scripts/                       # Maintenance & dataset verification scripts
+│   ├── check_problem_links.py     # Verifies problem URLs
+│   └── fix_video_links.py         # Resolves & migrates YouTube video IDs
+└── src/
+    ├── main.tsx                   # React root mount & ErrorBoundary wrapper
+    ├── index.css                  # Tailwind styles and custom dark scrollbar
+    ├── App.tsx                    # Root tracker component composing layout & tabs
+    ├── types/                     # Shared TypeScript interfaces & types
+    ├── data/                      # Dataset source of truth (syllabusData.ts)
+    ├── utils/                     # Date math, schedule generator, style helpers
+    ├── hooks/                     # Custom hooks (state persistence, schedule, stats, filters)
+    └── components/                # Reusable modular UI components
+        ├── common/                # ErrorBoundary, Toast, Icons
+        ├── layout/                # Header, KpiOverview, MobileNav
+        ├── daily/                 # PaceControlBar, TodayHeroCard, DayStrip, WeeklyAccordion
+        ├── syllabus/              # SyllabusFilters, SyllabusUnitCard, LinkedProblems
+        ├── practice/              # PracticeNotesTab, ProblemRow, AddProblemForm
+        └── modals/                # VideoModal, BackupModal
+```
 
 ## Getting Started
 
@@ -27,16 +56,20 @@ npm install
 ```bash
 npm run dev
 ```
-Open [http://localhost:5173](http://localhost:5173) in your browser.
+Open [http://localhost:5173/dsa-tracker/](http://localhost:5173/dsa-tracker/) in your browser.
 
-### Build
+### Build & Typecheck
 ```bash
+# Typecheck
+npx tsc --noEmit
+
+# Production build
 npm run build
 ```
 
 ## Maintenance & Verification Tools
 
-The project includes built-in Python tools for verifying problem links and updating YouTube video IDs:
+The project includes Python maintenance tools inside `scripts/`:
 
 ### Check Problem Links
 Checks practice problem links across LeetCode, Codeforces, CSES, and GeeksforGeeks:
@@ -49,14 +82,14 @@ npm run check:links
 ```
 
 ### Video ID Resolver & Migration
-Updates playlist position lectures (`ACnnn`) to real YouTube video IDs while preserving user ticks and notes via `VIDEO_ID_ALIASES`:
+Updates playlist position lectures to real YouTube video IDs while preserving user ticks and notes via `VIDEO_ID_ALIASES`:
 ```bash
 # View usage options
-python fix_video_links.py --help
+python scripts/fix_video_links.py --help
 
 # Automatic resolution using yt-dlp
 npm run fix:videos
 
 # Or using an exported playlist.txt
-python fix_video_links.py c_dsa_master_tracker.tsx --list playlist.txt
+python scripts/fix_video_links.py --list playlist.txt
 ```

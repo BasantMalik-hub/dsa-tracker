@@ -2,7 +2,7 @@
 """
 fix_video_links.py  -  give every playlist lecture its REAL YouTube video id.
 
-What it does to c_dsa_master_tracker.tsx:
+What it does to src/data/syllabusData.ts:
   * lectures stored as "playlist position only" (id ACnnn) get their real id + normal watch URL
   * lectures that already have a real id are checked: if the id sits at a different playlist
     position than the file says, the position is corrected (and a warning is printed)
@@ -11,18 +11,19 @@ What it does to c_dsa_master_tracker.tsx:
   * a backup  <file>.bak  is written first
 
 Get the playlist list (pick ONE way):
-  A) automatic (needs yt-dlp installed):     python fix_video_links.py c_dsa_master_tracker.tsx
+  A) automatic (needs yt-dlp installed):     python scripts/fix_video_links.py
   B) from a text file you made yourself:
        yt-dlp --flat-playlist --print "%(playlist_index)s | %(id)s | %(title)s" "<playlist url>" > playlist.txt
-       python fix_video_links.py c_dsa_master_tracker.tsx --list playlist.txt
+       python scripts/fix_video_links.py --list playlist.txt
 
 Add --dry-run to only print what would change.
 """
-import argparse, difflib, json, re, shutil, subprocess, sys
+import argparse, difflib, json, os, re, shutil, subprocess, sys
 
 PLAYLIST_URL = "https://www.youtube.com/playlist?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt"
 DATA_MARK = "const SYLLABUS_DATA: Unit[] = "
-ALIAS_RE = re.compile(r"const VIDEO_ID_ALIASES: Record<string, string> = (\{.*?\});", re.S)
+ALIAS_RE = re.compile(r"(export\s+)?const VIDEO_ID_ALIASES: Record<string, string> = (\{.*?\});", re.S)
+DEFAULT_TARGET = os.path.join(os.path.dirname(__file__), "..", "src", "data", "syllabusData.ts")
 
 
 def load_playlist(list_path):
@@ -50,14 +51,16 @@ def sim(a, b):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("tsx")
+    ap.add_argument("target", nargs="?", default=DEFAULT_TARGET, help="path to syllabusData.ts")
     ap.add_argument("--list", help="text file with lines:  index | id | title")
     ap.add_argument("--dry-run", action="store_true")
     a = ap.parse_args()
 
-    rows = load_playlist(a.list)
-    by_id = {vid: pos for pos, (vid, _) in rows.items()}
-    text = open(a.tsx, encoding="utf-8").read()
+    target_path = a.target
+    if not os.path.exists(target_path):
+        sys.exit(f"Target file not found: {target_path}")
+
+    text = open(target_path, encoding="utf-8").read()
 
     start = text.index(DATA_MARK) + len(DATA_MARK)
     data, end = json.JSONDecoder().raw_decode(text, start)
@@ -66,9 +69,13 @@ def main():
         "Unexpected formatting in the data block - was the file edited by hand?"
 
     am = ALIAS_RE.search(text)
-    aliases = json.loads(am.group(1)) if am else {}
+    aliases = json.loads(am.group(2)) if am else {}
+    export_prefix = am.group(1) or "" if am else ""
     replaced = fixed_pos = unknown = 0
     warnings = []
+
+    rows = load_playlist(a.list)
+    by_id = {vid: pos for pos, (vid, _) in rows.items()}
 
     for unit in data:
         renames = {}
@@ -102,19 +109,19 @@ def main():
 
     new_data = json.dumps(data, indent=2, ensure_ascii=False)
     new_text = text[:start] + new_data + text[end:]
-    alias_src = "const VIDEO_ID_ALIASES: Record<string, string> = " + json.dumps(aliases, indent=2) + ";"
+    alias_src = f"{export_prefix}const VIDEO_ID_ALIASES: Record<string, string> = " + json.dumps(aliases, indent=2) + ";"
     if am:
         new_text = ALIAS_RE.sub(lambda _m: alias_src, new_text, count=1)
     else:
-        sys.exit("VIDEO_ID_ALIASES not found - use the latest c_dsa_master_tracker.tsx")
+        sys.exit("VIDEO_ID_ALIASES not found - use the latest syllabusData.ts")
 
     print(f"real ids filled in : {replaced}\nplaylist positions fixed: {fixed_pos}\nnot in playlist     : {unknown}")
     for w in warnings: print("  -", w)
     if a.dry_run:
         print("\n(dry run - nothing written)"); return
-    shutil.copy(a.tsx, a.tsx + ".bak")
-    open(a.tsx, "w", encoding="utf-8").write(new_text)
-    print(f"\nWritten. Backup: {a.tsx}.bak")
+    shutil.copy(target_path, target_path + ".bak")
+    open(target_path, "w", encoding="utf-8").write(new_text)
+    print(f"\nWritten. Backup: {target_path}.bak")
 
 
 if __name__ == "__main__":

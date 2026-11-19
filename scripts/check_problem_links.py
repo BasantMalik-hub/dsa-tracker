@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-check_problem_links.py  -  checks every practice-problem link in c_dsa_master_tracker.tsx.
+check_problem_links.py  -  checks every practice-problem link in src/data/syllabusData.ts.
 
 Run it on your own computer (it needs internet; no extra packages):
-    python check_problem_links.py c_dsa_master_tracker.tsx
+    python scripts/check_problem_links.py [target_file]
 
 For each link it reports one of:
     OK              the page exists and its title matches the problem name in the app
@@ -11,11 +11,12 @@ For each link it reports one of:
     COULD NOT CHECK the site blocked the script (common for Codeforces / GeeksforGeeks) - open these by hand
 A full list is saved to problem_link_report.csv.
 """
-import csv, html, json, re, sys, time, urllib.error, urllib.request
+import csv, html, json, os, re, sys, time, urllib.error, urllib.request
 
 DATA_MARK = "const SYLLABUS_DATA: Unit[] = "
 UA = "Mozilla/5.0 (link-checker for personal study tracker)"
 STOP = {"the", "a", "an", "of", "in", "to", "and", "with", "from", "using", "ii", "i", "iii", "problem"}
+DEFAULT_TARGET = os.path.join(os.path.dirname(__file__), "..", "src", "data", "syllabusData.ts")
 
 
 def words(s):
@@ -66,12 +67,18 @@ def check(p):
 
 
 def main():
-    if len(sys.argv) < 2: sys.exit(__doc__)
-    text = open(sys.argv[1], encoding="utf-8").read()
+    args = [a for a in sys.argv[1:] if a != "--list-only"]
+    list_only = "--list-only" in sys.argv
+
+    target_file = args[0] if len(args) > 0 else DEFAULT_TARGET
+    if not os.path.exists(target_file):
+        sys.exit(f"Target file not found: {target_file}")
+
+    text = open(target_file, encoding="utf-8").read()
     start = text.index(DATA_MARK) + len(DATA_MARK)
     data, _ = json.JSONDecoder().raw_decode(text, start)
     probs = [(u["id"], p) for u in data for p in u["problems"]]
-    if "--list-only" in sys.argv:
+    if list_only:
         print(len(probs), "problem links found"); return
     rows, bad = [], 0
     for i, (uid, p) in enumerate(probs, 1):

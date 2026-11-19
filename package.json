@@ -7,9 +7,9 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "check:links": "python check_problem_links.py c_dsa_master_tracker.tsx",
-    "check:links:list": "python check_problem_links.py c_dsa_master_tracker.tsx --list-only",
-    "fix:videos": "python fix_video_links.py c_dsa_master_tracker.tsx"
+    "check:links": "python scripts/check_problem_links.py",
+    "check:links:list": "python scripts/check_problem_links.py --list-only",
+    "fix:videos": "python scripts/fix_video_links.py"
   },
   "dependencies": {
     "lucide-react": "^1.16.0",
