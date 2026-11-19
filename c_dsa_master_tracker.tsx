@@ -47,7 +47,109 @@ const PLAYLIST_URL = 'https://www.youtube.com/playlist?list=PLfqMhTWNBTe137I_EPQ
 
 // When a playlist-only lecture (id ACnnn) is later replaced by its real YouTube id,
 // the old -> new pair is recorded here so saved progress and notes are carried over.
-const VIDEO_ID_ALIASES: Record<string, string> = {};
+const VIDEO_ID_ALIASES: Record<string, string> = {
+  "AC028": "varXreLWPRo",
+  "AC006": "xpy5NXiBFvA",
+  "AC034": "Y4KdgqV1IqA",
+  "AC010": "9IZYqostl2M",
+  "AC011": "_xqIp2rj8bo",
+  "AC013": "WBzZCm46mFo",
+  "AC014": "EbkMABpP52U",
+  "AC015": "TW2m8m_FNJE",
+  "AC036": "LEFFjgt5i6w",
+  "AC037": "XMpdvwUObho",
+  "AC030": "dSRFgEs3a6A",
+  "AC031": "VXewy91P0S4",
+  "AC033": "cAB15h6-sWA",
+  "AC018": "6WNZQBHWQJs",
+  "AC019": "RjxD6UXGlhc",
+  "AC020": "qsbCBduIs40",
+  "AC021": "JRAByolWqhw",
+  "AC022": "srsFN5OHBgw",
+  "AC023": "7wOzDqsfXy0",
+  "AC026": "-1cLK6PaLsQ",
+  "AC058": "R-CKBYnOv1U",
+  "AC059": "nzaHG0dme4g",
+  "AC060": "-1E8ZMS0gSs",
+  "AC061": "f8RPIb-0DDE",
+  "AC062": "8ze7Zopdsaw",
+  "AC065": "I8b0rff5F9M",
+  "AC066": "-swgIiMIlJo",
+  "AC067": "wwbTMNVlFHQ",
+  "AC078": "GsY6y0iPaHw",
+  "AC039": "K-RsltkN63w",
+  "AC040": "X6sL8JTROLY",
+  "AC041": "KDH4mhFVvHw",
+  "AC069": "NlHupEeDXzY",
+  "AC070": "01vBuZyMfqk",
+  "AC072": "WnjUfBn9nZM",
+  "AC073": "wHDm-N2m2XY",
+  "AC074": "ysy1o-QEj3k",
+  "AC075": "If--3pm9K3U",
+  "AC076": "UHHp8USwx4M",
+  "AC077": "OZPmEA_8FM8",
+  "AC081": "sFvP5Ois0CE",
+  "AC082": "sqyCBvEQN9c",
+  "AC083": "XwG5cozqfaM",
+  "AC084": "SmTow5Ht4iU",
+  "AC045": "N4gJDGdhpLw",
+  "AC046": "BdSJnIdR-4s",
+  "AC047": "70cP3qtJp-s",
+  "AC048": "D8Yze9CDDAw",
+  "AC049": "jkgZw2WEaqA",
+  "AC050": "aZ0B1eWkSVU",
+  "AC055": "Sp1jzttFVdE",
+  "AC053": "SBQfXK7q5K4",
+  "AC054": "ynnWDBTdVi0",
+  "AC086": "7tzHzN_Ehus",
+  "AC087": "tumW7jsjv68",
+  "AC088": "aPyDPImR5UM",
+  "AC089": "FGr-syrhvOA",
+  "AC090": "ze4JO_ODl3w",
+  "AC091": "oX5D0uKOMck",
+  "AC092": "33b1M980cCA",
+  "AC093": "TY6kEejJEM0",
+  "AC094": "AWJD__CfM6A",
+  "AC095": "rhz-csskg_A",
+  "AC096": "PUfADhkq1LI",
+  "AC097": "dU2Z5HWSGM0",
+  "AC099": "0s6sCjs_4g0",
+  "AC100": "dSBcCynP1nA",
+  "AC101": "WZmjRXF_Zi4",
+  "AC102": "ORxkZ12FrU4",
+  "AC103": "Kq4BbvIhj44",
+  "AC104": "-n5Ur1wE5Jc",
+  "AC105": "AiKZjCuy2k4",
+  "AC106": "0KGzfij_SCk",
+  "AC107": "Pr-HFxp7npk",
+  "AC108": "a8VKpW1DsD8",
+  "AC109": "dS1bKglre3A",
+  "AC116": "AME6baBpswY",
+  "AC117": "RmXo5SWkhCs",
+  "AC122": "JI_e2RzARbM",
+  "AC120": "37cJ38HadM4",
+  "AC121": "rZsgWxodGmM",
+  "AC133": "6h1SucBNxgc",
+  "AC134": "cn7pov3BEmg",
+  "AC135": "lqY8TE0P1S8",
+  "AC124": "8gYBHjtjWBI",
+  "AC125": "3rFHlbJ7qKc",
+  "AC127": "Sflh1z6cIMk",
+  "AC128": "nnrjWxWMo3E",
+  "AC129": "inoM6jwj1CA",
+  "AC130": "J1yCPIP-K8s",
+  "AC131": "mEx8JJQJUs8",
+  "AC132": "CLmykzpeCCs",
+  "AC136": "iZBXd-vjHUA",
+  "AC137": "uBA8DkCBdco",
+  "AC138": "3GzA0mz6wp0",
+  "AC139": "BRmLlJA6ncI",
+  "AC140": "hSMJj9AdNBo",
+  "AC141": "AKqlgskrZwI",
+  "AC142": "KwItlcfF9vE",
+  "AC143": "yggezlvUN2w",
+  "AC144": "tEW-zDckvFw"
+};
 
 interface Video {
   id: string; // YouTube video id, or ACnnn for playlist-only lectures (opened by playlist position)
@@ -109,13 +211,12 @@ const SYLLABUS_DATA: Unit[] = [
         "minutes": 86
       },
       {
-        "id": "AC028",
+        "id": "varXreLWPRo",
         "title": "How to Set Up a C++ Compiler on Mac",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=28",
+        "url": "https://www.youtube.com/watch?v=varXreLWPRo",
         "type": "Playlist",
         "playlistIndex": 28,
-        "minutes": 2,
-        "playlistOnly": true
+        "minutes": 2
       }
     ],
     "problems": [
@@ -204,13 +305,12 @@ const SYLLABUS_DATA: Unit[] = [
         "minutes": 77
       },
       {
-        "id": "AC006",
+        "id": "xpy5NXiBFvA",
         "title": "Binary Number System",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=6",
+        "url": "https://www.youtube.com/watch?v=xpy5NXiBFvA",
         "type": "Playlist",
         "playlistIndex": 6,
-        "minutes": 37,
-        "playlistOnly": true
+        "minutes": 37
       },
       {
         "id": "r-u4uh3QvsQ",
@@ -221,13 +321,12 @@ const SYLLABUS_DATA: Unit[] = [
         "minutes": 39
       },
       {
-        "id": "AC034",
+        "id": "Y4KdgqV1IqA",
         "title": "Maths for DSA: Euclid's Algorithm, Sieve & Modular Arithmetic",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=34",
+        "url": "https://www.youtube.com/watch?v=Y4KdgqV1IqA",
         "type": "Playlist",
         "playlistIndex": 34,
-        "minutes": 56,
-        "playlistOnly": true
+        "minutes": 56
       }
     ],
     "problems": [
@@ -249,7 +348,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Easy",
         "videoIds": [
           "r-u4uh3QvsQ",
-          "AC006"
+          "xpy5NXiBFvA"
         ]
       },
       {
@@ -319,7 +418,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Easy",
         "videoIds": [
-          "AC006"
+          "xpy5NXiBFvA"
         ]
       },
       {
@@ -329,7 +428,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Easy",
         "videoIds": [
-          "AC006"
+          "xpy5NXiBFvA"
         ]
       },
       {
@@ -339,7 +438,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Easy",
         "videoIds": [
-          "AC034"
+          "Y4KdgqV1IqA"
         ]
       },
       {
@@ -359,7 +458,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "GFG",
         "difficulty": "Medium",
         "videoIds": [
-          "AC034"
+          "Y4KdgqV1IqA"
         ]
       },
       {
@@ -369,7 +468,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "CSES",
         "difficulty": "Medium",
         "videoIds": [
-          "AC034"
+          "Y4KdgqV1IqA"
         ]
       }
     ]
@@ -604,49 +703,44 @@ const SYLLABUS_DATA: Unit[] = [
         "minutes": 40
       },
       {
-        "id": "AC010",
+        "id": "9IZYqostl2M",
         "title": "Kadane's Algorithm | Maximum Subarray Sum",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=10",
+        "url": "https://www.youtube.com/watch?v=9IZYqostl2M",
         "type": "Playlist",
         "playlistIndex": 10,
-        "minutes": 23,
-        "playlistOnly": true
+        "minutes": 23
       },
       {
-        "id": "AC011",
+        "id": "_xqIp2rj8bo",
         "title": "Majority Element (Moore's Voting) & Pair Sum",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=11",
+        "url": "https://www.youtube.com/watch?v=_xqIp2rj8bo",
         "type": "Playlist",
         "playlistIndex": 11,
-        "minutes": 39,
-        "playlistOnly": true
+        "minutes": 39
       },
       {
-        "id": "AC013",
+        "id": "WBzZCm46mFo",
         "title": "Buy & Sell Stock and Pow(x, n)",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=13",
+        "url": "https://www.youtube.com/watch?v=WBzZCm46mFo",
         "type": "Playlist",
         "playlistIndex": 13,
-        "minutes": 29,
-        "playlistOnly": true
+        "minutes": 29
       },
       {
-        "id": "AC014",
+        "id": "EbkMABpP52U",
         "title": "Container With Most Water (Two Pointers)",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=14",
+        "url": "https://www.youtube.com/watch?v=EbkMABpP52U",
         "type": "Playlist",
         "playlistIndex": 14,
-        "minutes": 32,
-        "playlistOnly": true
+        "minutes": 32
       },
       {
-        "id": "AC015",
+        "id": "TW2m8m_FNJE",
         "title": "Product of Array Except Self",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=15",
+        "url": "https://www.youtube.com/watch?v=TW2m8m_FNJE",
         "type": "Playlist",
         "playlistIndex": 15,
-        "minutes": 30,
-        "playlistOnly": true
+        "minutes": 30
       },
       {
         "id": "lBL8327gq8I",
@@ -657,22 +751,20 @@ const SYLLABUS_DATA: Unit[] = [
         "minutes": 38
       },
       {
-        "id": "AC036",
+        "id": "LEFFjgt5i6w",
         "title": "Search a 2D Matrix - Variations I & II (2D Arrays Part 2)",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=36",
+        "url": "https://www.youtube.com/watch?v=LEFFjgt5i6w",
         "type": "Playlist",
         "playlistIndex": 36,
-        "minutes": 38,
-        "playlistOnly": true
+        "minutes": 38
       },
       {
-        "id": "AC037",
+        "id": "XMpdvwUObho",
         "title": "Spiral Matrix (2D Arrays Part 3)",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=37",
+        "url": "https://www.youtube.com/watch?v=XMpdvwUObho",
         "type": "Playlist",
         "playlistIndex": 37,
-        "minutes": 25,
-        "playlistOnly": true
+        "minutes": 25
       }
     ],
     "problems": [
@@ -704,7 +796,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Easy",
         "videoIds": [
           "8wmn7k1TTcI",
-          "AC013"
+          "WBzZCm46mFo"
         ]
       },
       {
@@ -735,7 +827,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Medium",
         "videoIds": [
           "8wmn7k1TTcI",
-          "AC010"
+          "9IZYqostl2M"
         ]
       },
       {
@@ -746,7 +838,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Medium",
         "videoIds": [
           "lBL8327gq8I",
-          "AC037"
+          "XMpdvwUObho"
         ]
       },
       {
@@ -776,7 +868,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Medium",
         "videoIds": [
-          "AC011"
+          "_xqIp2rj8bo"
         ]
       },
       {
@@ -786,7 +878,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Medium",
         "videoIds": [
-          "AC014"
+          "EbkMABpP52U"
         ]
       },
       {
@@ -796,7 +888,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Medium",
         "videoIds": [
-          "AC015"
+          "TW2m8m_FNJE"
         ]
       },
       {
@@ -806,7 +898,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Medium",
         "videoIds": [
-          "AC036"
+          "LEFFjgt5i6w"
         ]
       },
       {
@@ -816,7 +908,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Medium",
         "videoIds": [
-          "AC036"
+          "LEFFjgt5i6w"
         ]
       }
     ]
@@ -975,22 +1067,20 @@ const SYLLABUS_DATA: Unit[] = [
         "minutes": 30
       },
       {
-        "id": "AC030",
+        "id": "dSRFgEs3a6A",
         "title": "Valid Palindrome & Remove All Occurrences (Strings Part 2)",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=30",
+        "url": "https://www.youtube.com/watch?v=dSRFgEs3a6A",
         "type": "Playlist",
         "playlistIndex": 30,
-        "minutes": 24,
-        "playlistOnly": true
+        "minutes": 24
       },
       {
-        "id": "AC031",
+        "id": "VXewy91P0S4",
         "title": "Permutation in String (Strings Part 3)",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=31",
+        "url": "https://www.youtube.com/watch?v=VXewy91P0S4",
         "type": "Playlist",
         "playlistIndex": 31,
-        "minutes": 22,
-        "playlistOnly": true
+        "minutes": 22
       },
       {
         "id": "RitppzIdMCo",
@@ -1001,13 +1091,12 @@ const SYLLABUS_DATA: Unit[] = [
         "minutes": 15
       },
       {
-        "id": "AC033",
+        "id": "cAB15h6-sWA",
         "title": "String Compression",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=33",
+        "url": "https://www.youtube.com/watch?v=cAB15h6-sWA",
         "type": "Playlist",
         "playlistIndex": 33,
-        "minutes": 19,
-        "playlistOnly": true
+        "minutes": 19
       }
     ],
     "problems": [
@@ -1019,7 +1108,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Easy",
         "videoIds": [
           "MOSjYaVymcU",
-          "AC030"
+          "dSRFgEs3a6A"
         ]
       },
       {
@@ -1119,7 +1208,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Medium",
         "videoIds": [
-          "AC030"
+          "dSRFgEs3a6A"
         ]
       },
       {
@@ -1129,7 +1218,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Medium",
         "videoIds": [
-          "AC031"
+          "VXewy91P0S4"
         ]
       },
       {
@@ -1139,7 +1228,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Medium",
         "videoIds": [
-          "AC033"
+          "cAB15h6-sWA"
         ]
       }
     ]
@@ -1250,58 +1339,52 @@ const SYLLABUS_DATA: Unit[] = [
         "minutes": 44
       },
       {
-        "id": "AC018",
+        "id": "6WNZQBHWQJs",
         "title": "Search in Rotated Sorted Array",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=18",
+        "url": "https://www.youtube.com/watch?v=6WNZQBHWQJs",
         "type": "Playlist",
         "playlistIndex": 18,
-        "minutes": 20,
-        "playlistOnly": true
+        "minutes": 20
       },
       {
-        "id": "AC019",
+        "id": "RjxD6UXGlhc",
         "title": "Peak Index in Mountain Array",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=19",
+        "url": "https://www.youtube.com/watch?v=RjxD6UXGlhc",
         "type": "Playlist",
         "playlistIndex": 19,
-        "minutes": 24,
-        "playlistOnly": true
+        "minutes": 24
       },
       {
-        "id": "AC020",
+        "id": "qsbCBduIs40",
         "title": "Single Element in Sorted Array",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=20",
+        "url": "https://www.youtube.com/watch?v=qsbCBduIs40",
         "type": "Playlist",
         "playlistIndex": 20,
-        "minutes": 28,
-        "playlistOnly": true
+        "minutes": 28
       },
       {
-        "id": "AC021",
+        "id": "JRAByolWqhw",
         "title": "Book Allocation Problem (Binary Search on Answer)",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=21",
+        "url": "https://www.youtube.com/watch?v=JRAByolWqhw",
         "type": "Playlist",
         "playlistIndex": 21,
-        "minutes": 33,
-        "playlistOnly": true
+        "minutes": 33
       },
       {
-        "id": "AC022",
+        "id": "srsFN5OHBgw",
         "title": "Painter's Partition Problem (Binary Search on Answer)",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=22",
+        "url": "https://www.youtube.com/watch?v=srsFN5OHBgw",
         "type": "Playlist",
         "playlistIndex": 22,
-        "minutes": 28,
-        "playlistOnly": true
+        "minutes": 28
       },
       {
-        "id": "AC023",
+        "id": "7wOzDqsfXy0",
         "title": "Aggressive Cows (Binary Search on Answer)",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=23",
+        "url": "https://www.youtube.com/watch?v=7wOzDqsfXy0",
         "type": "Playlist",
         "playlistIndex": 23,
-        "minutes": 30,
-        "playlistOnly": true
+        "minutes": 30
       }
     ],
     "problems": [
@@ -1353,7 +1436,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Medium",
         "videoIds": [
           "TbbSJrY5GqQ",
-          "AC018"
+          "6WNZQBHWQJs"
         ]
       },
       {
@@ -1384,7 +1467,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Medium",
         "videoIds": [
           "TbbSJrY5GqQ",
-          "AC019"
+          "RjxD6UXGlhc"
         ]
       },
       {
@@ -1424,7 +1507,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Medium",
         "videoIds": [
-          "AC019"
+          "RjxD6UXGlhc"
         ]
       },
       {
@@ -1434,7 +1517,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Medium",
         "videoIds": [
-          "AC020"
+          "qsbCBduIs40"
         ]
       },
       {
@@ -1444,8 +1527,8 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "CSES",
         "difficulty": "Medium",
         "videoIds": [
-          "AC021",
-          "AC022"
+          "JRAByolWqhw",
+          "srsFN5OHBgw"
         ]
       },
       {
@@ -1455,7 +1538,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Medium",
         "videoIds": [
-          "AC022"
+          "srsFN5OHBgw"
         ]
       },
       {
@@ -1465,7 +1548,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Medium",
         "videoIds": [
-          "AC023"
+          "7wOzDqsfXy0"
         ]
       },
       {
@@ -1476,7 +1559,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Hard",
         "videoIds": [
           "TbbSJrY5GqQ",
-          "AC021"
+          "JRAByolWqhw"
         ]
       },
       {
@@ -1486,7 +1569,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "SPOJ",
         "difficulty": "Hard",
         "videoIds": [
-          "AC023"
+          "7wOzDqsfXy0"
         ]
       }
     ]
@@ -1521,13 +1604,12 @@ const SYLLABUS_DATA: Unit[] = [
         "minutes": 34
       },
       {
-        "id": "AC026",
+        "id": "-1cLK6PaLsQ",
         "title": "Merge Sorted Arrays & Next Permutation",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=26",
+        "url": "https://www.youtube.com/watch?v=-1cLK6PaLsQ",
         "type": "Playlist",
         "playlistIndex": 26,
-        "minutes": 44,
-        "playlistOnly": true
+        "minutes": 44
       }
     ],
     "problems": [
@@ -1539,7 +1621,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Easy",
         "videoIds": [
           "1jCFUv-Xlqo",
-          "AC026"
+          "-1cLK6PaLsQ"
         ]
       },
       {
@@ -1649,7 +1731,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Medium",
         "videoIds": [
-          "AC026"
+          "-1cLK6PaLsQ"
         ]
       }
     ]
@@ -1677,49 +1759,44 @@ const SYLLABUS_DATA: Unit[] = [
         "minutes": 51
       },
       {
-        "id": "AC058",
+        "id": "R-CKBYnOv1U",
         "title": "Reverse a Linked List",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=58",
+        "url": "https://www.youtube.com/watch?v=R-CKBYnOv1U",
         "type": "Playlist",
         "playlistIndex": 58,
-        "minutes": 10,
-        "playlistOnly": true
+        "minutes": 10
       },
       {
-        "id": "AC059",
+        "id": "nzaHG0dme4g",
         "title": "Middle of a Linked List",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=59",
+        "url": "https://www.youtube.com/watch?v=nzaHG0dme4g",
         "type": "Playlist",
         "playlistIndex": 59,
-        "minutes": 11,
-        "playlistOnly": true
+        "minutes": 11
       },
       {
-        "id": "AC060",
+        "id": "-1E8ZMS0gSs",
         "title": "Detect & Remove Cycle in a Linked List",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=60",
+        "url": "https://www.youtube.com/watch?v=-1E8ZMS0gSs",
         "type": "Playlist",
         "playlistIndex": 60,
-        "minutes": 30,
-        "playlistOnly": true
+        "minutes": 30
       },
       {
-        "id": "AC061",
+        "id": "f8RPIb-0DDE",
         "title": "Merge Two Sorted Lists",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=61",
+        "url": "https://www.youtube.com/watch?v=f8RPIb-0DDE",
         "type": "Playlist",
         "playlistIndex": 61,
-        "minutes": 13,
-        "playlistOnly": true
+        "minutes": 13
       },
       {
-        "id": "AC062",
+        "id": "8ze7Zopdsaw",
         "title": "Copy List with Random Pointer",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=62",
+        "url": "https://www.youtube.com/watch?v=8ze7Zopdsaw",
         "type": "Playlist",
         "playlistIndex": 62,
-        "minutes": 21,
-        "playlistOnly": true
+        "minutes": 21
       },
       {
         "id": "bO5DasTsaRQ",
@@ -1738,40 +1815,36 @@ const SYLLABUS_DATA: Unit[] = [
         "minutes": 34
       },
       {
-        "id": "AC065",
+        "id": "I8b0rff5F9M",
         "title": "Flatten a Doubly Linked List",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=65",
+        "url": "https://www.youtube.com/watch?v=I8b0rff5F9M",
         "type": "Playlist",
         "playlistIndex": 65,
-        "minutes": 25,
-        "playlistOnly": true
+        "minutes": 25
       },
       {
-        "id": "AC066",
+        "id": "-swgIiMIlJo",
         "title": "Reverse Nodes in K-Group",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=66",
+        "url": "https://www.youtube.com/watch?v=-swgIiMIlJo",
         "type": "Playlist",
         "playlistIndex": 66,
-        "minutes": 21,
-        "playlistOnly": true
+        "minutes": 21
       },
       {
-        "id": "AC067",
+        "id": "wwbTMNVlFHQ",
         "title": "Swap Nodes in Pairs",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=67",
+        "url": "https://www.youtube.com/watch?v=wwbTMNVlFHQ",
         "type": "Playlist",
         "playlistIndex": 67,
-        "minutes": 20,
-        "playlistOnly": true
+        "minutes": 20
       },
       {
-        "id": "AC078",
+        "id": "GsY6y0iPaHw",
         "title": "Implement LRU Cache",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=78",
+        "url": "https://www.youtube.com/watch?v=GsY6y0iPaHw",
         "type": "Playlist",
         "playlistIndex": 78,
-        "minutes": 36,
-        "playlistOnly": true
+        "minutes": 36
       }
     ],
     "problems": [
@@ -1783,7 +1856,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Easy",
         "videoIds": [
           "LyuuqCVkP5I",
-          "AC058"
+          "R-CKBYnOv1U"
         ]
       },
       {
@@ -1794,7 +1867,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Easy",
         "videoIds": [
           "LyuuqCVkP5I",
-          "AC061"
+          "f8RPIb-0DDE"
         ]
       },
       {
@@ -1805,7 +1878,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Easy",
         "videoIds": [
           "LyuuqCVkP5I",
-          "AC060"
+          "-1E8ZMS0gSs"
         ]
       },
       {
@@ -1816,7 +1889,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Easy",
         "videoIds": [
           "LyuuqCVkP5I",
-          "AC059"
+          "nzaHG0dme4g"
         ]
       },
       {
@@ -1827,7 +1900,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Medium",
         "videoIds": [
           "LyuuqCVkP5I",
-          "AC060"
+          "-1E8ZMS0gSs"
         ]
       },
       {
@@ -1868,7 +1941,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Medium",
         "videoIds": [
           "bO5DasTsaRQ",
-          "AC078"
+          "GsY6y0iPaHw"
         ]
       },
       {
@@ -1899,7 +1972,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Medium",
         "videoIds": [
           "bO5DasTsaRQ",
-          "AC065"
+          "I8b0rff5F9M"
         ]
       },
       {
@@ -1939,7 +2012,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Medium",
         "videoIds": [
-          "AC062"
+          "8ze7Zopdsaw"
         ]
       },
       {
@@ -1949,7 +2022,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Medium",
         "videoIds": [
-          "AC067"
+          "wwbTMNVlFHQ"
         ]
       },
       {
@@ -1959,7 +2032,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Hard",
         "videoIds": [
-          "AC066"
+          "-swgIiMIlJo"
         ]
       }
     ]
@@ -1993,31 +2066,28 @@ const SYLLABUS_DATA: Unit[] = [
         "minutes": 25
       },
       {
-        "id": "AC039",
+        "id": "K-RsltkN63w",
         "title": "3 Sum (Brute, Better & Optimal)",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=39",
+        "url": "https://www.youtube.com/watch?v=K-RsltkN63w",
         "type": "Playlist",
         "playlistIndex": 39,
-        "minutes": 44,
-        "playlistOnly": true
+        "minutes": 44
       },
       {
-        "id": "AC040",
+        "id": "X6sL8JTROLY",
         "title": "4 Sum (Optimal Approach)",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=40",
+        "url": "https://www.youtube.com/watch?v=X6sL8JTROLY",
         "type": "Playlist",
         "playlistIndex": 40,
-        "minutes": 23,
-        "playlistOnly": true
+        "minutes": 23
       },
       {
-        "id": "AC041",
+        "id": "KDH4mhFVvHw",
         "title": "Subarray Sum Equals K (Brute, Better & Optimal)",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=41",
+        "url": "https://www.youtube.com/watch?v=KDH4mhFVvHw",
         "type": "Playlist",
         "playlistIndex": 41,
-        "minutes": 35,
-        "playlistOnly": true
+        "minutes": 35
       }
     ],
     "problems": [
@@ -2099,7 +2169,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Medium",
         "videoIds": [
           "0Fxc_jKj2vo",
-          "AC041"
+          "KDH4mhFVvHw"
         ]
       },
       {
@@ -2159,7 +2229,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Medium",
         "videoIds": [
-          "AC039"
+          "K-RsltkN63w"
         ]
       },
       {
@@ -2169,7 +2239,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Medium",
         "videoIds": [
-          "AC040"
+          "X6sL8JTROLY"
         ]
       }
     ]
@@ -2321,22 +2391,20 @@ const SYLLABUS_DATA: Unit[] = [
         "minutes": 22
       },
       {
-        "id": "AC069",
+        "id": "NlHupEeDXzY",
         "title": "Valid Parentheses (Stack)",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=69",
+        "url": "https://www.youtube.com/watch?v=NlHupEeDXzY",
         "type": "Playlist",
         "playlistIndex": 69,
-        "minutes": 16,
-        "playlistOnly": true
+        "minutes": 16
       },
       {
-        "id": "AC070",
+        "id": "01vBuZyMfqk",
         "title": "Stock Span Problem",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=70",
+        "url": "https://www.youtube.com/watch?v=01vBuZyMfqk",
         "type": "Playlist",
         "playlistIndex": 70,
-        "minutes": 26,
-        "playlistOnly": true
+        "minutes": 26
       },
       {
         "id": "NKbExYwvjb0",
@@ -2361,58 +2429,52 @@ const SYLLABUS_DATA: Unit[] = [
         "minutes": 20
       },
       {
-        "id": "AC072",
+        "id": "WnjUfBn9nZM",
         "title": "Previous Smaller Element",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=72",
+        "url": "https://www.youtube.com/watch?v=WnjUfBn9nZM",
         "type": "Playlist",
         "playlistIndex": 72,
-        "minutes": 9,
-        "playlistOnly": true
+        "minutes": 9
       },
       {
-        "id": "AC073",
+        "id": "wHDm-N2m2XY",
         "title": "Design a Min Stack",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=73",
+        "url": "https://www.youtube.com/watch?v=wHDm-N2m2XY",
         "type": "Playlist",
         "playlistIndex": 73,
-        "minutes": 25,
-        "playlistOnly": true
+        "minutes": 25
       },
       {
-        "id": "AC074",
+        "id": "ysy1o-QEj3k",
         "title": "Largest Rectangle in Histogram",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=74",
+        "url": "https://www.youtube.com/watch?v=ysy1o-QEj3k",
         "type": "Playlist",
         "playlistIndex": 74,
-        "minutes": 33,
-        "playlistOnly": true
+        "minutes": 33
       },
       {
-        "id": "AC075",
+        "id": "If--3pm9K3U",
         "title": "Next Greater Element II",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=75",
+        "url": "https://www.youtube.com/watch?v=If--3pm9K3U",
         "type": "Playlist",
         "playlistIndex": 75,
-        "minutes": 20,
-        "playlistOnly": true
+        "minutes": 20
       },
       {
-        "id": "AC076",
+        "id": "UHHp8USwx4M",
         "title": "Trapping Rainwater Problem",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=76",
+        "url": "https://www.youtube.com/watch?v=UHHp8USwx4M",
         "type": "Playlist",
         "playlistIndex": 76,
-        "minutes": 31,
-        "playlistOnly": true
+        "minutes": 31
       },
       {
-        "id": "AC077",
+        "id": "OZPmEA_8FM8",
         "title": "The Celebrity Problem",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=77",
+        "url": "https://www.youtube.com/watch?v=OZPmEA_8FM8",
         "type": "Playlist",
         "playlistIndex": 77,
-        "minutes": 15,
-        "playlistOnly": true
+        "minutes": 15
       }
     ],
     "problems": [
@@ -2424,7 +2486,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Easy",
         "videoIds": [
           "0X-fV-1ir9c",
-          "AC069"
+          "NlHupEeDXzY"
         ]
       },
       {
@@ -2475,7 +2537,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Medium",
         "videoIds": [
           "0X-fV-1ir9c",
-          "AC073"
+          "wHDm-N2m2XY"
         ]
       },
       {
@@ -2496,7 +2558,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Medium",
         "videoIds": [
           "NKbExYwvjb0",
-          "AC070"
+          "01vBuZyMfqk"
         ]
       },
       {
@@ -2517,7 +2579,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Medium",
         "videoIds": [
           "NKbExYwvjb0",
-          "AC072"
+          "WnjUfBn9nZM"
         ]
       },
       {
@@ -2537,7 +2599,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Medium",
         "videoIds": [
-          "AC075"
+          "If--3pm9K3U"
         ]
       },
       {
@@ -2547,7 +2609,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "GFG",
         "difficulty": "Medium",
         "videoIds": [
-          "AC077"
+          "OZPmEA_8FM8"
         ]
       },
       {
@@ -2558,7 +2620,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Hard",
         "videoIds": [
           "NKbExYwvjb0",
-          "AC074"
+          "ysy1o-QEj3k"
         ]
       },
       {
@@ -2568,7 +2630,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Hard",
         "videoIds": [
-          "AC076"
+          "UHHp8USwx4M"
         ]
       }
     ]
@@ -2603,40 +2665,36 @@ const SYLLABUS_DATA: Unit[] = [
         "minutes": 19
       },
       {
-        "id": "AC081",
+        "id": "sFvP5Ois0CE",
         "title": "Implement Queue using Stack & Stack using Queue",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=81",
+        "url": "https://www.youtube.com/watch?v=sFvP5Ois0CE",
         "type": "Playlist",
         "playlistIndex": 81,
-        "minutes": 16,
-        "playlistOnly": true
+        "minutes": 16
       },
       {
-        "id": "AC082",
+        "id": "sqyCBvEQN9c",
         "title": "First Unique Character in a String",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=82",
+        "url": "https://www.youtube.com/watch?v=sqyCBvEQN9c",
         "type": "Playlist",
         "playlistIndex": 82,
-        "minutes": 13,
-        "playlistOnly": true
+        "minutes": 13
       },
       {
-        "id": "AC083",
+        "id": "XwG5cozqfaM",
         "title": "Sliding Window Maximum",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=83",
+        "url": "https://www.youtube.com/watch?v=XwG5cozqfaM",
         "type": "Playlist",
         "playlistIndex": 83,
-        "minutes": 31,
-        "playlistOnly": true
+        "minutes": 31
       },
       {
-        "id": "AC084",
+        "id": "SmTow5Ht4iU",
         "title": "Gas Station (Greedy Approach)",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=84",
+        "url": "https://www.youtube.com/watch?v=SmTow5Ht4iU",
         "type": "Playlist",
         "playlistIndex": 84,
-        "minutes": 22,
-        "playlistOnly": true
+        "minutes": 22
       }
     ],
     "problems": [
@@ -2648,7 +2706,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Easy",
         "videoIds": [
           "Khf9v67Ya30",
-          "AC081"
+          "sFvP5Ois0CE"
         ]
       },
       {
@@ -2659,7 +2717,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Easy",
         "videoIds": [
           "Khf9v67Ya30",
-          "AC081"
+          "sFvP5Ois0CE"
         ]
       },
       {
@@ -2689,7 +2747,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Easy",
         "videoIds": [
-          "AC082"
+          "sqyCBvEQN9c"
         ]
       },
       {
@@ -2739,7 +2797,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Medium",
         "videoIds": [
-          "AC084"
+          "SmTow5Ht4iU"
         ]
       },
       {
@@ -2750,7 +2808,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Hard",
         "videoIds": [
           "Khf9v67Ya30",
-          "AC083"
+          "XwG5cozqfaM"
         ]
       },
       {
@@ -2810,67 +2868,60 @@ const SYLLABUS_DATA: Unit[] = [
         "minutes": 30
       },
       {
-        "id": "AC045",
+        "id": "N4gJDGdhpLw",
         "title": "Permutations of an Array/String (Recursion & Backtracking)",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=45",
+        "url": "https://www.youtube.com/watch?v=N4gJDGdhpLw",
         "type": "Playlist",
         "playlistIndex": 45,
-        "minutes": 23,
-        "playlistOnly": true
+        "minutes": 23
       },
       {
-        "id": "AC046",
+        "id": "BdSJnIdR-4s",
         "title": "N-Queens Problem (Backtracking)",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=46",
+        "url": "https://www.youtube.com/watch?v=BdSJnIdR-4s",
         "type": "Playlist",
         "playlistIndex": 46,
-        "minutes": 24,
-        "playlistOnly": true
+        "minutes": 24
       },
       {
-        "id": "AC047",
+        "id": "70cP3qtJp-s",
         "title": "Sudoku Solver (Backtracking)",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=47",
+        "url": "https://www.youtube.com/watch?v=70cP3qtJp-s",
         "type": "Playlist",
         "playlistIndex": 47,
-        "minutes": 27,
-        "playlistOnly": true
+        "minutes": 27
       },
       {
-        "id": "AC048",
+        "id": "D8Yze9CDDAw",
         "title": "Rat in a Maze (Backtracking)",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=48",
+        "url": "https://www.youtube.com/watch?v=D8Yze9CDDAw",
         "type": "Playlist",
         "playlistIndex": 48,
-        "minutes": 33,
-        "playlistOnly": true
+        "minutes": 33
       },
       {
-        "id": "AC049",
+        "id": "jkgZw2WEaqA",
         "title": "Combination Sum (Recursion & Backtracking)",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=49",
+        "url": "https://www.youtube.com/watch?v=jkgZw2WEaqA",
         "type": "Playlist",
         "playlistIndex": 49,
-        "minutes": 24,
-        "playlistOnly": true
+        "minutes": 24
       },
       {
-        "id": "AC050",
+        "id": "aZ0B1eWkSVU",
         "title": "Palindrome Partitioning (Recursion & Backtracking)",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=50",
+        "url": "https://www.youtube.com/watch?v=aZ0B1eWkSVU",
         "type": "Playlist",
         "playlistIndex": 50,
-        "minutes": 21,
-        "playlistOnly": true
+        "minutes": 21
       },
       {
-        "id": "AC055",
+        "id": "Sp1jzttFVdE",
         "title": "Knight's Tour (Backtracking)",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=55",
+        "url": "https://www.youtube.com/watch?v=Sp1jzttFVdE",
         "type": "Playlist",
         "playlistIndex": 55,
-        "minutes": 23,
-        "playlistOnly": true
+        "minutes": 23
       }
     ],
     "problems": [
@@ -2912,7 +2963,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Medium",
         "videoIds": [
           "pNzljlzDCiI",
-          "AC045"
+          "N4gJDGdhpLw"
         ]
       },
       {
@@ -2933,7 +2984,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Medium",
         "videoIds": [
           "pNzljlzDCiI",
-          "AC049"
+          "jkgZw2WEaqA"
         ]
       },
       {
@@ -3013,7 +3064,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Medium",
         "videoIds": [
-          "AC048"
+          "D8Yze9CDDAw"
         ]
       },
       {
@@ -3023,7 +3074,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Medium",
         "videoIds": [
-          "AC050"
+          "aZ0B1eWkSVU"
         ]
       },
       {
@@ -3033,7 +3084,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Medium",
         "videoIds": [
-          "AC055"
+          "Sp1jzttFVdE"
         ]
       },
       {
@@ -3044,7 +3095,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Hard",
         "videoIds": [
           "pNzljlzDCiI",
-          "AC046"
+          "BdSJnIdR-4s"
         ]
       },
       {
@@ -3054,7 +3105,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Hard",
         "videoIds": [
-          "AC047"
+          "70cP3qtJp-s"
         ]
       },
       {
@@ -3064,7 +3115,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "CSES",
         "difficulty": "Hard",
         "videoIds": [
-          "AC048"
+          "D8Yze9CDDAw"
         ]
       }
     ]
@@ -3091,30 +3142,28 @@ const SYLLABUS_DATA: Unit[] = [
         "minutes": 32
       },
       {
+        "id": "SBQfXK7q5K4",
+        "title": "Major Update & Reaching 1000M Views",
+        "url": "https://www.youtube.com/watch?v=SBQfXK7q5K4",
+        "type": "Playlist",
+        "playlistIndex": 52,
+        "minutes": 4
+      },
+      {
         "id": "8MNB0Mba_Dc",
         "title": "Lec 51: Quick Sort Algorithm",
         "url": "https://www.youtube.com/watch?v=8MNB0Mba_Dc",
         "type": "Playlist",
-        "playlistIndex": 52,
+        "playlistIndex": 53,
         "minutes": 26
       },
       {
-        "id": "AC053",
-        "title": "Major Update & Reaching 1000M Views",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=53",
-        "type": "Playlist",
-        "playlistIndex": 53,
-        "minutes": 4,
-        "playlistOnly": true
-      },
-      {
-        "id": "AC054",
+        "id": "ynnWDBTdVi0",
         "title": "Count Inversions (Brute & Optimal)",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=54",
+        "url": "https://www.youtube.com/watch?v=ynnWDBTdVi0",
         "type": "Playlist",
         "playlistIndex": 54,
-        "minutes": 25,
-        "playlistOnly": true
+        "minutes": 25
       }
     ],
     "problems": [
@@ -3165,7 +3214,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "GFG",
         "difficulty": "Medium",
         "videoIds": [
-          "AC054"
+          "ynnWDBTdVi0"
         ]
       },
       {
@@ -3176,7 +3225,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Hard",
         "videoIds": [
           "cQDtOBTy7_Y",
-          "AC054"
+          "ynnWDBTdVi0"
         ]
       },
       {
@@ -3187,7 +3236,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Hard",
         "videoIds": [
           "cQDtOBTy7_Y",
-          "AC054"
+          "ynnWDBTdVi0"
         ]
       }
     ]
@@ -3215,112 +3264,100 @@ const SYLLABUS_DATA: Unit[] = [
         "minutes": 74
       },
       {
-        "id": "AC086",
+        "id": "7tzHzN_Ehus",
         "title": "Height of a Binary Tree & Count of Nodes",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=86",
+        "url": "https://www.youtube.com/watch?v=7tzHzN_Ehus",
         "type": "Playlist",
         "playlistIndex": 86,
-        "minutes": 23,
-        "playlistOnly": true
+        "minutes": 23
       },
       {
-        "id": "AC087",
+        "id": "tumW7jsjv68",
         "title": "Identical Tree & Subtree of Another Tree",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=87",
+        "url": "https://www.youtube.com/watch?v=tumW7jsjv68",
         "type": "Playlist",
         "playlistIndex": 87,
-        "minutes": 23,
-        "playlistOnly": true
+        "minutes": 23
       },
       {
-        "id": "AC088",
+        "id": "aPyDPImR5UM",
         "title": "Diameter of a Binary Tree",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=88",
+        "url": "https://www.youtube.com/watch?v=aPyDPImR5UM",
         "type": "Playlist",
         "playlistIndex": 88,
-        "minutes": 19,
-        "playlistOnly": true
+        "minutes": 19
       },
       {
-        "id": "AC089",
+        "id": "FGr-syrhvOA",
         "title": "Top View of a Binary Tree",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=89",
+        "url": "https://www.youtube.com/watch?v=FGr-syrhvOA",
         "type": "Playlist",
         "playlistIndex": 89,
-        "minutes": 20,
-        "playlistOnly": true
+        "minutes": 20
       },
       {
-        "id": "AC090",
+        "id": "ze4JO_ODl3w",
         "title": "Kth Level of a Binary Tree",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=90",
+        "url": "https://www.youtube.com/watch?v=ze4JO_ODl3w",
         "type": "Playlist",
         "playlistIndex": 90,
-        "minutes": 8,
-        "playlistOnly": true
+        "minutes": 8
       },
       {
-        "id": "AC091",
+        "id": "oX5D0uKOMck",
         "title": "Lowest Common Ancestor in a Binary Tree",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=91",
+        "url": "https://www.youtube.com/watch?v=oX5D0uKOMck",
         "type": "Playlist",
         "playlistIndex": 91,
-        "minutes": 18,
-        "playlistOnly": true
+        "minutes": 18
       },
       {
-        "id": "AC092",
+        "id": "33b1M980cCA",
         "title": "Build Tree from Preorder & Inorder",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=92",
+        "url": "https://www.youtube.com/watch?v=33b1M980cCA",
         "type": "Playlist",
         "playlistIndex": 92,
-        "minutes": 21,
-        "playlistOnly": true
+        "minutes": 21
       },
       {
-        "id": "AC093",
+        "id": "TY6kEejJEM0",
         "title": "Transform to Sum Tree",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=93",
+        "url": "https://www.youtube.com/watch?v=TY6kEejJEM0",
         "type": "Playlist",
         "playlistIndex": 93,
-        "minutes": 9,
-        "playlistOnly": true
+        "minutes": 9
       },
       {
-        "id": "AC094",
+        "id": "AWJD__CfM6A",
         "title": "Binary Tree Paths",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=94",
+        "url": "https://www.youtube.com/watch?v=AWJD__CfM6A",
         "type": "Playlist",
         "playlistIndex": 94,
-        "minutes": 10,
-        "playlistOnly": true
+        "minutes": 10
       },
       {
-        "id": "AC095",
+        "id": "rhz-csskg_A",
         "title": "Maximum Width of a Binary Tree",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=95",
+        "url": "https://www.youtube.com/watch?v=rhz-csskg_A",
         "type": "Playlist",
         "playlistIndex": 95,
-        "minutes": 21,
-        "playlistOnly": true
+        "minutes": 21
       },
       {
-        "id": "AC096",
+        "id": "PUfADhkq1LI",
         "title": "Morris Inorder Traversal",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=96",
+        "url": "https://www.youtube.com/watch?v=PUfADhkq1LI",
         "type": "Playlist",
         "playlistIndex": 96,
-        "minutes": 18,
-        "playlistOnly": true
+        "minutes": 18
       },
       {
-        "id": "AC097",
+        "id": "dU2Z5HWSGM0",
         "title": "Flatten Binary Tree to Linked List",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=97",
+        "url": "https://www.youtube.com/watch?v=dU2Z5HWSGM0",
         "type": "Playlist",
         "playlistIndex": 97,
-        "minutes": 16,
-        "playlistOnly": true
+        "minutes": 16
       },
       {
         "id": "RuF7dPfj27Q",
@@ -3331,103 +3368,92 @@ const SYLLABUS_DATA: Unit[] = [
         "minutes": 43
       },
       {
-        "id": "AC099",
+        "id": "0s6sCjs_4g0",
         "title": "Sorted Array to Balanced BST",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=99",
+        "url": "https://www.youtube.com/watch?v=0s6sCjs_4g0",
         "type": "Playlist",
         "playlistIndex": 99,
-        "minutes": 9,
-        "playlistOnly": true
+        "minutes": 9
       },
       {
-        "id": "AC100",
+        "id": "dSBcCynP1nA",
         "title": "Validate Binary Search Tree",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=100",
+        "url": "https://www.youtube.com/watch?v=dSBcCynP1nA",
         "type": "Playlist",
         "playlistIndex": 100,
-        "minutes": 13,
-        "playlistOnly": true
+        "minutes": 13
       },
       {
-        "id": "AC101",
+        "id": "WZmjRXF_Zi4",
         "title": "Min Distance Between BST Nodes",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=101",
+        "url": "https://www.youtube.com/watch?v=WZmjRXF_Zi4",
         "type": "Playlist",
         "playlistIndex": 101,
-        "minutes": 14,
-        "playlistOnly": true
+        "minutes": 14
       },
       {
-        "id": "AC102",
-        "title": "Lowest Common Ancestor in a BST",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=102",
+        "id": "Kq4BbvIhj44",
+        "title": "Kth Smallest in a BST",
+        "url": "https://www.youtube.com/watch?v=Kq4BbvIhj44",
         "type": "Playlist",
         "playlistIndex": 102,
-        "minutes": 12,
-        "playlistOnly": true
+        "minutes": 13
       },
       {
-        "id": "AC103",
-        "title": "Kth Smallest in a BST",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=103",
+        "id": "ORxkZ12FrU4",
+        "title": "Lowest Common Ancestor in a BST",
+        "url": "https://www.youtube.com/watch?v=ORxkZ12FrU4",
         "type": "Playlist",
         "playlistIndex": 103,
-        "minutes": 13,
-        "playlistOnly": true
+        "minutes": 12
       },
       {
-        "id": "AC104",
+        "id": "-n5Ur1wE5Jc",
         "title": "Construct BST from Preorder",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=104",
+        "url": "https://www.youtube.com/watch?v=-n5Ur1wE5Jc",
         "type": "Playlist",
         "playlistIndex": 104,
-        "minutes": 19,
-        "playlistOnly": true
+        "minutes": 19
       },
       {
-        "id": "AC105",
+        "id": "AiKZjCuy2k4",
         "title": "Merge Two Binary Search Trees",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=105",
+        "url": "https://www.youtube.com/watch?v=AiKZjCuy2k4",
         "type": "Playlist",
         "playlistIndex": 105,
-        "minutes": 17,
-        "playlistOnly": true
+        "minutes": 17
       },
       {
-        "id": "AC106",
+        "id": "0KGzfij_SCk",
         "title": "Recover BST",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=106",
+        "url": "https://www.youtube.com/watch?v=0KGzfij_SCk",
         "type": "Playlist",
         "playlistIndex": 106,
-        "minutes": 24,
-        "playlistOnly": true
+        "minutes": 24
       },
       {
-        "id": "AC107",
+        "id": "Pr-HFxp7npk",
         "title": "Largest BST in a Binary Tree",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=107",
+        "url": "https://www.youtube.com/watch?v=Pr-HFxp7npk",
         "type": "Playlist",
         "playlistIndex": 107,
-        "minutes": 25,
-        "playlistOnly": true
+        "minutes": 25
       },
       {
-        "id": "AC108",
+        "id": "a8VKpW1DsD8",
         "title": "Populate Next Right Pointers in Each Node",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=108",
+        "url": "https://www.youtube.com/watch?v=a8VKpW1DsD8",
         "type": "Playlist",
         "playlistIndex": 108,
-        "minutes": 11,
-        "playlistOnly": true
+        "minutes": 11
       },
       {
-        "id": "AC109",
+        "id": "dS1bKglre3A",
         "title": "BST Iterator",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=109",
+        "url": "https://www.youtube.com/watch?v=dS1bKglre3A",
         "type": "Playlist",
         "playlistIndex": 109,
-        "minutes": 17,
-        "playlistOnly": true
+        "minutes": 17
       },
       {
         "id": "IHNkql1tAnk",
@@ -3447,7 +3473,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Easy",
         "videoIds": [
           "eKJrXBCRuNQ",
-          "AC096"
+          "PUfADhkq1LI"
         ]
       },
       {
@@ -3468,7 +3494,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Easy",
         "videoIds": [
           "eKJrXBCRuNQ",
-          "AC086"
+          "7tzHzN_Ehus"
         ]
       },
       {
@@ -3499,7 +3525,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Easy",
         "videoIds": [
           "IHNkql1tAnk",
-          "AC101"
+          "WZmjRXF_Zi4"
         ]
       },
       {
@@ -3509,7 +3535,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Easy",
         "videoIds": [
-          "AC086"
+          "7tzHzN_Ehus"
         ]
       },
       {
@@ -3519,7 +3545,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Easy",
         "videoIds": [
-          "AC087"
+          "tumW7jsjv68"
         ]
       },
       {
@@ -3529,7 +3555,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Easy",
         "videoIds": [
-          "AC087"
+          "tumW7jsjv68"
         ]
       },
       {
@@ -3539,7 +3565,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Easy",
         "videoIds": [
-          "AC088"
+          "aPyDPImR5UM"
         ]
       },
       {
@@ -3549,7 +3575,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Easy",
         "videoIds": [
-          "AC090"
+          "ze4JO_ODl3w"
         ]
       },
       {
@@ -3559,7 +3585,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Easy",
         "videoIds": [
-          "AC094"
+          "AWJD__CfM6A"
         ]
       },
       {
@@ -3569,7 +3595,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Easy",
         "videoIds": [
-          "AC099"
+          "0s6sCjs_4g0"
         ]
       },
       {
@@ -3579,7 +3605,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Easy",
         "videoIds": [
-          "AC101"
+          "WZmjRXF_Zi4"
         ]
       },
       {
@@ -3590,7 +3616,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Medium",
         "videoIds": [
           "eKJrXBCRuNQ",
-          "AC090"
+          "ze4JO_ODl3w"
         ]
       },
       {
@@ -3601,7 +3627,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Medium",
         "videoIds": [
           "RuF7dPfj27Q",
-          "AC100"
+          "dSBcCynP1nA"
         ]
       },
       {
@@ -3642,7 +3668,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Medium",
         "videoIds": [
           "RuF7dPfj27Q",
-          "AC103"
+          "Kq4BbvIhj44"
         ]
       },
       {
@@ -3663,7 +3689,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Medium",
         "videoIds": [
           "eKJrXBCRuNQ",
-          "AC088"
+          "aPyDPImR5UM"
         ]
       },
       {
@@ -3704,7 +3730,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Medium",
         "videoIds": [
           "IHNkql1tAnk",
-          "AC102"
+          "ORxkZ12FrU4"
         ]
       },
       {
@@ -3714,7 +3740,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "GFG",
         "difficulty": "Medium",
         "videoIds": [
-          "AC089"
+          "FGr-syrhvOA"
         ]
       },
       {
@@ -3724,7 +3750,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Medium",
         "videoIds": [
-          "AC091"
+          "oX5D0uKOMck"
         ]
       },
       {
@@ -3734,7 +3760,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Medium",
         "videoIds": [
-          "AC092"
+          "33b1M980cCA"
         ]
       },
       {
@@ -3744,7 +3770,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Medium",
         "videoIds": [
-          "AC093"
+          "TY6kEejJEM0"
         ]
       },
       {
@@ -3754,7 +3780,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Medium",
         "videoIds": [
-          "AC095"
+          "rhz-csskg_A"
         ]
       },
       {
@@ -3764,7 +3790,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Medium",
         "videoIds": [
-          "AC097"
+          "dU2Z5HWSGM0"
         ]
       },
       {
@@ -3774,7 +3800,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Medium",
         "videoIds": [
-          "AC104"
+          "-n5Ur1wE5Jc"
         ]
       },
       {
@@ -3784,7 +3810,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Medium",
         "videoIds": [
-          "AC105"
+          "AiKZjCuy2k4"
         ]
       },
       {
@@ -3794,7 +3820,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Medium",
         "videoIds": [
-          "AC106"
+          "0KGzfij_SCk"
         ]
       },
       {
@@ -3804,7 +3830,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Medium",
         "videoIds": [
-          "AC108"
+          "a8VKpW1DsD8"
         ]
       },
       {
@@ -3814,7 +3840,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Medium",
         "videoIds": [
-          "AC109"
+          "dS1bKglre3A"
         ]
       },
       {
@@ -3834,7 +3860,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Hard",
         "videoIds": [
-          "AC107"
+          "Pr-HFxp7npk"
         ]
       }
     ]
@@ -4004,47 +4030,44 @@ const SYLLABUS_DATA: Unit[] = [
         "minutes": 26
       },
       {
-        "id": "3czYbhac160",
-        "title": "DFS Traversal in Graphs",
-        "url": "https://www.youtube.com/watch?v=3czYbhac160",
-        "type": "Playlist",
-        "playlistIndex": 112,
-        "minutes": 14
-      },
-      {
         "id": "scQITTLgFJo",
         "title": "BFS Traversal in Graphs",
         "url": "https://www.youtube.com/watch?v=scQITTLgFJo",
         "type": "Playlist",
-        "playlistIndex": 113,
+        "playlistIndex": 112,
         "minutes": 19
       },
       {
-        "id": "AC116",
+        "id": "3czYbhac160",
+        "title": "DFS Traversal in Graphs",
+        "url": "https://www.youtube.com/watch?v=3czYbhac160",
+        "type": "Playlist",
+        "playlistIndex": 113,
+        "minutes": 14
+      },
+      {
+        "id": "AME6baBpswY",
         "title": "Number of Islands (Connected Components in a Matrix)",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=116",
+        "url": "https://www.youtube.com/watch?v=AME6baBpswY",
         "type": "Playlist",
         "playlistIndex": 116,
-        "minutes": 17,
-        "playlistOnly": true
+        "minutes": 17
       },
       {
-        "id": "AC117",
+        "id": "RmXo5SWkhCs",
         "title": "Rotting Oranges (Multi-Source BFS)",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=117",
+        "url": "https://www.youtube.com/watch?v=RmXo5SWkhCs",
         "type": "Playlist",
         "playlistIndex": 117,
-        "minutes": 26,
-        "playlistOnly": true
+        "minutes": 26
       },
       {
-        "id": "AC122",
+        "id": "JI_e2RzARbM",
         "title": "Flood Fill Algorithm",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=122",
+        "url": "https://www.youtube.com/watch?v=JI_e2RzARbM",
         "type": "Playlist",
         "playlistIndex": 122,
-        "minutes": 15,
-        "playlistOnly": true
+        "minutes": 15
       }
     ],
     "problems": [
@@ -4076,7 +4099,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Easy",
         "videoIds": [
           "3czYbhac160",
-          "AC122"
+          "JI_e2RzARbM"
         ]
       },
       {
@@ -4087,7 +4110,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Medium",
         "videoIds": [
           "3czYbhac160",
-          "AC116"
+          "AME6baBpswY"
         ]
       },
       {
@@ -4158,7 +4181,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Medium",
         "videoIds": [
           "scQITTLgFJo",
-          "AC117"
+          "RmXo5SWkhCs"
         ]
       },
       {
@@ -4229,22 +4252,20 @@ const SYLLABUS_DATA: Unit[] = [
         "minutes": 16
       },
       {
-        "id": "AC120",
+        "id": "37cJ38HadM4",
         "title": "Course Schedule (Graph & Topological Sort)",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=120",
+        "url": "https://www.youtube.com/watch?v=37cJ38HadM4",
         "type": "Playlist",
         "playlistIndex": 120,
-        "minutes": 18,
-        "playlistOnly": true
+        "minutes": 18
       },
       {
-        "id": "AC121",
+        "id": "rZsgWxodGmM",
         "title": "Course Schedule II (Topological Sort)",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=121",
+        "url": "https://www.youtube.com/watch?v=rZsgWxodGmM",
         "type": "Playlist",
         "playlistIndex": 121,
-        "minutes": 20,
-        "playlistOnly": true
+        "minutes": 20
       },
       {
         "id": "BnQpaTZg6Sc",
@@ -4262,31 +4283,28 @@ const SYLLABUS_DATA: Unit[] = [
         "minutes": 60
       },
       {
-        "id": "AC133",
+        "id": "6h1SucBNxgc",
         "title": "Bridges in a Graph using Tarjan's Algorithm",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=133",
+        "url": "https://www.youtube.com/watch?v=6h1SucBNxgc",
         "type": "Playlist",
         "playlistIndex": 133,
-        "minutes": 33,
-        "playlistOnly": true
+        "minutes": 33
       },
       {
-        "id": "AC134",
+        "id": "cn7pov3BEmg",
         "title": "Articulation Points using Tarjan's Algorithm",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=134",
+        "url": "https://www.youtube.com/watch?v=cn7pov3BEmg",
         "type": "Playlist",
         "playlistIndex": 134,
-        "minutes": 37,
-        "playlistOnly": true
+        "minutes": 37
       },
       {
-        "id": "AC135",
+        "id": "lqY8TE0P1S8",
         "title": "Strongly Connected Components - Kosaraju's Algorithm",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=135",
+        "url": "https://www.youtube.com/watch?v=lqY8TE0P1S8",
         "type": "Playlist",
         "playlistIndex": 135,
-        "minutes": 26,
-        "playlistOnly": true
+        "minutes": 26
       }
     ],
     "problems": [
@@ -4298,7 +4316,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Medium",
         "videoIds": [
           "BnQpaTZg6Sc",
-          "AC121"
+          "rZsgWxodGmM"
         ]
       },
       {
@@ -4309,7 +4327,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Medium",
         "videoIds": [
           "AcppN5XFt24",
-          "AC120"
+          "37cJ38HadM4"
         ]
       },
       {
@@ -4360,7 +4378,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Medium",
         "videoIds": [
           "0WIINUY12Yg",
-          "AC120"
+          "37cJ38HadM4"
         ]
       },
       {
@@ -4371,7 +4389,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Medium",
         "videoIds": [
           "59fUtYYz7ZU",
-          "AC135"
+          "lqY8TE0P1S8"
         ]
       },
       {
@@ -4402,7 +4420,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Hard",
         "videoIds": [
           "59fUtYYz7ZU",
-          "AC133"
+          "6h1SucBNxgc"
         ]
       },
       {
@@ -4413,7 +4431,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Hard",
         "videoIds": [
           "59fUtYYz7ZU",
-          "AC135"
+          "lqY8TE0P1S8"
         ]
       },
       {
@@ -4424,7 +4442,7 @@ const SYLLABUS_DATA: Unit[] = [
         "difficulty": "Hard",
         "videoIds": [
           "59fUtYYz7ZU",
-          "AC134"
+          "cn7pov3BEmg"
         ]
       },
       {
@@ -4455,85 +4473,76 @@ const SYLLABUS_DATA: Unit[] = [
     ],
     "videos": [
       {
-        "id": "AC124",
+        "id": "8gYBHjtjWBI",
         "title": "Dijkstra's Algorithm (Single-Source Shortest Path)",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=124",
+        "url": "https://www.youtube.com/watch?v=8gYBHjtjWBI",
         "type": "Playlist",
         "playlistIndex": 124,
-        "minutes": 35,
-        "playlistOnly": true
+        "minutes": 35
       },
       {
-        "id": "AC125",
+        "id": "3rFHlbJ7qKc",
         "title": "Bellman-Ford Algorithm",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=125",
+        "url": "https://www.youtube.com/watch?v=3rFHlbJ7qKc",
         "type": "Playlist",
         "playlistIndex": 125,
-        "minutes": 24,
-        "playlistOnly": true
+        "minutes": 24
       },
       {
-        "id": "AC127",
+        "id": "Sflh1z6cIMk",
         "title": "Prim's Algorithm (Minimum Spanning Tree)",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=127",
+        "url": "https://www.youtube.com/watch?v=Sflh1z6cIMk",
         "type": "Playlist",
         "playlistIndex": 127,
-        "minutes": 26,
-        "playlistOnly": true
+        "minutes": 26
       },
       {
-        "id": "AC128",
+        "id": "nnrjWxWMo3E",
         "title": "Disjoint Set Union (Rank/Size & Path Compression)",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=128",
+        "url": "https://www.youtube.com/watch?v=nnrjWxWMo3E",
         "type": "Playlist",
         "playlistIndex": 128,
-        "minutes": 34,
-        "playlistOnly": true
+        "minutes": 34
       },
       {
-        "id": "AC129",
+        "id": "inoM6jwj1CA",
         "title": "Kruskal's Algorithm (Minimum Spanning Tree)",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=129",
+        "url": "https://www.youtube.com/watch?v=inoM6jwj1CA",
         "type": "Playlist",
         "playlistIndex": 129,
-        "minutes": 29,
-        "playlistOnly": true
+        "minutes": 29
       },
       {
-        "id": "AC130",
+        "id": "J1yCPIP-K8s",
         "title": "Number of Provinces",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=130",
+        "url": "https://www.youtube.com/watch?v=J1yCPIP-K8s",
         "type": "Playlist",
         "playlistIndex": 130,
-        "minutes": 13,
-        "playlistOnly": true
+        "minutes": 13
       },
       {
-        "id": "AC131",
+        "id": "mEx8JJQJUs8",
         "title": "Min Cost to Connect All Points",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=131",
+        "url": "https://www.youtube.com/watch?v=mEx8JJQJUs8",
         "type": "Playlist",
         "playlistIndex": 131,
-        "minutes": 21,
-        "playlistOnly": true
+        "minutes": 21
       },
       {
-        "id": "AC132",
+        "id": "CLmykzpeCCs",
         "title": "Cheapest Flights Within K Stops",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=132",
+        "url": "https://www.youtube.com/watch?v=CLmykzpeCCs",
         "type": "Playlist",
         "playlistIndex": 132,
-        "minutes": 30,
-        "playlistOnly": true
+        "minutes": 30
       },
       {
-        "id": "AC136",
+        "id": "iZBXd-vjHUA",
         "title": "Floyd-Warshall (All-Pairs Shortest Path)",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=136",
+        "url": "https://www.youtube.com/watch?v=iZBXd-vjHUA",
         "type": "Playlist",
         "playlistIndex": 136,
-        "minutes": 28,
-        "playlistOnly": true
+        "minutes": 28
       }
     ],
     "problems": [
@@ -4544,7 +4553,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Medium",
         "videoIds": [
-          "AC124"
+          "8gYBHjtjWBI"
         ]
       },
       {
@@ -4554,7 +4563,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "CSES",
         "difficulty": "Medium",
         "videoIds": [
-          "AC124"
+          "8gYBHjtjWBI"
         ]
       },
       {
@@ -4564,7 +4573,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "CSES",
         "difficulty": "Medium",
         "videoIds": [
-          "AC125"
+          "3rFHlbJ7qKc"
         ]
       },
       {
@@ -4574,9 +4583,9 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Medium",
         "videoIds": [
-          "AC127",
-          "AC129",
-          "AC131"
+          "Sflh1z6cIMk",
+          "inoM6jwj1CA",
+          "mEx8JJQJUs8"
         ]
       },
       {
@@ -4586,8 +4595,8 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "CSES",
         "difficulty": "Medium",
         "videoIds": [
-          "AC127",
-          "AC129"
+          "Sflh1z6cIMk",
+          "inoM6jwj1CA"
         ]
       },
       {
@@ -4597,7 +4606,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "CSES",
         "difficulty": "Medium",
         "videoIds": [
-          "AC128"
+          "nnrjWxWMo3E"
         ]
       },
       {
@@ -4607,7 +4616,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Medium",
         "videoIds": [
-          "AC128"
+          "nnrjWxWMo3E"
         ]
       },
       {
@@ -4617,7 +4626,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Medium",
         "videoIds": [
-          "AC130"
+          "J1yCPIP-K8s"
         ]
       },
       {
@@ -4627,7 +4636,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Medium",
         "videoIds": [
-          "AC132"
+          "CLmykzpeCCs"
         ]
       },
       {
@@ -4637,7 +4646,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "CSES",
         "difficulty": "Medium",
         "videoIds": [
-          "AC136"
+          "iZBXd-vjHUA"
         ]
       },
       {
@@ -4647,7 +4656,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Medium",
         "videoIds": [
-          "AC136"
+          "iZBXd-vjHUA"
         ]
       }
     ]
@@ -4667,76 +4676,68 @@ const SYLLABUS_DATA: Unit[] = [
     ],
     "videos": [
       {
-        "id": "AC137",
+        "id": "uBA8DkCBdco",
         "title": "Complete Dynamic Programming (DP Series Lecture 1)",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=137",
+        "url": "https://www.youtube.com/watch?v=uBA8DkCBdco",
         "type": "Playlist",
         "playlistIndex": 137,
-        "minutes": 42,
-        "playlistOnly": true
+        "minutes": 42
       },
       {
-        "id": "AC138",
+        "id": "3GzA0mz6wp0",
         "title": "DP 2: Climbing Stairs (1D DP)",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=138",
+        "url": "https://www.youtube.com/watch?v=3GzA0mz6wp0",
         "type": "Playlist",
         "playlistIndex": 138,
-        "minutes": 26,
-        "playlistOnly": true
+        "minutes": 26
       },
       {
-        "id": "AC139",
+        "id": "BRmLlJA6ncI",
         "title": "DP 3: House Robber (1D DP)",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=139",
+        "url": "https://www.youtube.com/watch?v=BRmLlJA6ncI",
         "type": "Playlist",
         "playlistIndex": 139,
-        "minutes": 26,
-        "playlistOnly": true
+        "minutes": 26
       },
       {
-        "id": "AC140",
+        "id": "hSMJj9AdNBo",
         "title": "DP 4: House Robber II (1D DP)",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=140",
+        "url": "https://www.youtube.com/watch?v=hSMJj9AdNBo",
         "type": "Playlist",
         "playlistIndex": 140,
-        "minutes": 23,
-        "playlistOnly": true
+        "minutes": 23
       },
       {
-        "id": "AC141",
+        "id": "AKqlgskrZwI",
         "title": "DP 5: Frog Jump (1D DP)",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=141",
+        "url": "https://www.youtube.com/watch?v=AKqlgskrZwI",
         "type": "Playlist",
         "playlistIndex": 141,
-        "minutes": 29,
-        "playlistOnly": true
+        "minutes": 29
       },
       {
-        "id": "AC142",
+        "id": "KwItlcfF9vE",
         "title": "DP 6: Min Cost Climbing Stairs (1D DP)",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=142",
+        "url": "https://www.youtube.com/watch?v=KwItlcfF9vE",
         "type": "Playlist",
         "playlistIndex": 142,
-        "minutes": 26,
-        "playlistOnly": true
+        "minutes": 26
       },
       {
-        "id": "AC143",
+        "id": "yggezlvUN2w",
         "title": "Fractional Knapsack (Greedy Method)",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=143",
+        "url": "https://www.youtube.com/watch?v=yggezlvUN2w",
         "type": "Playlist",
         "playlistIndex": 143,
-        "minutes": 17,
-        "playlistOnly": true
+        "minutes": 17
       },
       {
-        "id": "AC144",
+        "id": "tEW-zDckvFw",
         "title": "0/1 Knapsack: Recursion to DP to Space Optimized",
-        "url": "https://www.youtube.com/watch?list=PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt&index=144",
+        "url": "https://www.youtube.com/watch?v=tEW-zDckvFw",
         "type": "Playlist",
         "playlistIndex": 144,
-        "minutes": 45,
-        "playlistOnly": true
+        "minutes": 45
       }
     ],
     "problems": [
@@ -4747,7 +4748,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "AtCoder",
         "difficulty": "Easy",
         "videoIds": [
-          "AC141"
+          "AKqlgskrZwI"
         ]
       },
       {
@@ -4757,7 +4758,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Easy",
         "videoIds": [
-          "AC142"
+          "KwItlcfF9vE"
         ]
       },
       {
@@ -4767,7 +4768,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "CSES",
         "difficulty": "Medium",
         "videoIds": [
-          "AC137"
+          "uBA8DkCBdco"
         ]
       },
       {
@@ -4777,7 +4778,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Medium",
         "videoIds": [
-          "AC138"
+          "3GzA0mz6wp0"
         ]
       },
       {
@@ -4787,7 +4788,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Medium",
         "videoIds": [
-          "AC139"
+          "BRmLlJA6ncI"
         ]
       },
       {
@@ -4797,7 +4798,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Medium",
         "videoIds": [
-          "AC140"
+          "hSMJj9AdNBo"
         ]
       },
       {
@@ -4807,7 +4808,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "AtCoder",
         "difficulty": "Medium",
         "videoIds": [
-          "AC141"
+          "AKqlgskrZwI"
         ]
       },
       {
@@ -4817,7 +4818,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "GFG",
         "difficulty": "Medium",
         "videoIds": [
-          "AC143"
+          "yggezlvUN2w"
         ]
       },
       {
@@ -4827,7 +4828,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "CSES",
         "difficulty": "Medium",
         "videoIds": [
-          "AC144"
+          "tEW-zDckvFw"
         ]
       },
       {
@@ -4837,7 +4838,7 @@ const SYLLABUS_DATA: Unit[] = [
         "platform": "LeetCode",
         "difficulty": "Medium",
         "videoIds": [
-          "AC144"
+          "tEW-zDckvFw"
         ]
       }
     ]
