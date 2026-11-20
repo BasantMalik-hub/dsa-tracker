@@ -6,10 +6,11 @@ A comprehensive 23-unit dynamic tracker (21 Core Units + 2 Phase-4 Extension Uni
 
 ## Features
 - **23 Curriculum Units (4 Phases)**: From C++ fundamentals, OOP, and STL to advanced Graphs, Trees, Tries, Dynamic Programming, and Knapsack.
+- **127 Granular Subtopics**: 100% syllabus coverage across three university syllabi (25CS101, 25CS201, 25CS303), mapped 1-to-1 as tickable items (see [SYLLABUS_COVERAGE.md](file:///c:/Users/chaud/Downloads/dsa-tracker/SYLLABUS_COVERAGE.md)).
 - **152 Apna College Video Lectures**: Full playlist mapping with lecture runtime, playlist positions, and in-app YouTube player.
-- **290+ Curated Problems**: Follow-up practice on LeetCode, Codeforces, CSES, GFG, and SPOJ directly linked to corresponding lectures.
+- **299 Curated Practice Problems**: Follow-up practice on LeetCode, Codeforces, CSES, GFG, and SPOJ directly linked to corresponding lectures.
 - **Dynamic Scheduling**: Supports 60-day, 90-day, and 120-day pace targets calculated proportionally.
-- **Export & Import**: Save your progress as JSON, copy to clipboard, or upload a backup file at any time.
+- **Export, Import & File Upload**: Save your progress as JSON, copy to clipboard, or upload a backup file at any time with automatic schema migrations.
 - **Responsive Dark UI**: Built with React 18, Tailwind CSS v4, and Lucide icons.
 - **Modular Architecture**: Cleanly separated into custom hooks, typed datasets, and atomic UI components.
 
@@ -81,15 +82,13 @@ npm run check:links:list
 npm run check:links
 ```
 
-### Video ID Resolver & Migration
-Updates playlist position lectures to real YouTube video IDs while preserving user ticks and notes via `VIDEO_ID_ALIASES`:
+### Syllabus Coverage & Subtopic Migration
+Applies granular syllabus coverage expansions while seamlessly migrating user progress via schema versioning:
 ```bash
-# View usage options
-python scripts/fix_video_links.py --help
+# Dry run check
+python scripts/apply_syllabus_patch.py --dry-run
 
-# Automatic resolution using yt-dlp
-npm run fix:videos
-
-# Or using an exported playlist.txt
-python scripts/fix_video_links.py --list playlist.txt
+# Apply syllabus patch
+npm run patch:syllabus
 ```
+See [SYLLABUS_COVERAGE.md](file:///c:/Users/chaud/Downloads/dsa-tracker/SYLLABUS_COVERAGE.md) for the 1-to-1 mapping table across all 127 topics.

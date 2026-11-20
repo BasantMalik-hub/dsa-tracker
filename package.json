@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "check:links": "python scripts/check_problem_links.py",
     "check:links:list": "python scripts/check_problem_links.py --list-only",
-    "fix:videos": "python scripts/fix_video_links.py"
+    "fix:videos": "python scripts/fix_video_links.py",
+    "patch:syllabus": "python scripts/apply_syllabus_patch.py"
   },
   "dependencies": {
     "lucide-react": "^1.16.0",
