@@ -21,23 +21,29 @@ dsa-tracker/
 ├── index.html                     # HTML shell and entry point
 ├── vite.config.ts                 # Vite bundler configuration
 ├── tsconfig.json                  # TypeScript compiler settings
+├── eslint.config.js               # ESLint 9 configuration with TS and React Hooks
+├── .prettierrc                    # Prettier formatting rules
 ├── package.json                   # Dependencies & npm scripts
+├── public/
+│   └── data/
+│       └── syllabus.json          # Decoupled static curriculum dataset (127 subtopics, 23 units)
 ├── scripts/                       # Maintenance & dataset verification scripts
-│   ├── check_problem_links.py     # Verifies problem URLs
-│   └── fix_video_links.py         # Resolves & migrates YouTube video IDs
+│   ├── check_problem_links.py     # Verifies problem URLs (reads public/data/syllabus.json)
+│   ├── fix_video_links.py         # Resolves & migrates YouTube video IDs
+│   └── apply_syllabus_patch.py    # Applies syllabus coverage patches
 └── src/
     ├── main.tsx                   # React root mount & ErrorBoundary wrapper
     ├── index.css                  # Tailwind styles and custom dark scrollbar
-    ├── App.tsx                    # Root tracker component composing layout & tabs
+    ├── App.tsx                    # Lean root shell composing layout & tabs
     ├── types/                     # Shared TypeScript interfaces & types
-    ├── data/                      # Dataset source of truth (syllabusData.ts)
-    ├── utils/                     # Date math, schedule generator, style helpers
-    ├── hooks/                     # Custom hooks (state persistence, schedule, stats, filters)
-    └── components/                # Reusable modular UI components
+    ├── data/                      # Course metadata and alias definitions (syllabusData.ts)
+    ├── utils/                     # Storage persistence, date math, schedule generator
+    ├── hooks/                     # Custom hooks (syllabus fetcher, state, schedule, stats)
+    └── components/                # Reusable modular UI components (<200 lines each)
         ├── common/                # ErrorBoundary, Toast, Icons
         ├── layout/                # Header, KpiOverview, MobileNav
-        ├── daily/                 # PaceControlBar, TodayHeroCard, DayStrip, WeeklyAccordion
-        ├── syllabus/              # SyllabusFilters, SyllabusUnitCard, LinkedProblems
+        ├── daily/                 # DailyPlanTab, TodayHeroCard, DayStrip, WeeklyAccordion
+        ├── syllabus/              # SyllabusTab, SyllabusFilters, SyllabusUnitCard
         ├── practice/              # PracticeNotesTab, ProblemRow, AddProblemForm
         └── modals/                # VideoModal, BackupModal
 ```
@@ -59,10 +65,16 @@ npm run dev
 ```
 Open [http://localhost:5173/dsa-tracker/](http://localhost:5173/dsa-tracker/) in your browser.
 
-### Build & Typecheck
+### Quality, Linting & Build
 ```bash
 # Typecheck
-npx tsc --noEmit
+npm run typecheck
+
+# Lint with ESLint
+npm run lint
+
+# Format with Prettier
+npm run format
 
 # Production build
 npm run build

@@ -17,25 +17,19 @@ export const AddProblemForm: React.FC<AddProblemFormProps> = ({
 }) => {
   return (
     <div className="p-3 rounded-xl bg-stone-950/90 border border-stone-800/90 space-y-2">
-      <div className="text-[11px] font-bold text-stone-400">
-        + Log Custom Solved Problem
-      </div>
+      <div className="text-[11px] font-bold text-stone-400">+ Log Custom Solved Problem</div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
         <input
           type="text"
           value={draft.title}
-          onChange={(e) =>
-            onChangeDraft(unitId, { ...draft, title: e.target.value })
-          }
+          onChange={(e) => onChangeDraft(unitId, { ...draft, title: e.target.value })}
           placeholder="Problem Title (e.g. LRU Cache)"
           className="bg-stone-900 border border-stone-800 rounded-lg px-2.5 py-1.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:border-emerald-500"
         />
         <input
           type="url"
           value={draft.url}
-          onChange={(e) =>
-            onChangeDraft(unitId, { ...draft, url: e.target.value })
-          }
+          onChange={(e) => onChangeDraft(unitId, { ...draft, url: e.target.value })}
           placeholder="URL (https://leetcode.com/...)"
           className="bg-stone-900 border border-stone-800 rounded-lg px-2.5 py-1.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:border-emerald-500"
         />
@@ -43,9 +37,7 @@ export const AddProblemForm: React.FC<AddProblemFormProps> = ({
       <div className="flex items-center gap-2">
         <select
           value={draft.platform}
-          onChange={(e) =>
-            onChangeDraft(unitId, { ...draft, platform: e.target.value })
-          }
+          onChange={(e) => onChangeDraft(unitId, { ...draft, platform: e.target.value })}
           className="bg-stone-900 border border-stone-800 rounded-lg px-2.5 py-1.5 text-xs text-stone-200"
         >
           <option value="LeetCode">LeetCode</option>
@@ -56,9 +48,7 @@ export const AddProblemForm: React.FC<AddProblemFormProps> = ({
         </select>
         <select
           value={draft.difficulty}
-          onChange={(e) =>
-            onChangeDraft(unitId, { ...draft, difficulty: e.target.value })
-          }
+          onChange={(e) => onChangeDraft(unitId, { ...draft, difficulty: e.target.value })}
           className="bg-stone-900 border border-stone-800 rounded-lg px-2.5 py-1.5 text-xs text-stone-200"
         >
           <option value="Easy">Easy</option>

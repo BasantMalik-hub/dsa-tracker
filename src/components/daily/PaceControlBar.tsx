@@ -54,8 +54,8 @@ export const PaceControlBar: React.FC<PaceControlBarProps> = ({
               scheduleMeta.badgeTone === 'emerald'
                 ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30'
                 : scheduleMeta.badgeTone === 'amber'
-                ? 'bg-amber-500/15 text-amber-300 border-amber-500/30'
-                : 'bg-blue-500/15 text-blue-300 border-blue-500/30'
+                  ? 'bg-amber-500/15 text-amber-300 border-amber-500/30'
+                  : 'bg-blue-500/15 text-blue-300 border-blue-500/30'
             }`}
           >
             {scheduleMeta.badgeText}
@@ -127,7 +127,9 @@ export const PaceControlBar: React.FC<PaceControlBarProps> = ({
                 }`}
               >
                 <div className="text-xs leading-tight">{opt.label}</div>
-                <div className={`text-[10px] ${active ? 'text-stone-900 font-medium' : 'text-stone-500'}`}>
+                <div
+                  className={`text-[10px] ${active ? 'text-stone-900 font-medium' : 'text-stone-500'}`}
+                >
                   {opt.sub}
                 </div>
               </button>

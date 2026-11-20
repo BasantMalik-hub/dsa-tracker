@@ -17,9 +17,8 @@ export const ProblemRow: React.FC<ProblemRowProps> = ({
   onToggleProblem,
   onDeleteCustomProblem
 }) => {
-  const followUpVideo = (prob.videoIds || []).length > 0
-    ? unit.videos.find((v) => v.id === prob.videoIds![0])
-    : null;
+  const followUpVideo =
+    (prob.videoIds || []).length > 0 ? unit.videos.find((v) => v.id === prob.videoIds![0]) : null;
 
   return (
     <div className="p-3 rounded-xl bg-stone-950 border border-stone-800/90 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
@@ -53,8 +52,8 @@ export const ProblemRow: React.FC<ProblemRowProps> = ({
                 prob.difficulty === 'Easy'
                   ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
                   : prob.difficulty === 'Medium'
-                  ? 'bg-amber-500/10 text-amber-400 border-amber-500/20'
-                  : 'bg-rose-500/10 text-rose-400 border-rose-500/20'
+                    ? 'bg-amber-500/10 text-amber-400 border-amber-500/20'
+                    : 'bg-rose-500/10 text-rose-400 border-rose-500/20'
               }`}
             >
               {prob.difficulty}

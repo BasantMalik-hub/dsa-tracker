@@ -1,7 +1,7 @@
 import React from 'react';
 import { Calendar, Layers, FileText, Flame, Download, ExternalLink } from 'lucide-react';
 import { ActiveTab, GlobalStats } from '../../types';
-import { PLAYLIST_URL, PLAYLIST_LECTURE_COUNT, SYLLABUS_DATA } from '../../data/syllabusData';
+import { PLAYLIST_URL, PLAYLIST_LECTURE_COUNT } from '../../data/syllabusData';
 import { Youtube } from '../common/Icons';
 
 interface HeaderProps {
@@ -9,6 +9,7 @@ interface HeaderProps {
   setActiveTab: (tab: ActiveTab) => void;
   displayStreak: number;
   globalStats: GlobalStats;
+  unitsCount?: number;
   onOpenBackupModal: () => void;
 }
 
@@ -17,6 +18,7 @@ export const Header: React.FC<HeaderProps> = ({
   setActiveTab,
   displayStreak,
   globalStats,
+  unitsCount,
   onOpenBackupModal
 }) => {
   return (
@@ -32,7 +34,8 @@ export const Header: React.FC<HeaderProps> = ({
               My DSA Notebook
             </h1>
             <p className="text-[11px] text-stone-400 hidden sm:block">
-              {SYLLABUS_DATA.length} units &middot; {globalStats.totalSubs} topics &middot; {PLAYLIST_LECTURE_COUNT} playlist lectures &middot; {globalStats.totalProbs} problems
+              {unitsCount ?? 23} units &middot; {globalStats.totalSubs} topics &middot;{' '}
+              {PLAYLIST_LECTURE_COUNT} playlist lectures &middot; {globalStats.totalProbs} problems
             </p>
           </div>
         </div>
@@ -73,7 +76,9 @@ export const Header: React.FC<HeaderProps> = ({
             }`}
           >
             <FileText className="w-3.5 h-3.5" />
-            <span>Practice &amp; Notes ({globalStats.doneProbs}/{globalStats.totalProbs})</span>
+            <span>
+              Practice &amp; Notes ({globalStats.doneProbs}/{globalStats.totalProbs})
+            </span>
           </button>
         </div>
 

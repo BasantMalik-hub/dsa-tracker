@@ -1,17 +1,18 @@
 import { useState, useMemo } from 'react';
 import { Unit, PhaseFilter, StatusFilter, TrackerState } from '../types';
-import { SYLLABUS_DATA } from '../data/syllabusData';
 
-export function useFilteredUnits(state: TrackerState) {
+export function useFilteredUnits(units: Unit[] = [], state: TrackerState) {
   const [selectedPhaseFilter, setSelectedPhaseFilter] = useState<PhaseFilter>('ALL');
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('ALL');
   const [searchQuery, setSearchQuery] = useState('');
 
   const filteredUnits = useMemo<Unit[]>(() => {
-    return SYLLABUS_DATA.filter((u: Unit) => {
+    return units.filter((u: Unit) => {
       if (selectedPhaseFilter !== 'ALL' && u.phase !== Number(selectedPhaseFilter)) return false;
 
-      const uSubsDone = u.subtopics.filter((_, idx) => !!state.completedSubtopics[`${u.id}_sub_${idx}`]).length;
+      const uSubsDone = u.subtopics.filter(
+        (_, idx) => !!state.completedSubtopics[`${u.id}_sub_${idx}`]
+      ).length;
       const uVidsDone = u.videos.filter((v) => !!state.watchedVideos[`${u.id}_vid_${v.id}`]).length;
       const isComplete = uSubsDone === u.subtopics.length && uVidsDone === u.videos.length;
 
@@ -20,7 +21,8 @@ export function useFilteredUnits(state: TrackerState) {
 
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase();
-        const inTitle = u.unitTitle.toLowerCase().includes(q) || u.courseCode.toLowerCase().includes(q);
+        const inTitle =
+          u.unitTitle.toLowerCase().includes(q) || u.courseCode.toLowerCase().includes(q);
         const inSubs = u.subtopics.some((s) => s.toLowerCase().includes(q));
         const inVids = u.videos.some((v) => v.title.toLowerCase().includes(q));
         const inProbs = u.problems.some((p) => p.title.toLowerCase().includes(q));
@@ -29,7 +31,14 @@ export function useFilteredUnits(state: TrackerState) {
 
       return true;
     });
-  }, [selectedPhaseFilter, statusFilter, searchQuery, state.completedSubtopics, state.watchedVideos]);
+  }, [
+    units,
+    selectedPhaseFilter,
+    statusFilter,
+    searchQuery,
+    state.completedSubtopics,
+    state.watchedVideos
+  ]);
 
   return {
     selectedPhaseFilter,

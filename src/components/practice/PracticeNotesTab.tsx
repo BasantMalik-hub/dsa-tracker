@@ -1,12 +1,12 @@
 import React from 'react';
 import { FileText } from 'lucide-react';
 import { Unit, Problem, CustomProblemDraft } from '../../types';
-import { SYLLABUS_DATA } from '../../data/syllabusData';
 import { getPhaseBadgeStyle } from '../../utils/styles';
 import { ProblemRow } from './ProblemRow';
 import { AddProblemForm } from './AddProblemForm';
 
 interface PracticeNotesTabProps {
+  units: Unit[];
   doneProbs: number;
   totalProbs: number;
   solvedProblems: Record<string, boolean>;
@@ -21,6 +21,7 @@ interface PracticeNotesTabProps {
 }
 
 export const PracticeNotesTab: React.FC<PracticeNotesTabProps> = ({
+  units,
   doneProbs,
   totalProbs,
   solvedProblems,
@@ -42,7 +43,8 @@ export const PracticeNotesTab: React.FC<PracticeNotesTabProps> = ({
             <span>Practice Problem Logger &amp; Unit Notes</span>
           </h2>
           <p className="text-xs text-stone-400 mt-0.5">
-            Log custom LeetCode, CodeChef, or GeeksforGeeks problems and write persistent revision notes for every unit.
+            Log custom LeetCode, CodeChef, or GeeksforGeeks problems and write persistent revision
+            notes for every unit.
           </p>
         </div>
         <div className="flex items-center gap-2 text-xs font-mono bg-stone-950 border border-stone-800 px-3.5 py-2 rounded-xl">
@@ -54,7 +56,7 @@ export const PracticeNotesTab: React.FC<PracticeNotesTabProps> = ({
       </section>
 
       <section className="grid grid-cols-1 gap-5">
-        {SYLLABUS_DATA.map((unit: Unit) => {
+        {units.map((unit: Unit) => {
           const customList = customProblems[unit.id] || [];
           const allProbs = [...unit.problems, ...customList];
           const draft = newProblemDrafts[unit.id] || {
@@ -71,12 +73,12 @@ export const PracticeNotesTab: React.FC<PracticeNotesTabProps> = ({
             >
               <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-stone-800">
                 <div className="flex items-center gap-2">
-                  <span className={`text-xs font-mono font-bold px-2 py-0.5 rounded border ${getPhaseBadgeStyle(unit.phase)}`}>
+                  <span
+                    className={`text-xs font-mono font-bold px-2 py-0.5 rounded border ${getPhaseBadgeStyle(unit.phase)}`}
+                  >
                     {unit.courseCode}
                   </span>
-                  <h3 className="text-sm sm:text-base font-bold text-white">
-                    {unit.unitTitle}
-                  </h3>
+                  <h3 className="text-sm sm:text-base font-bold text-white">{unit.unitTitle}</h3>
                 </div>
                 <span className="text-xs font-mono text-stone-400">
                   {allProbs.filter((p) => !!solvedProblems[p.id]).length}/{allProbs.length} Solved

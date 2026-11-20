@@ -1,18 +1,19 @@
 import { useMemo } from 'react';
-import { TrackerState, DayObject, ScheduleMeta, DayProgress } from '../types';
+import { TrackerState, DayObject, ScheduleMeta, DayProgress, Unit } from '../types';
 import { buildDailyTargetSchedule, dayAnchor } from '../utils/scheduleGenerator';
 import { getTodayISO, getUtcDiffDays } from '../utils/dateUtils';
 
 interface UseScheduleProps {
+  units: Unit[];
   state: TrackerState;
   getDayProgress: (dayObj: DayObject | null | undefined) => DayProgress;
 }
 
-export function useSchedule({ state, getDayProgress }: UseScheduleProps) {
+export function useSchedule({ units, state, getDayProgress }: UseScheduleProps) {
   // Build dynamic schedule
   const dailySchedule = useMemo(() => {
-    return buildDailyTargetSchedule(state.paceDays, state.startDate);
-  }, [state.paceDays, state.startDate]);
+    return buildDailyTargetSchedule(state.paceDays, state.startDate, units);
+  }, [state.paceDays, state.startDate, units]);
 
   // Schedule meta (Active target day, calendar day, ahead/behind status)
   const scheduleMeta = useMemo<ScheduleMeta>(() => {
@@ -22,9 +23,13 @@ export function useSchedule({ state, getDayProgress }: UseScheduleProps) {
     const calendarDayNumber = Math.max(1, Math.min(dailySchedule.length, diffDays + 1));
 
     const firstIncomplete = dailySchedule.find((d) => getDayProgress(d).status !== 'COMPLETED');
-    const activeTargetDayNumber = firstIncomplete ? firstIncomplete.dayNumber : dailySchedule.length;
+    const activeTargetDayNumber = firstIncomplete
+      ? firstIncomplete.dayNumber
+      : dailySchedule.length;
 
-    const completedDaysCount = dailySchedule.filter((d) => getDayProgress(d).status === 'COMPLETED').length;
+    const completedDaysCount = dailySchedule.filter(
+      (d) => getDayProgress(d).status === 'COMPLETED'
+    ).length;
     const expectedByYesterday = Math.max(0, calendarDayNumber - 1);
     const delta = completedDaysCount - expectedByYesterday;
 
@@ -64,14 +69,18 @@ export function useSchedule({ state, getDayProgress }: UseScheduleProps) {
     const calDay = dailySchedule[scheduleMeta.calendarDayNumber - 1];
     const todayDone = calDay && getDayProgress(calDay).status === 'COMPLETED';
     const { delta, completedDaysCount } = scheduleMeta;
-    if (completedDaysCount >= total) return 'You have finished the whole plan. That is a lot of hours. Well done.';
-    if (completedDaysCount === 0) return 'Day 1 is a gentle start: setup and the first lecture. No need to rush it.';
-    if (todayDone) return "Today's work is done. Anything extra is a bonus, and resting is fine too.";
+    if (completedDaysCount >= total)
+      return 'You have finished the whole plan. That is a lot of hours. Well done.';
+    if (completedDaysCount === 0)
+      return 'Day 1 is a gentle start: setup and the first lecture. No need to rush it.';
+    if (todayDone)
+      return "Today's work is done. Anything extra is a bonus, and resting is fine too.";
     if (delta < 0) {
       const n = Math.abs(delta);
       return `You are ${n} ${n === 1 ? 'day' : 'days'} behind, which happens to everyone. You do not have to catch up all at once. Add one extra lecture a day this week, or press "Recalibrate to today" to reset the calendar.`;
     }
-    if (delta > 0) return `You are ${delta} ${delta === 1 ? 'day' : 'days'} ahead. That is a nice cushion; spend some of it revisiting the fuzzy bits.`;
+    if (delta > 0)
+      return `You are ${delta} ${delta === 1 ? 'day' : 'days'} ahead. That is a nice cushion; spend some of it revisiting the fuzzy bits.`;
     return 'Right on schedule. One day at a time.';
   }, [dailySchedule, scheduleMeta, getDayProgress]);
 
@@ -96,7 +105,8 @@ export function useSchedule({ state, getDayProgress }: UseScheduleProps) {
     1,
     Math.min(dailySchedule.length, state.selectedDayNumber || scheduleMeta.activeTargetDayNumber)
   );
-  const selectedDayObj = dailySchedule.find((d) => d.dayNumber === safeSelectedDayNumber) || dailySchedule[0];
+  const selectedDayObj =
+    dailySchedule.find((d) => d.dayNumber === safeSelectedDayNumber) || dailySchedule[0];
 
   return {
     dailySchedule,

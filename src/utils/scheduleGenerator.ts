@@ -1,5 +1,4 @@
 import { Unit, Video, DayObject, DaySubtopic, DayVideo, Problem } from '../types';
-import { SYLLABUS_DATA } from '../data/syllabusData';
 import { parseISODate } from './dateUtils';
 
 export const dayAnchor = (dayObj: DayObject): string =>
@@ -10,11 +9,17 @@ export const unitVideoMinutes = (u: Unit): number =>
 
 export const difficultyRank: Record<string, number> = { Easy: 0, Medium: 1, Hard: 2 };
 
-export function buildDailyTargetSchedule(paceDays: number, startDateStr: string): DayObject[] {
+export function buildDailyTargetSchedule(
+  paceDays: number,
+  startDateStr: string,
+  units: Unit[] = []
+): DayObject[] {
+  if (!units || units.length === 0) return [];
+
   const totalDays = [60, 90, 120].includes(Number(paceDays)) ? Number(paceDays) : 90;
 
   // Days per unit are proportional to the real lecture time in that unit (at least 2 days per unit)
-  const weights = SYLLABUS_DATA.map((u) => Math.max(60, unitVideoMinutes(u)));
+  const weights = units.map((u) => Math.max(60, unitVideoMinutes(u)));
   const totalWeight = weights.reduce((a, b) => a + b, 0);
   const allocations = weights.map((w) => Math.max(2, Math.round((w / totalWeight) * totalDays)));
   let allocatedSum = allocations.reduce((a, b) => a + b, 0);
@@ -55,7 +60,7 @@ export function buildDailyTargetSchedule(paceDays: number, startDateStr: string)
   const schedule: DayObject[] = [];
   let currentDayNumber = 1;
 
-  SYLLABUS_DATA.forEach((unit, uIdx) => {
+  units.forEach((unit, uIdx) => {
     const unitDays = allocations[uIdx];
     const subs = unit.subtopics;
     const vids = unit.videos;
@@ -117,7 +122,10 @@ export function buildDailyTargetSchedule(paceDays: number, startDateStr: string)
 
       // Lectures for this day
       const dayVids = dayVideoLists[d];
-      const dayVideos: DayVideo[] = dayVids.map((v) => ({ video: v, key: `${unit.id}_vid_${v.id}` }));
+      const dayVideos: DayVideo[] = dayVids.map((v) => ({
+        video: v,
+        key: `${unit.id}_vid_${v.id}`
+      }));
 
       // Practice problem: prefer one that follows up on today's lectures (Easy -> Hard)
       const candidates: Problem[] = [];
@@ -131,7 +139,9 @@ export function buildDailyTargetSchedule(paceDays: number, startDateStr: string)
         probs.find((p) => !usedProblems.has(p.id)) ||
         candidates[0] ||
         probs[d % probs.length];
-      const problemKey = usedProblems.has(dayProblem.id) ? `${dayProblem.id}_rev${d}` : dayProblem.id;
+      const problemKey = usedProblems.has(dayProblem.id)
+        ? `${dayProblem.id}_rev${d}`
+        : dayProblem.id;
       usedProblems.add(dayProblem.id);
 
       // Compute calendar date

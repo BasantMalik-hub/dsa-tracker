@@ -2,21 +2,9 @@
 """
 scripts/apply_syllabus_patch.py - makes every topic of the three syllabi (25CS101, 25CS201, 25CS303) a subtopic.
 
-What it changes in src/data/syllabusData.ts:
-  1. The `subtopics` list of 19 units (new list from scripts/syllabus_patch.json)
-  2. Adds SUBTOPIC_SCHEMA + SUBTOPIC_MIGRATION + migrateSubtopicProgress() after VIDEO_ID_ALIASES
-     -> previously ticked subtopics are carried over automatically, exactly once
-  3. DEFAULT_STATE gets `subtopicSchema`
-  4. loadPersistedState() runs the migration
-  5. handleImportJson() & handleFileUpload() run the migration for backups
-
-Usage:   python scripts/apply_syllabus_patch.py                            (applies patch to src/data/syllabusData.ts)
-         python scripts/apply_syllabus_patch.py --print-block              (prints the TypeScript migration block)
-         python scripts/apply_syllabus_patch.py --dry-run                  (prints what would change)
+Reads from and writes to public/data/syllabus.json.
 """
-import argparse, json, os, re, shutil, sys
-
-DATA_MARK = "const SYLLABUS_DATA: Unit[] = "
+import argparse, json, os, shutil, sys
 
 MIGRATION_TEMPLATE = '''
 
@@ -29,13 +17,16 @@ MIGRATION_TEMPLATE = '''
 export const SUBTOPIC_SCHEMA = %(schema)d;
 export const SUBTOPIC_MIGRATION: Record<string, (number | null)[]> = %(migration)s;
 
-export function migrateSubtopicProgress<T extends { completedSubtopics?: Record<string, boolean>; subtopicSchema?: number }>(st: T): T {
+export function migrateSubtopicProgress<
+  T extends { completedSubtopics?: Record<string, boolean>; subtopicSchema?: number }
+>(st: T): T {
   if (!st || st.subtopicSchema === SUBTOPIC_SCHEMA) return st;
   const old = st.completedSubtopics || {};
   const next = { ...old };
   Object.entries(SUBTOPIC_MIGRATION).forEach(([unitId, newToOld]) => {
     Object.keys(old).forEach((k) => {
-      if (k.startsWith(unitId + '_sub_') && /^\\d+$/.test(k.slice((unitId + '_sub_').length))) delete next[k];
+      if (k.startsWith(unitId + '_sub_') && /^\\d+$/.test(k.slice((unitId + '_sub_').length)))
+        delete next[k];
     });
     newToOld.forEach((oldIdx, newIdx) => {
       if (oldIdx !== null && old[`${unitId}_sub_${oldIdx}`]) next[`${unitId}_sub_${newIdx}`] = true;
@@ -47,7 +38,7 @@ export function migrateSubtopicProgress<T extends { completedSubtopics?: Record<
 
 def main():
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    default_target = os.path.join(root, "src", "data", "syllabusData.ts")
+    default_target = os.path.join(root, "public", "data", "syllabus.json")
     default_patch = os.path.join(root, "scripts", "syllabus_patch.json")
 
     ap = argparse.ArgumentParser()
@@ -63,10 +54,9 @@ def main():
         print(MIGRATION_TEMPLATE % {"schema": patch["schemaVersion"], "migration": json.dumps(mig)})
         return
 
-    text = open(a.target, encoding="utf-8").read()
+    with open(a.target, encoding="utf-8") as f:
+        data = json.load(f)
 
-    start = text.index(DATA_MARK) + len(DATA_MARK)
-    data, end = json.JSONDecoder().raw_decode(text, start)
     by_id = {u["id"]: u for u in data}
     before, after, orphan = 0, 0, []
 
@@ -89,12 +79,10 @@ def main():
         print("(dry run - nothing written)")
         return
 
-    new_json = json.dumps(data, indent=2, ensure_ascii=False)
-    new_text = text[:start] + new_json + text[end:]
-
     shutil.copy(a.target, a.target + ".bak")
     with open(a.target, "w", encoding="utf-8") as f:
-        f.write(new_text)
+        json.dump(data, f, indent=2, ensure_ascii=False)
+        f.write("\n")
     print(f"Written. Backup: {a.target}.bak")
 
 if __name__ == "__main__":

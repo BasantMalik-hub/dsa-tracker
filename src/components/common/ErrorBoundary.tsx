@@ -49,7 +49,9 @@ export class ErrorBoundary extends Component<Props, State> {
       try {
         const storageKey = this.props.storageKey || 'cpp_dsa_master_tracker_v3';
         window.localStorage.removeItem(storageKey);
-      } catch (e) {}
+      } catch (_e) {
+        // Ignore localStorage clear errors on reset
+      }
       window.location.reload();
     }
   };
@@ -64,7 +66,8 @@ export class ErrorBoundary extends Component<Props, State> {
             </div>
             <h2 className="text-lg font-bold text-white">Something went wrong</h2>
             <p className="text-xs text-stone-400 leading-relaxed">
-              An unexpected display error occurred. Your study progress and notes are safely preserved in your browser storage.
+              An unexpected display error occurred. Your study progress and notes are safely
+              preserved in your browser storage.
             </p>
             <div className="pt-2 flex flex-col gap-2">
               <button

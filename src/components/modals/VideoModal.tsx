@@ -71,12 +71,12 @@ export const VideoModal: React.FC<VideoModalProps> = ({
         <div className="px-4 sm:px-6 py-3.5 bg-stone-950 border-b border-stone-800 flex items-center justify-between gap-3">
           <div className="truncate">
             <div className="flex items-center gap-2">
-              <span className={`text-[10px] font-mono px-2 py-0.5 rounded border ${getPhaseBadgeStyle(unit.phase)}`}>
+              <span
+                className={`text-[10px] font-mono px-2 py-0.5 rounded border ${getPhaseBadgeStyle(unit.phase)}`}
+              >
                 {unit.courseCode}
               </span>
-              <span className="text-xs font-bold text-stone-400 truncate">
-                {unit.unitTitle}
-              </span>
+              <span className="text-xs font-bold text-stone-400 truncate">{unit.unitTitle}</span>
             </div>
             <h3 className="text-sm sm:text-base font-semibold text-white truncate mt-0.5">
               {video.title}
@@ -141,8 +141,9 @@ export const VideoModal: React.FC<VideoModalProps> = ({
           <div className="lg:col-span-4 p-4 sm:p-5 bg-stone-900 border-t lg:border-t-0 lg:border-l border-stone-800 flex flex-col justify-between gap-4 max-h-[75vh] overflow-y-auto">
             {video.playlistOnly && video.playlistIndex && (
               <div className="text-[11px] leading-relaxed text-stone-400 bg-stone-950 border border-stone-800 rounded-lg p-2.5">
-                This is lecture <span className="text-white font-bold">#{video.playlistIndex}</span> of the{' '}
-                {PLAYLIST_NAME} playlist. If the player starts on a different lecture, pick #{video.playlistIndex} from the playlist menu inside the player, or{' '}
+                This is lecture <span className="text-white font-bold">#{video.playlistIndex}</span>{' '}
+                of the {PLAYLIST_NAME} playlist. If the player starts on a different lecture, pick #
+                {video.playlistIndex} from the playlist menu inside the player, or{' '}
                 <a
                   href={video.url}
                   target="_blank"
@@ -156,9 +157,7 @@ export const VideoModal: React.FC<VideoModalProps> = ({
             )}
 
             <div className="space-y-3">
-              <div className="text-xs font-bold text-emerald-400">
-                Unit Subtopics Checklist
-              </div>
+              <div className="text-xs font-bold text-emerald-400">Unit Subtopics Checklist</div>
               <div className="space-y-1.5">
                 {unit.subtopics.map((sub, idx) => {
                   const sKey = `${unit.id}_sub_${idx}`;

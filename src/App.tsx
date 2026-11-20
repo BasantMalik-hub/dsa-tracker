@@ -1,6 +1,6 @@
-import React, { useState, useCallback } from 'react';
-import { Filter } from 'lucide-react';
-import { ActiveTab, ActiveVideoModalData, CustomProblemDraft } from './types';
+import { useState, useCallback } from 'react';
+import { ActiveTab, ActiveVideoModalData, CustomProblemDraft, DayObject } from './types';
+import { useSyllabusData } from './hooks/useSyllabusData';
 import { useTrackerState } from './hooks/useTrackerState';
 import { useGlobalStats } from './hooks/useGlobalStats';
 import { useSchedule } from './hooks/useSchedule';
@@ -11,20 +11,16 @@ import { Header } from './components/layout/Header';
 import { KpiOverview } from './components/layout/KpiOverview';
 import { MobileNav } from './components/layout/MobileNav';
 
-import { PaceControlBar } from './components/daily/PaceControlBar';
-import { TodayHeroCard } from './components/daily/TodayHeroCard';
-import { DayStrip } from './components/daily/DayStrip';
-import { WeeklyAccordion } from './components/daily/WeeklyAccordion';
-
-import { SyllabusFilters } from './components/syllabus/SyllabusFilters';
-import { SyllabusUnitCard } from './components/syllabus/SyllabusUnitCard';
-
+import { DailyPlanTab } from './components/daily/DailyPlanTab';
+import { SyllabusTab } from './components/syllabus/SyllabusTab';
 import { PracticeNotesTab } from './components/practice/PracticeNotesTab';
 
 import { VideoModal } from './components/modals/VideoModal';
 import { BackupModal } from './components/modals/BackupModal';
 
 export default function App() {
+  const { units, loading, error, refetch } = useSyllabusData();
+
   const [activeTab, setActiveTab] = useState<ActiveTab>('DAILY_PLAN');
   const [expandedWeeks, setExpandedWeeks] = useState<Record<number, boolean>>({ 1: true, 2: true });
   const [activeVideoModal, setActiveVideoModal] = useState<ActiveVideoModalData | null>(null);
@@ -58,7 +54,7 @@ export default function App() {
     handleResetAllProgress
   } = useTrackerState();
 
-  const { getDayProgress, globalStats } = useGlobalStats(state);
+  const { getDayProgress, globalStats } = useGlobalStats(state, units);
 
   const {
     dailySchedule,
@@ -69,7 +65,7 @@ export default function App() {
     paceHours,
     safeSelectedDayNumber,
     selectedDayObj
-  } = useSchedule({ state, getDayProgress });
+  } = useSchedule({ units, state, getDayProgress });
 
   const {
     selectedPhaseFilter,
@@ -79,9 +75,9 @@ export default function App() {
     searchQuery,
     setSearchQuery,
     filteredUnits
-  } = useFilteredUnits(state);
+  } = useFilteredUnits(units, state);
 
-  // Handlers wrapped for child components
+  // Callbacks for child components
   const handleSelectDay = useCallback(
     (dayNum: number) => {
       selectDay(dayNum, dailySchedule.length, setExpandedWeeks);
@@ -95,7 +91,9 @@ export default function App() {
 
   const handleUpdatePace = useCallback(
     (pace: number) => {
-      updateTracker((prev) => ({ ...prev, paceDays: pace, selectedDayNumber: 1 }), { streak: false });
+      updateTracker((prev) => ({ ...prev, paceDays: pace, selectedDayNumber: 1 }), {
+        streak: false
+      });
     },
     [updateTracker]
   );
@@ -112,7 +110,7 @@ export default function App() {
   }, [handleRecalibrateToToday, dailySchedule, getDayProgress]);
 
   const handleToggleCompleteDay = useCallback(
-    (dayObj: any) => {
+    (dayObj: DayObject) => {
       toggleCompleteEntireDay(dayObj, dailySchedule, getDayProgress);
     },
     [toggleCompleteEntireDay, dailySchedule, getDayProgress]
@@ -124,6 +122,35 @@ export default function App() {
     },
     [setNewProblemDrafts]
   );
+
+  // Loading & error fallbacks
+  if (loading && units.length === 0) {
+    return (
+      <div className="min-h-screen bg-stone-950 flex flex-col items-center justify-center p-4">
+        <div className="w-10 h-10 border-3 border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin mb-4" />
+        <h2 className="text-base font-semibold text-white">Loading Syllabus Curriculum...</h2>
+        <p className="text-xs text-stone-400 mt-1 font-mono">Apna College C++ DSA Master Tracker</p>
+      </div>
+    );
+  }
+
+  if (error && units.length === 0) {
+    return (
+      <div className="min-h-screen bg-stone-950 flex flex-col items-center justify-center p-4 text-center">
+        <div className="w-12 h-12 rounded-xl bg-rose-500/20 text-rose-400 mx-auto flex items-center justify-center font-bold text-xl border border-rose-500/30 mb-4">
+          !
+        </div>
+        <h2 className="text-lg font-bold text-white">Failed to load syllabus data</h2>
+        <p className="text-xs text-stone-400 mt-1 max-w-md">{error.message}</p>
+        <button
+          onClick={() => refetch()}
+          className="mt-4 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold transition"
+        >
+          Retry Loading
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-stone-950 text-stone-100 pb-[calc(6rem+env(safe-area-inset-bottom,0px))] md:pb-14 selection:bg-emerald-500/30 selection:text-emerald-200">
@@ -141,6 +168,7 @@ export default function App() {
         setActiveTab={setActiveTab}
         displayStreak={displayStreak}
         globalStats={globalStats}
+        unitsCount={units.length}
         onOpenBackupModal={() => setBackupModalOpen(true)}
       />
 
@@ -157,126 +185,68 @@ export default function App() {
 
         {/* TAB 1: DAILY PLAN */}
         {activeTab === 'DAILY_PLAN' && (
-          <div className="space-y-6">
-            <PaceControlBar
-              greeting={greeting}
-              userName={state.userName}
-              statusLine={statusLine}
-              scheduleMeta={scheduleMeta}
-              fuzzyList={fuzzyList}
-              paceDays={state.paceDays}
-              paceHours={paceHours}
-              startDate={state.startDate}
-              onSaveName={saveName}
-              onSelectDay={handleSelectDay}
-              onUpdatePace={handleUpdatePace}
-              onUpdateStartDate={handleUpdateStartDate}
-              onRecalibrateToToday={handleRecalibrate}
-            />
-
-            {selectedDayObj && (
-              <TodayHeroCard
-                selectedDayObj={selectedDayObj}
-                dayProg={getDayProgress(selectedDayObj)}
-                isCalendarToday={selectedDayObj.dayNumber === scheduleMeta.calendarDayNumber}
-                totalScheduleDays={dailySchedule.length}
-                activeTargetDayNumber={scheduleMeta.activeTargetDayNumber}
-                completedSubtopics={state.completedSubtopics}
-                watchedVideos={state.watchedVideos}
-                solvedProblems={state.solvedProblems}
-                unitNotes={state.unitNotes}
-                dayNotes={state.dayNotes}
-                fuzzyDays={state.fuzzyDays}
-                onSelectDay={handleSelectDay}
-                onToggleCompleteEntireDay={handleToggleCompleteDay}
-                onToggleSubtopic={toggleSubtopic}
-                onToggleVideo={toggleVideo}
-                onToggleProblem={toggleProblem}
-                onOpenVideoModal={setActiveVideoModal}
-                onNoteChange={handleNoteChange}
-                onDayNoteChange={handleDayNoteChange}
-                onToggleFuzzy={toggleFuzzy}
-              />
-            )}
-
-            <DayStrip
-              dailySchedule={dailySchedule}
-              safeSelectedDayNumber={safeSelectedDayNumber}
-              calendarDayNumber={scheduleMeta.calendarDayNumber}
-              getDayProgress={getDayProgress}
-              onSelectDay={handleSelectDay}
-            />
-
-            <WeeklyAccordion
-              dailySchedule={dailySchedule}
-              calendarDayNumber={scheduleMeta.calendarDayNumber}
-              expandedWeeks={expandedWeeks}
-              completedSubtopics={state.completedSubtopics}
-              watchedVideos={state.watchedVideos}
-              onToggleWeek={handleToggleWeek}
-              getDayProgress={getDayProgress}
-              onToggleSubtopic={toggleSubtopic}
-              onToggleVideo={toggleVideo}
-              onToggleProblem={toggleProblem}
-              onOpenVideoModal={setActiveVideoModal}
-              onToggleCompleteEntireDay={handleToggleCompleteDay}
-            />
-          </div>
+          <DailyPlanTab
+            greeting={greeting}
+            userName={state.userName}
+            statusLine={statusLine}
+            scheduleMeta={scheduleMeta}
+            fuzzyList={fuzzyList}
+            paceDays={state.paceDays}
+            paceHours={paceHours}
+            startDate={state.startDate}
+            dailySchedule={dailySchedule}
+            safeSelectedDayNumber={safeSelectedDayNumber}
+            selectedDayObj={selectedDayObj}
+            expandedWeeks={expandedWeeks}
+            completedSubtopics={state.completedSubtopics}
+            watchedVideos={state.watchedVideos}
+            solvedProblems={state.solvedProblems}
+            unitNotes={state.unitNotes}
+            dayNotes={state.dayNotes}
+            fuzzyDays={state.fuzzyDays}
+            getDayProgress={getDayProgress}
+            onSaveName={saveName}
+            onSelectDay={handleSelectDay}
+            onUpdatePace={handleUpdatePace}
+            onUpdateStartDate={handleUpdateStartDate}
+            onRecalibrateToToday={handleRecalibrate}
+            onToggleCompleteEntireDay={handleToggleCompleteDay}
+            onToggleSubtopic={toggleSubtopic}
+            onToggleVideo={toggleVideo}
+            onToggleProblem={toggleProblem}
+            onOpenVideoModal={setActiveVideoModal}
+            onNoteChange={handleNoteChange}
+            onDayNoteChange={handleDayNoteChange}
+            onToggleFuzzy={toggleFuzzy}
+            onToggleWeek={handleToggleWeek}
+          />
         )}
 
         {/* TAB 2: SYLLABUS EXPLORER */}
         {activeTab === 'SYLLABUS' && (
-          <div className="space-y-5">
-            <SyllabusFilters
-              selectedPhaseFilter={selectedPhaseFilter}
-              setSelectedPhaseFilter={setSelectedPhaseFilter}
-              statusFilter={statusFilter}
-              setStatusFilter={setStatusFilter}
-              searchQuery={searchQuery}
-              setSearchQuery={setSearchQuery}
-            />
-
-            <section className="space-y-4">
-              {filteredUnits.length === 0 ? (
-                <div className="bg-stone-900 border border-stone-800 rounded-2xl p-10 text-center space-y-2">
-                  <Filter className="w-8 h-8 text-stone-600 mx-auto" />
-                  <p className="text-sm font-bold text-stone-300">No matching syllabus units found.</p>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setSelectedPhaseFilter('ALL');
-                      setStatusFilter('ALL');
-                      setSearchQuery('');
-                    }}
-                    className="text-xs font-semibold text-emerald-400 hover:underline"
-                  >
-                    Reset all filters
-                  </button>
-                </div>
-              ) : (
-                filteredUnits.map((unit) => (
-                  <SyllabusUnitCard
-                    key={unit.id}
-                    unit={unit}
-                    completedSubtopics={state.completedSubtopics}
-                    watchedVideos={state.watchedVideos}
-                    solvedProblems={state.solvedProblems}
-                    customProblems={state.customProblems}
-                    onToggleSubtopic={toggleSubtopic}
-                    onToggleVideo={toggleVideo}
-                    onToggleProblem={toggleProblem}
-                    onToggleCompleteEntireUnit={toggleCompleteEntireUnit}
-                    onOpenVideoModal={setActiveVideoModal}
-                  />
-                ))
-              )}
-            </section>
-          </div>
+          <SyllabusTab
+            filteredUnits={filteredUnits}
+            selectedPhaseFilter={selectedPhaseFilter}
+            setSelectedPhaseFilter={setSelectedPhaseFilter}
+            statusFilter={statusFilter}
+            setStatusFilter={setStatusFilter}
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            completedSubtopics={state.completedSubtopics}
+            watchedVideos={state.watchedVideos}
+            solvedProblems={state.solvedProblems}
+            onToggleSubtopic={toggleSubtopic}
+            onToggleVideo={toggleVideo}
+            onToggleProblem={toggleProblem}
+            onToggleCompleteEntireUnit={toggleCompleteEntireUnit}
+            onOpenVideoModal={setActiveVideoModal}
+          />
         )}
 
         {/* TAB 3: PRACTICE & NOTES */}
         {activeTab === 'PRACTICE_NOTES' && (
           <PracticeNotesTab
+            units={units}
             doneProbs={globalStats.doneProbs}
             totalProbs={globalStats.totalProbs}
             solvedProblems={state.solvedProblems}

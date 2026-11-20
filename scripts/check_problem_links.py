@@ -16,7 +16,7 @@ import csv, html, json, os, re, sys, time, urllib.error, urllib.request
 DATA_MARK = "const SYLLABUS_DATA: Unit[] = "
 UA = "Mozilla/5.0 (link-checker for personal study tracker)"
 STOP = {"the", "a", "an", "of", "in", "to", "and", "with", "from", "using", "ii", "i", "iii", "problem"}
-DEFAULT_TARGET = os.path.join(os.path.dirname(__file__), "..", "src", "data", "syllabusData.ts")
+DEFAULT_TARGET = os.path.join(os.path.dirname(__file__), "..", "public", "data", "syllabus.json")
 
 
 def words(s):
@@ -74,9 +74,13 @@ def main():
     if not os.path.exists(target_file):
         sys.exit(f"Target file not found: {target_file}")
 
-    text = open(target_file, encoding="utf-8").read()
-    start = text.index(DATA_MARK) + len(DATA_MARK)
-    data, _ = json.JSONDecoder().raw_decode(text, start)
+    if target_file.endswith(".json"):
+        with open(target_file, encoding="utf-8") as f:
+            data = json.load(f)
+    else:
+        text = open(target_file, encoding="utf-8").read()
+        start = text.index(DATA_MARK) + len(DATA_MARK)
+        data, _ = json.JSONDecoder().raw_decode(text, start)
     probs = [(u["id"], p) for u in data for p in u["problems"]]
     if list_only:
         print(len(probs), "problem links found"); return
@@ -91,6 +95,8 @@ def main():
         w = csv.writer(f); w.writerow(["unit", "id", "title", "url", "status", "note"]); w.writerows(rows)
     ok = sum(r[4] == "OK" for r in rows)
     print(f"\nDone: {ok} OK, {bad} PROBLEM, {len(rows) - ok - bad} could not check.  Report: problem_link_report.csv")
+    if "--fail-on-broken" in sys.argv and bad > 0:
+        sys.exit(f"FAILED: {bad} broken problem links detected.")
 
 
 if __name__ == "__main__":

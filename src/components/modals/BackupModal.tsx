@@ -77,7 +77,9 @@ export const BackupModal: React.FC<BackupModalProps> = ({
 
         <div className="space-y-2.5">
           <p className="text-xs text-stone-300">
-            Your progress is automatically saved in your browser&apos;s <code className="text-emerald-400">localStorage</code>. Export a JSON file or copy to clipboard anytime to seamlessly transfer your progress between your laptop and phone.
+            Your progress is automatically saved in your browser&apos;s{' '}
+            <code className="text-emerald-400">localStorage</code>. Export a JSON file or copy to
+            clipboard anytime to seamlessly transfer your progress between your laptop and phone.
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">

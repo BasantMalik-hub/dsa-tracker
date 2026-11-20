@@ -81,10 +81,10 @@ export const KpiOverview: React.FC<KpiOverviewProps> = ({
             phaseNum === 1
               ? 'bg-blue-400'
               : phaseNum === 2
-              ? 'bg-teal-400'
-              : phaseNum === 4
-              ? 'bg-amber-400'
-              : 'bg-purple-400';
+                ? 'bg-teal-400'
+                : phaseNum === 4
+                  ? 'bg-amber-400'
+                  : 'bg-purple-400';
 
           return (
             <button
@@ -98,7 +98,9 @@ export const KpiOverview: React.FC<KpiOverviewProps> = ({
             >
               <div>
                 <div className="flex items-center justify-between gap-2">
-                  <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded border ${getPhaseBadgeStyle(phaseNum)}`}>
+                  <span
+                    className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded border ${getPhaseBadgeStyle(phaseNum)}`}
+                  >
                     {pInfo.code}
                   </span>
                   <span className="text-xs font-mono text-stone-400">{pInfo.hours} Hrs</span>
