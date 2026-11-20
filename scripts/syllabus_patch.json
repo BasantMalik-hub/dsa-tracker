@@ -1,0 +1,603 @@
+{
+  "schemaVersion": 2,
+  "units": {
+    "P1-U1": [
+      {
+        "text": "Components of a Computer System: Memory, Processor, I/O Devices, Storage & the Role of the Operating System",
+        "from": 0,
+        "covers": "Sem I U1: components of a computer system (memory, processor, I/O devices, storage, operating system)"
+      },
+      {
+        "text": "Language Translators: Assembler, Compiler, Interpreter, Loader & Linker",
+        "from": 1,
+        "covers": "Sem I U1: assembler, compiler, interpreter, loader, linker"
+      },
+      {
+        "text": "Idea of a Program/Algorithm: Representing Algorithms with Flowcharts & Pseudocode, Visualization & Dry-Run Tracing",
+        "from": 2,
+        "covers": "Sem I U1: idea of program/algorithm; flowchart and algorithm representation; visualization"
+      },
+      {
+        "text": "From Algorithm to Program: Writing Source Code, Object Code & Executable Code",
+        "from": null,
+        "covers": "Sem I U1: from algorithms to programs, and source code; object and executable code"
+      },
+      {
+        "text": "Your First C++ Program: Structure, main(), Header Files, Standard Input/Output & Comments",
+        "from": 3,
+        "covers": "Sem I U1: writing and executing the first C++ program; structure, main function, header files, standard output/input, comments"
+      },
+      {
+        "text": "Compilation Errors: Syntax Errors vs Logical Errors, with Examples",
+        "from": 3,
+        "covers": "Sem I U1: syntax and logical errors in compilation with examples"
+      }
+    ],
+    "P1-U2A": [
+      {
+        "text": "C++ Tokens: Keywords, Identifiers, Constants, Punctuators & Operators",
+        "from": 0,
+        "covers": "Sem I U2: tokens in C++ (keywords, identifiers/variables, constants, punctuators, operators)"
+      },
+      {
+        "text": "Variables: Naming Conventions, Scope & Lifetime",
+        "from": 0,
+        "covers": "Sem I U2: variable naming convention, scope and lifetime"
+      },
+      {
+        "text": "Data Types Classification: Basic, Derived & User-Defined, with Storage Requirements (sizeof)",
+        "from": 1,
+        "covers": "Sem I U2: data types classification (basic, derived, user-defined); storage requirements"
+      },
+      {
+        "text": "Typecasting: Implicit & Explicit Type Conversion",
+        "from": 1,
+        "covers": "Sem I U2: typecasting"
+      },
+      {
+        "text": "Arithmetic & Miscellaneous Operators (sizeof, comma), Relational, Logical & Conditional (Ternary) Operators",
+        "from": 2,
+        "covers": "Sem I U2: arithmetic and miscellaneous, relational, logical, conditional operators"
+      },
+      {
+        "text": "Bitwise Operators: &, |, ^, ~, <<, >>",
+        "from": 3,
+        "covers": "Sem I U2: bitwise operators"
+      },
+      {
+        "text": "Operator Associativity & Precedence; Expressions and Their Evaluation",
+        "from": 3,
+        "covers": "Sem I U2: associativity and precedence; expressions and their evaluation"
+      },
+      {
+        "text": "Math Library Functions (<cmath>): pow, sqrt, abs, ceil, floor & More",
+        "from": 3,
+        "covers": "Sem I U2: introduction and usage of Math library functions"
+      }
+    ],
+    "P1-U2B": [
+      {
+        "text": "Taking Input on Coding Platforms - 1: Single Value, Multiple Known Values in One Line & Across Multiple Lines",
+        "from": 2,
+        "covers": "Sem I U2: taking input on coding platforms - 1"
+      },
+      {
+        "text": "Program Flow Control: if, if-else, Nested if-else & else-if Ladder",
+        "from": 0,
+        "covers": "Sem I U2: if, if-else, nested if-else, else-if ladder"
+      },
+      {
+        "text": "switch-case Statements, Fall-through Behavior & Menu-Driven Programs",
+        "from": 1,
+        "covers": "Sem I U2: switch-case"
+      }
+    ],
+    "P1-U3A": [
+      {
+        "text": "Iteration: while, do-while & for Loops with Multiple Loop Variables",
+        "from": 0,
+        "covers": "Sem I U3: while, do-while and for loops; multiple loop variables"
+      },
+      {
+        "text": "Jump Statements: break & continue",
+        "from": 1,
+        "covers": "Sem I U3: break and continue"
+      },
+      {
+        "text": "Nested Iteration & 2D Star/Number/Character Pattern Building",
+        "from": 2,
+        "covers": "Sem I U3: nested iteration"
+      },
+      {
+        "text": "Taking Input on Coding Platforms - 2: Single Value & Multiple Known Values in a Line, and Other Formats",
+        "from": null,
+        "covers": "Sem I U3: taking input on coding platforms - 2"
+      },
+      {
+        "text": "Taking Input on Coding Platforms - 3: Multiple Unknown Values in One Line or Across Lines (EOF Handling)",
+        "from": 3,
+        "covers": "Sem I U3: taking inputs on coding platforms - 3"
+      }
+    ],
+    "P1-U3B": [
+      {
+        "text": "Arrays: Notation, Representation (Contiguous Memory) & Indexing",
+        "from": 0,
+        "covers": "Sem I U3: array notation and representation"
+      },
+      {
+        "text": "Manipulating Array Elements: Traversal, Insertion, Deletion, Searching, Reversal & Rotation",
+        "from": null,
+        "covers": "Sem I U3: manipulating array elements"
+      },
+      {
+        "text": "Subarray Fundamentals & Kadane's Maximum Subarray Sum Algorithm",
+        "from": 1,
+        "covers": "extra (playlist lectures 10-15): subarrays and Kadane"
+      },
+      {
+        "text": "Multi-dimensional (2D) Arrays: Row/Column-Major Storage, Matrix Traversal & Spiral Order",
+        "from": 2,
+        "covers": "Sem I U3: using multi-dimensional arrays"
+      },
+      {
+        "text": "Dynamically Growable Arrays: STL Vectors (push_back, pop_back, size vs capacity)",
+        "from": 3,
+        "covers": "Sem I U3: introduction to dynamically growable arrays (vectors in STL)"
+      }
+    ],
+    "P1-U4": [
+      {
+        "text": "Functions: Introduction & Types (Library vs User-Defined; With/Without Arguments & Return Values)",
+        "from": null,
+        "covers": "Sem I U4: functions - introduction, types of functions"
+      },
+      {
+        "text": "Modular Functions: Prototypes, Definitions, Call Stack Frames, Default Arguments & Overloading",
+        "from": 0,
+        "covers": "Sem I U4: functions and the modular approach"
+      },
+      {
+        "text": "Pointers & Memory Addresses: Dereferencing (*), Address-of (&) & Pointer Arithmetic",
+        "from": 1,
+        "covers": "extra (playlist lecture 16): pointers, needed for call by reference"
+      },
+      {
+        "text": "Passing Parameters: Call by Value vs Call by Reference (Pointers & C++ References)",
+        "from": 2,
+        "covers": "Sem I U4: passing parameters to functions, call by value, call by reference"
+      },
+      {
+        "text": "Introduction to Recursive Functions: Base Case, Call Stack, Factorial & Fibonacci",
+        "from": 3,
+        "covers": "Sem I U4: introduction to recursive functions"
+      }
+    ],
+    "P1-U5A": [
+      {
+        "text": "String Representation in C++: Character Arrays vs std::string & Null-termination",
+        "from": 0,
+        "covers": "Sem I U5: string representation in C++"
+      },
+      {
+        "text": "string.h / <cstring> Library Functions: strlen, strcpy, strcat, strcmp & std::string Equivalents",
+        "from": null,
+        "covers": "Sem I U5: string manipulation with functions from the string.h library"
+      },
+      {
+        "text": "Modifying Strings: Replacing, Inserting & Erasing Characters; Concatenating Two or More Strings",
+        "from": 1,
+        "covers": "Sem I U5: replacing, inserting and erasing characters; concatenating two or more strings"
+      },
+      {
+        "text": "Searching in Strings: Finding Characters or Substrings, Counting Characters or Substrings & Finding Length",
+        "from": 2,
+        "covers": "Sem I U5: finding character or substrings, counting characters or substrings, finding length"
+      },
+      {
+        "text": "Comparing Two Strings, Case Conversion & Dealing with Alphanumeric Strings",
+        "from": 2,
+        "covers": "Sem I U5: comparing two strings, case conversion, alphanumeric strings"
+      }
+    ],
+    "P2-U1": [
+      {
+        "text": "Introduction: Data Structures, Their Types & Importance; Primitive Operations on Data Structures",
+        "from": null,
+        "covers": "Sem II U1: data structures and their types, importance, primitive operations"
+      },
+      {
+        "text": "Basic Terminology, Elementary Data Organization & Built-in Data Types in C++",
+        "from": null,
+        "covers": "Sem II U1: basic terminology, elementary data organization, built-in data types in C++"
+      },
+      {
+        "text": "Data Structure Classification (Linear/Non-Linear) & Abstract Data Types (ADTs)",
+        "from": 0,
+        "covers": "Sem II U1: abstract data types (ADT); types of data structures"
+      },
+      {
+        "text": "Algorithm & Its Efficiency: Time Complexity and Space Complexity",
+        "from": null,
+        "covers": "Sem II U1: algorithm, efficiency of an algorithm, time and space complexity"
+      },
+      {
+        "text": "Asymptotic Notations: Big-Oh (O), Big-Theta (Θ), Big-Omega (Ω) & Time-Space Trade-off",
+        "from": 1,
+        "covers": "Sem II U1: asymptotic notations, time-space trade-off"
+      },
+      {
+        "text": "Searching: Concept of Searching & Sequential (Linear) Search",
+        "from": 2,
+        "covers": "Sem II U1: concept of searching, sequential search"
+      },
+      {
+        "text": "Binary Search (Iterative & Recursive): Time and Space Complexity Computation",
+        "from": 2,
+        "covers": "Sem II U1: binary search; computation of time and space complexity"
+      },
+      {
+        "text": "Binary Search on Answer Space: Rotated Arrays, Peak Element & Book Allocation",
+        "from": 3,
+        "covers": "extra (playlist lectures 18-23): binary search variations"
+      }
+    ],
+    "P2-U2": [
+      {
+        "text": "Bubble Sort, Selection Sort & Insertion Sort: C++ Implementation & Time Complexity (Best/Avg/Worst)",
+        "from": 0,
+        "covers": "Sem II U2: bubble, insertion, selection sort, C++ implementation, time complexity analysis"
+      },
+      {
+        "text": "Dutch National Flag (DNF) 3-Way Partitioning (Sort 0s, 1s & 2s)",
+        "from": 1,
+        "covers": "extra (playlist lecture 25): DNF partitioning"
+      },
+      {
+        "text": "Sorting in Linear Time: Counting Sort - Key Characteristics, Algorithm, C++ Implementation & Complexity",
+        "from": 2,
+        "covers": "Sem II U2: counting sort, key characteristics, C++ implementation, time complexity"
+      },
+      {
+        "text": "Radix Sort & Bucket Sort",
+        "from": 2,
+        "covers": "Sem II U2: radix sort, bucket sort"
+      },
+      {
+        "text": "Comparison of Sorting Techniques: Best, Average & Worst-Case Time Complexity",
+        "from": null,
+        "covers": "Sem II U2: comparison of sorting techniques in terms of best, average and worst time complexity"
+      }
+    ],
+    "P2-U3": [
+      {
+        "text": "Singly Linked List: Array Implementation vs Pointer Implementation",
+        "from": 0,
+        "covers": "Sem II U3: array implementation and pointer implementation of singly linked lists"
+      },
+      {
+        "text": "Linked List Operations: Insertion, Deletion, Traversal, Reversal & Fast/Slow Pointers",
+        "from": 0,
+        "covers": "Sem II U3: operations on a linked list - insertion, deletion, traversal"
+      },
+      {
+        "text": "Doubly Linked List: Prev/Next Pointers & Operations",
+        "from": 1,
+        "covers": "Sem II U3: doubly linked list"
+      },
+      {
+        "text": "Circular Linked List: Tail-to-Head Loop & Operations",
+        "from": 2,
+        "covers": "Sem II U3: circularly linked list"
+      },
+      {
+        "text": "Time Complexity of Linked List Operations: Worst, Average & Best Case",
+        "from": null,
+        "covers": "Sem II U3: time complexity analysis (worst, average, best)"
+      },
+      {
+        "text": "Polynomial Representation Using Linked Lists: Single-Variable & Two-Variable Polynomials",
+        "from": 3,
+        "covers": "Sem II U3: polynomial representation (single and two variables)"
+      },
+      {
+        "text": "Polynomial Addition, Subtraction & Multiplication",
+        "from": 3,
+        "covers": "Sem II U3: addition, subtraction and multiplication of polynomials"
+      }
+    ],
+    "P2-U4": [
+      {
+        "text": "Introduction to Hashing & Its Need: Definition and Hash Table",
+        "from": null,
+        "covers": "Sem II U4: introduction of hashing and its need; definition; hash table"
+      },
+      {
+        "text": "Hash Functions: Division Modulo, Digit Extraction, Mid-Square, Folding & Custom Hash Functions",
+        "from": 0,
+        "covers": "Sem II U4: division modulo, digit extraction, mid square, folding, custom hash function"
+      },
+      {
+        "text": "Operations over a Hash Table: Search, Insertion & Deletion",
+        "from": null,
+        "covers": "Sem II U4: operations over hash table - search, insertion, deletion"
+      },
+      {
+        "text": "Collisions: Illustration of Collision & Overview of Resolution Techniques",
+        "from": null,
+        "covers": "Sem II U4: illustration of collision; collision resolution techniques"
+      },
+      {
+        "text": "Open Hashing (Separate Chaining): Linked List Buckets & Load Factor (λ) Analysis",
+        "from": 1,
+        "covers": "Sem II U4: open hashing or separate chaining"
+      },
+      {
+        "text": "Closed Hashing (Open Addressing): Linear Probing, Quadratic Probing & Double Hashing",
+        "from": 2,
+        "covers": "Sem II U4: closed hashing or open addressing - linear probing, quadratic probing, double hashing"
+      },
+      {
+        "text": "Programming-Based Hashing Techniques: Frequency Counting, Two Sum, Subarray Sums",
+        "from": null,
+        "covers": "Sem II U4: programming based hashing technique"
+      }
+    ],
+    "P2-U5": [
+      {
+        "text": "Ordered vs Unordered Sets: Definition, Differences & Internals (Red-Black Tree vs Hash Table)",
+        "from": 0,
+        "covers": "Sem II U5: set - ordered and unordered set, definition and their difference"
+      },
+      {
+        "text": "Set Operations (STL): insert(), erase(), size(), find(), count() & Equality Check of Two Sets",
+        "from": 1,
+        "covers": "Sem II U5: operations on set - insert(), erase(), size(), equality check, find(), count()"
+      },
+      {
+        "text": "Set Algorithms: includes(), accumulate(), Union, Intersection & Difference of Sets",
+        "from": 1,
+        "covers": "Sem II U5: includes(), accumulate(), union, intersection, difference of sets"
+      },
+      {
+        "text": "Sorting a Set & Time-Complexity Comparison of Operations: Ordered vs Unordered Sets",
+        "from": null,
+        "covers": "Sem II U5: sorting a set; time complexity comparison for ordered and unordered sets"
+      },
+      {
+        "text": "Ordered and Unordered Maps: Definition & the Key-Value Concept",
+        "from": 2,
+        "covers": "Sem II U5: map - ordered and unordered map, definition, key-value concept"
+      },
+      {
+        "text": "Map Operations: insert(), erase(), size() & Looping in a Map",
+        "from": 2,
+        "covers": "Sem II U5: operations on map - insert(), erase(), size(), looping in map"
+      },
+      {
+        "text": "Sorting Using Maps: By Key, By Value & Custom Comparators",
+        "from": 2,
+        "covers": "Sem II U5: sorting by value, by key, custom sorting"
+      }
+    ],
+    "P3-U1A": [
+      {
+        "text": "Stack Introduction: Terminology & Representation (Arrays & Linked List)",
+        "from": 0,
+        "covers": "Sem III U1: stack introduction, terminology, representation (arrays and linked list)"
+      },
+      {
+        "text": "Stack Operations: push(), pop(), peek() & Others (isEmpty, size)",
+        "from": 0,
+        "covers": "Sem III U1: stack operations - push, pop, peek and others"
+      },
+      {
+        "text": "Infix, Prefix & Postfix Notations and Converting One into Another",
+        "from": 1,
+        "covers": "Sem III U1: infix, prefix, postfix notations, converting one into another"
+      },
+      {
+        "text": "Expression Evaluation Using a Stack (Prefix & Postfix)",
+        "from": 2,
+        "covers": "Sem III U1: expression evaluation"
+      },
+      {
+        "text": "Stack Applications & Monotonic Stack Patterns (Next Greater Element, Stock Span)",
+        "from": 2,
+        "covers": "Sem III U1: stack standard applications"
+      }
+    ],
+    "P3-U1B": [
+      {
+        "text": "Queue Introduction: Terminology & Representation (Arrays & Linked List)",
+        "from": 0,
+        "covers": "Sem III U1: queue introduction, terminology, representation (arrays and linked list)"
+      },
+      {
+        "text": "Queue Operations: Enqueue, Dequeue, Peek & Others",
+        "from": 0,
+        "covers": "Sem III U1: queue operations - enqueue, dequeue, peek and others"
+      },
+      {
+        "text": "Types of Queues: Linear, Circular, Double-Ended (Deque) & Priority Queue",
+        "from": 1,
+        "covers": "Sem III U1: queue types (linear, circular, dequeue, priority queue)"
+      },
+      {
+        "text": "Stack and Queue in STL: std::stack, std::queue & std::deque (e.g. Sliding Window Maximum)",
+        "from": 2,
+        "covers": "Sem III U1: stack and queue in STL"
+      }
+    ],
+    "P3-U2A": [
+      {
+        "text": "Recursion Introduction: Terminology & Key Components (Base Case, Recursive Case, Call Stack)",
+        "from": null,
+        "covers": "Sem III U2: recursion introduction, terminology, key components"
+      },
+      {
+        "text": "Types of Recursion: Direct, Indirect, Singly, Multiply, Tail, Non-Tail & Nested",
+        "from": 0,
+        "covers": "Sem III U2: types of recursion"
+      },
+      {
+        "text": "Optimization of Recursion (Memoization, Tail Calls) & Iteration vs Recursion Trade-offs",
+        "from": 1,
+        "covers": "Sem III U2: optimization, iteration and recursion trade-off"
+      },
+      {
+        "text": "Understanding Recursion Through Problems (Subsets, Permutations, Combinations)",
+        "from": null,
+        "covers": "Sem III U2: recursion through problems"
+      },
+      {
+        "text": "Backtracking Search Trees & Stack Overflow Prevention",
+        "from": 1,
+        "covers": "extra (playlist lectures 44-50, 55): backtracking"
+      },
+      {
+        "text": "Time Complexity of Recursive Algorithms: Recurrence Relations - Substitution/Iteration, Recursion Tree & Master Theorem",
+        "from": 2,
+        "covers": "Sem III U2: recurrence relation and time complexity of recursive algorithms"
+      }
+    ],
+    "P3-U3": [
+      {
+        "text": "Tree Introduction: Terminology & Representation (Array and Linked)",
+        "from": null,
+        "covers": "Sem III U3: tree introduction, terminology and representation"
+      },
+      {
+        "text": "Tree Types: Complete, Strict (Full), Skewed Binary Trees & Multi-way Trees",
+        "from": 0,
+        "covers": "Sem III U3: tree types (complete, strict, skewed binary tree, multi-way tree)"
+      },
+      {
+        "text": "Binary Tree Traversals: Breadth-First (Level Order) & Depth-First (Pre/In/Post-order)",
+        "from": 0,
+        "covers": "Sem III U3: traversal - breadth first and depth first (pre, post, in)"
+      },
+      {
+        "text": "Binary Search Trees: Definition, Terminology, Create, Search & Insert",
+        "from": 1,
+        "covers": "Sem III U3: BT and BST definitions, terminology, representations; create, search, insert"
+      },
+      {
+        "text": "BST Deletion (Inorder Predecessor/Successor) & Expression Trees",
+        "from": 1,
+        "covers": "Sem III U3: delete operation; expression trees"
+      },
+      {
+        "text": "Height-Balanced Trees: Introduction, Terminology & Representation",
+        "from": null,
+        "covers": "Sem III U3: height balanced trees - introduction, terminology and representation"
+      },
+      {
+        "text": "AVL Trees: Rotations (LL, RR, LR, RL), Insert & Delete",
+        "from": 2,
+        "covers": "Sem III U3: AVL tree - create, search, insert, delete"
+      },
+      {
+        "text": "Red-Black Trees: Properties, Insert & Delete",
+        "from": 2,
+        "covers": "Sem III U3: red-black tree operations"
+      },
+      {
+        "text": "B-Trees & B+ Trees: Structure, Search, Insert & Delete",
+        "from": 2,
+        "covers": "Sem III U3: B-tree and B+ tree operations"
+      },
+      {
+        "text": "Threaded Binary Trees: Representation & Traversal",
+        "from": 2,
+        "covers": "Sem III U3: threaded binary tree"
+      },
+      {
+        "text": "Tries: Introduction & Building a Trie (Node Structure)",
+        "from": 3,
+        "covers": "Sem III U3: tries - introduction, building a trie data structure"
+      },
+      {
+        "text": "Trie Operations: Insert, Search & Prefix Search",
+        "from": 3,
+        "covers": "Sem III U3: basic trie operations (insert, search, prefix search)"
+      }
+    ],
+    "P3-U4": [
+      {
+        "text": "Heap Introduction: Terminology, Array Representation, Heap Property & Types (Max and Min Heap)",
+        "from": 0,
+        "covers": "Sem III U4: heap introduction, terminology, representation, heap property, heap types"
+      },
+      {
+        "text": "Heap Operations: Building a Heap (Bottom-up), Insert, Delete & Maintaining the Heap (Heapify)",
+        "from": 1,
+        "covers": "Sem III U4: building a heap, operations over a heap, maintaining a heap"
+      },
+      {
+        "text": "Heap Sort (In-Place)",
+        "from": 1,
+        "covers": "Sem III U4: heap sort"
+      },
+      {
+        "text": "Heap as Priority Queue: Use Cases of Stack, Queue & Priority Queue",
+        "from": 2,
+        "covers": "Sem III U4: heap as priority queue; use case of stack, queue and priority queue"
+      },
+      {
+        "text": "Priority Queue in STL: std::priority_queue & Custom Comparators",
+        "from": 2,
+        "covers": "Sem III U4: priority queue in STL; writing custom comparators"
+      },
+      {
+        "text": "Optional: Binomial & Fibonacci Heaps - Overview (named in Course Outcome CO4)",
+        "from": null,
+        "covers": "Sem III CO4: binary, binomial and Fibonacci heaps"
+      }
+    ],
+    "P3-U5A": [
+      {
+        "text": "Graph Terminology & Types: Directed, Undirected, Weighted, Unweighted, Cyclic, Acyclic, Bipartite & Complete Graphs",
+        "from": 0,
+        "covers": "Sem III U5: graph introduction, terminology and types of graphs"
+      },
+      {
+        "text": "Graph Memory Representations: Adjacency Matrix vs Adjacency List Space/Time Trade-offs",
+        "from": 1,
+        "covers": "Sem III U5: representation (adjacency matrix, adjacency list)"
+      },
+      {
+        "text": "Graph Traversal Algorithms: Breadth-First Search (BFS) & Depth-First Search (DFS) Across Components",
+        "from": 2,
+        "covers": "Sem III U5: graph traversal - DFS, BFS"
+      }
+    ],
+    "P3-U5B": [
+      {
+        "text": "Applications of BFS & DFS: Connected Components",
+        "from": null,
+        "covers": "Sem III U5: applications of BFS and DFS - connected components"
+      },
+      {
+        "text": "Cycle Detection in Undirected Graphs (BFS & DFS) and Directed Graphs (DFS Recursion Stack)",
+        "from": 0,
+        "covers": "Sem III U5: cycle detection"
+      },
+      {
+        "text": "Directed Acyclic Graphs (DAG) & Topological Sorting: DFS Post-Order Stack & Kahn's BFS Indegree Algorithm",
+        "from": 1,
+        "covers": "Sem III U5: topological sorting, directed acyclic graph (DAG)"
+      },
+      {
+        "text": "Strongly Connected Components (Kosaraju's / Tarjan's Algorithm)",
+        "from": 2,
+        "covers": "Sem III U5: strongly connected components"
+      },
+      {
+        "text": "Articulation Points, Bridges & Bi-connected Components",
+        "from": 2,
+        "covers": "Sem III U5: articulation points, bridges, bi-connected components"
+      }
+    ]
+  }
+}

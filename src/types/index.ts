@@ -125,6 +125,7 @@ export interface TrackerState {
   userName: string;
   dayNotes: Record<string, string>;
   fuzzyDays: Record<string, boolean>;
+  subtopicSchema?: number;
 }
 
 export type ActiveTab = 'DAILY_PLAN' | 'SYLLABUS' | 'PRACTICE_NOTES';

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { TrackerState, DayObject, Unit, CustomProblemDraft, DayProgress } from '../types';
-import { VIDEO_ID_ALIASES } from '../data/syllabusData';
+import { VIDEO_ID_ALIASES, SUBTOPIC_SCHEMA, migrateSubtopicProgress } from '../data/syllabusData';
 import { getTodayISO } from '../utils/dateUtils';
 import { dayAnchor } from '../utils/scheduleGenerator';
 
@@ -19,7 +19,8 @@ export const DEFAULT_STATE: TrackerState = {
   lastActiveDate: getTodayISO(),
   userName: '',
   dayNotes: {},
-  fuzzyDays: {}
+  fuzzyDays: {},
+  subtopicSchema: SUBTOPIC_SCHEMA
 };
 
 // Carry saved ticks/notes over when a lecture's temporary id (ACnnn) is replaced by its real YouTube id
@@ -45,7 +46,7 @@ export function loadPersistedState(): TrackerState {
     const parsed = JSON.parse(raw);
     if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return DEFAULT_STATE;
     const isObj = (v: any) => v && typeof v === 'object' && !Array.isArray(v);
-    return {
+    return migrateSubtopicProgress({
       ...DEFAULT_STATE,
       ...parsed,
       completedSubtopics: isObj(parsed.completedSubtopics) ? parsed.completedSubtopics : {},
@@ -58,8 +59,9 @@ export function loadPersistedState(): TrackerState {
       userName: typeof parsed.userName === 'string' ? parsed.userName : '',
       paceDays: [60, 90, 120].includes(Number(parsed.paceDays)) ? Number(parsed.paceDays) : 90,
       startDate: (typeof parsed.startDate === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(parsed.startDate)) ? parsed.startDate : getTodayISO(),
-      selectedDayNumber: Number(parsed.selectedDayNumber) > 0 ? Number(parsed.selectedDayNumber) : 1
-    };
+      selectedDayNumber: Number(parsed.selectedDayNumber) > 0 ? Number(parsed.selectedDayNumber) : 1,
+      subtopicSchema: parsed.subtopicSchema
+    });
   } catch (err) {
     console.warn('localStorage load fallback:', err);
     return DEFAULT_STATE;
@@ -436,18 +438,21 @@ export function useTrackerState() {
             showToast('Invalid backup file: expected a JSON object.');
             return;
           }
-          setState((prev) => ({
-            ...DEFAULT_STATE,
-            ...prev,
-            ...parsed,
-            completedSubtopics: parsed.completedSubtopics || prev.completedSubtopics,
-            watchedVideos: migrateVideoAliases(parsed.watchedVideos || prev.watchedVideos),
-            solvedProblems: parsed.solvedProblems || prev.solvedProblems,
-            unitNotes: migrateVideoAliases(parsed.unitNotes || prev.unitNotes),
-            customProblems: parsed.customProblems || prev.customProblems,
-            dayNotes: migrateVideoAliases(parsed.dayNotes || prev.dayNotes),
-            fuzzyDays: migrateVideoAliases(parsed.fuzzyDays || prev.fuzzyDays)
-          }));
+          setState((prev) => {
+            const merged = {
+              ...DEFAULT_STATE,
+              ...prev,
+              ...parsed,
+              completedSubtopics: parsed.completedSubtopics || prev.completedSubtopics,
+              watchedVideos: migrateVideoAliases(parsed.watchedVideos || prev.watchedVideos),
+              solvedProblems: parsed.solvedProblems || prev.solvedProblems,
+              unitNotes: migrateVideoAliases(parsed.unitNotes || prev.unitNotes),
+              customProblems: parsed.customProblems || prev.customProblems,
+              dayNotes: migrateVideoAliases(parsed.dayNotes || prev.dayNotes),
+              fuzzyDays: migrateVideoAliases(parsed.fuzzyDays || prev.fuzzyDays)
+            };
+            return migrateSubtopicProgress({ ...merged, subtopicSchema: parsed.subtopicSchema });
+          });
           if (onSuccess) onSuccess();
           showToast('Progress restored from uploaded file!');
         } catch (err) {
@@ -469,18 +474,21 @@ export function useTrackerState() {
           showToast("That doesn't look like a valid backup. Check the text and try again.");
           return;
         }
-        setState((prev) => ({
-          ...DEFAULT_STATE,
-          ...prev,
-          ...parsed,
-          completedSubtopics: parsed.completedSubtopics || prev.completedSubtopics,
-          watchedVideos: migrateVideoAliases(parsed.watchedVideos || prev.watchedVideos),
-          solvedProblems: parsed.solvedProblems || prev.solvedProblems,
-          unitNotes: migrateVideoAliases(parsed.unitNotes || prev.unitNotes),
-          customProblems: parsed.customProblems || prev.customProblems,
-          dayNotes: migrateVideoAliases(parsed.dayNotes || prev.dayNotes),
-          fuzzyDays: migrateVideoAliases(parsed.fuzzyDays || prev.fuzzyDays)
-        }));
+        setState((prev) => {
+          const merged = {
+            ...DEFAULT_STATE,
+            ...prev,
+            ...parsed,
+            completedSubtopics: parsed.completedSubtopics || prev.completedSubtopics,
+            watchedVideos: migrateVideoAliases(parsed.watchedVideos || prev.watchedVideos),
+            solvedProblems: parsed.solvedProblems || prev.solvedProblems,
+            unitNotes: migrateVideoAliases(parsed.unitNotes || prev.unitNotes),
+            customProblems: parsed.customProblems || prev.customProblems,
+            dayNotes: migrateVideoAliases(parsed.dayNotes || prev.dayNotes),
+            fuzzyDays: migrateVideoAliases(parsed.fuzzyDays || prev.fuzzyDays)
+          };
+          return migrateSubtopicProgress({ ...merged, subtopicSchema: parsed.subtopicSchema });
+        });
         if (onSuccess) onSuccess();
         showToast('Progress restored from your backup.');
       } catch (e) {

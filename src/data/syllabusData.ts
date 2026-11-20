@@ -111,6 +111,50 @@ export const VIDEO_ID_ALIASES: Record<string, string> = {
 };
 
 // ==========================================
+// SYLLABUS UPDATE: subtopic progress migration
+// Progress is stored per subtopic POSITION (`<unitId>_sub_<index>`). When a unit's subtopic list
+// changes, SUBTOPIC_MIGRATION maps NEW index -> OLD index (null = brand-new topic) so ticks made
+// before the update are carried over once. `subtopicSchema` in the saved state records that it ran.
+// ==========================================
+export const SUBTOPIC_SCHEMA = 2;
+export const SUBTOPIC_MIGRATION: Record<string, (number | null)[]> = {
+  "P1-U1": [0, 1, 2, null, 3, 3],
+  "P1-U2A": [0, 0, 1, 1, 2, 3, 3, 3],
+  "P1-U2B": [2, 0, 1],
+  "P1-U3A": [0, 1, 2, null, 3],
+  "P1-U3B": [0, null, 1, 2, 3],
+  "P1-U4": [null, 0, 1, 2, 3],
+  "P1-U5A": [0, null, 1, 2, 2],
+  "P2-U1": [null, null, 0, null, 1, 2, 2, 3],
+  "P2-U2": [0, 1, 2, 2, null],
+  "P2-U3": [0, 0, 1, 2, null, 3, 3],
+  "P2-U4": [null, 0, null, null, 1, 2, null],
+  "P2-U5": [0, 1, 1, null, 2, 2, 2],
+  "P3-U1A": [0, 0, 1, 2, 2],
+  "P3-U1B": [0, 0, 1, 2],
+  "P3-U2A": [null, 0, 1, null, 1, 2],
+  "P3-U3": [null, 0, 0, 1, 1, null, 2, 2, 2, 2, 3, 3],
+  "P3-U4": [0, 1, 1, 2, 2, null],
+  "P3-U5A": [0, 1, 2],
+  "P3-U5B": [null, 0, 1, 2, 2]
+};
+
+export function migrateSubtopicProgress<T extends { completedSubtopics?: Record<string, boolean>; subtopicSchema?: number }>(st: T): T {
+  if (!st || st.subtopicSchema === SUBTOPIC_SCHEMA) return st;
+  const old = st.completedSubtopics || {};
+  const next = { ...old };
+  Object.entries(SUBTOPIC_MIGRATION).forEach(([unitId, newToOld]) => {
+    Object.keys(old).forEach((k) => {
+      if (k.startsWith(unitId + '_sub_') && /^\d+$/.test(k.slice((unitId + '_sub_').length))) delete next[k];
+    });
+    newToOld.forEach((oldIdx, newIdx) => {
+      if (oldIdx !== null && old[`${unitId}_sub_${oldIdx}`]) next[`${unitId}_sub_${newIdx}`] = true;
+    });
+  });
+  return { ...st, completedSubtopics: next, subtopicSchema: SUBTOPIC_SCHEMA };
+}
+
+// ==========================================
 // COMPLETE SYLLABUS DATASET (21 core units + 2 Phase-4 extension units)
 // Every lecture of the playlist (144) is attached to a unit, with follow-up problems.
 // ==========================================
@@ -123,10 +167,12 @@ export const SYLLABUS_DATA: Unit[] = [
     "unitTitle": "Unit 1: System Basics, Flowcharts & First C++ Program",
     "hours": 8,
     "subtopics": [
-      "Computer System Architecture: Memory, Processor, I/O Devices & OS Role",
+      "Components of a Computer System: Memory, Processor, I/O Devices, Storage & the Role of the Operating System",
       "Language Translators: Assembler, Compiler, Interpreter, Loader & Linker",
-      "Algorithm Representation: Flowcharts, Pseudocode & Dry-Run Tracing",
-      "C++ Program Structure: Headers, Namespaces, main(), std::cin / std::cout & Compilation Errors"
+      "Idea of a Program/Algorithm: Representing Algorithms with Flowcharts & Pseudocode, Visualization & Dry-Run Tracing",
+      "From Algorithm to Program: Writing Source Code, Object Code & Executable Code",
+      "Your First C++ Program: Structure, main(), Header Files, Standard Input/Output & Comments",
+      "Compilation Errors: Syntax Errors vs Logical Errors, with Examples"
     ],
     "videos": [
       {
@@ -217,10 +263,14 @@ export const SYLLABUS_DATA: Unit[] = [
     "unitTitle": "Unit 2A: Tokens, Data Types & Operators",
     "hours": 6,
     "subtopics": [
-      "C++ Tokens: Keywords, Identifiers, Constants, Variable Scope & Lifetime",
-      "Data Types & Modifiers: Primitive, Derived, User-Defined & Explicit/Implicit Typecasting",
-      "Arithmetic, Relational, Logical & Ternary Conditional Operators",
-      "Bitwise Operators (&, |, ^, ~, <<, >>), Operator Precedence & <cmath> Library"
+      "C++ Tokens: Keywords, Identifiers, Constants, Punctuators & Operators",
+      "Variables: Naming Conventions, Scope & Lifetime",
+      "Data Types Classification: Basic, Derived & User-Defined, with Storage Requirements (sizeof)",
+      "Typecasting: Implicit & Explicit Type Conversion",
+      "Arithmetic & Miscellaneous Operators (sizeof, comma), Relational, Logical & Conditional (Ternary) Operators",
+      "Bitwise Operators: &, |, ^, ~, <<, >>",
+      "Operator Associativity & Precedence; Expressions and Their Evaluation",
+      "Math Library Functions (<cmath>): pow, sqrt, abs, ceil, floor & More"
     ],
     "videos": [
       {
@@ -408,9 +458,9 @@ export const SYLLABUS_DATA: Unit[] = [
     "unitTitle": "Unit 2B: Control Flow & Platform Input Handling",
     "hours": 6,
     "subtopics": [
-      "Conditional Branching: if, if-else, nested if-else & else-if ladders",
-      "Switch-Case Statements, Fall-through Behavior & Menu-Driven Logic",
-      "Competitive Programming I/O: Handling single & multiple known test-case inputs"
+      "Taking Input on Coding Platforms - 1: Single Value, Multiple Known Values in One Line & Across Multiple Lines",
+      "Program Flow Control: if, if-else, Nested if-else & else-if Ladder",
+      "switch-case Statements, Fall-through Behavior & Menu-Driven Programs"
     ],
     "videos": [
       {
@@ -493,10 +543,11 @@ export const SYLLABUS_DATA: Unit[] = [
     "unitTitle": "Unit 3A: Iteration, Loops & Pattern Building",
     "hours": 6,
     "subtopics": [
-      "Iterative Loops: while, do-while, and for loops with multiple control variables",
-      "Jump Statements: break & continue execution management",
-      "Nested Loops & 2D Star/Number/Character Pattern Engineering",
-      "EOF Input Handling: Reading unknown-count inputs across lines"
+      "Iteration: while, do-while & for Loops with Multiple Loop Variables",
+      "Jump Statements: break & continue",
+      "Nested Iteration & 2D Star/Number/Character Pattern Building",
+      "Taking Input on Coding Platforms - 2: Single Value & Multiple Known Values in a Line, and Other Formats",
+      "Taking Input on Coding Platforms - 3: Multiple Unknown Values in One Line or Across Lines (EOF Handling)"
     ],
     "videos": [
       {
@@ -607,10 +658,11 @@ export const SYLLABUS_DATA: Unit[] = [
     "unitTitle": "Unit 3B: 1D/2D Arrays & Dynamic Vectors",
     "hours": 6,
     "subtopics": [
-      "1D Arrays: Contiguous Memory Representation, Indexing & Element Manipulation",
-      "Subarray Fundamentals & Kadane’s Maximum Subarray Sum Algorithm",
-      "Multi-dimensional (2D) Matrices: Row/Column Major Storage & Spiral Traversal",
-      "STL Dynamic Vectors: push_back, pop_back, size vs capacity & resizing"
+      "Arrays: Notation, Representation (Contiguous Memory) & Indexing",
+      "Manipulating Array Elements: Traversal, Insertion, Deletion, Searching, Reversal & Rotation",
+      "Subarray Fundamentals & Kadane's Maximum Subarray Sum Algorithm",
+      "Multi-dimensional (2D) Arrays: Row/Column-Major Storage, Matrix Traversal & Spiral Order",
+      "Dynamically Growable Arrays: STL Vectors (push_back, pop_back, size vs capacity)"
     ],
     "videos": [
       {
@@ -848,10 +900,11 @@ export const SYLLABUS_DATA: Unit[] = [
     "unitTitle": "Unit 4: Modular Functions, Pointers & Intro to Recursion",
     "hours": 8,
     "subtopics": [
-      "Modular Functions: Prototypes, Call Stack Frame, Default Arguments & Overloading",
+      "Functions: Introduction & Types (Library vs User-Defined; With/Without Arguments & Return Values)",
+      "Modular Functions: Prototypes, Definitions, Call Stack Frames, Default Arguments & Overloading",
       "Pointers & Memory Addresses: Dereferencing (*), Address-of (&) & Pointer Arithmetic",
-      "Parameter Passing: Call by Value vs Call by Reference (Pointers & C++ References)",
-      "Introductory Recursion: Base Case, Recursive Call Stack & Factorial/Fibonacci"
+      "Passing Parameters: Call by Value vs Call by Reference (Pointers & C++ References)",
+      "Introduction to Recursive Functions: Base Case, Call Stack, Factorial & Fibonacci"
     ],
     "videos": [
       {
@@ -980,9 +1033,11 @@ export const SYLLABUS_DATA: Unit[] = [
     "unitTitle": "Unit 5A: C++ Strings & Manipulation Operations",
     "hours": 5,
     "subtopics": [
-      "Character Arrays vs std::string Class: Null-termination & Dynamic Allocation",
-      "String Modification: insert(), erase(), replace(), append() & concatenation",
-      "Substring & Search Operations: substr(), find(), length(), case conversion & alphanumeric parsing"
+      "String Representation in C++: Character Arrays vs std::string & Null-termination",
+      "string.h / <cstring> Library Functions: strlen, strcpy, strcat, strcmp & std::string Equivalents",
+      "Modifying Strings: Replacing, Inserting & Erasing Characters; Concatenating Two or More Strings",
+      "Searching in Strings: Finding Characters or Substrings, Counting Characters or Substrings & Finding Length",
+      "Comparing Two Strings, Case Conversion & Dealing with Alphanumeric Strings"
     ],
     "videos": [
       {
@@ -1243,9 +1298,13 @@ export const SYLLABUS_DATA: Unit[] = [
     "unitTitle": "Unit 1: Asymptotic Complexity & Searching Techniques",
     "hours": 8,
     "subtopics": [
+      "Introduction: Data Structures, Their Types & Importance; Primitive Operations on Data Structures",
+      "Basic Terminology, Elementary Data Organization & Built-in Data Types in C++",
       "Data Structure Classification (Linear/Non-Linear) & Abstract Data Types (ADTs)",
+      "Algorithm & Its Efficiency: Time Complexity and Space Complexity",
       "Asymptotic Notations: Big-Oh (O), Big-Theta (Θ), Big-Omega (Ω) & Time-Space Trade-off",
-      "Sequential (Linear) Search vs Binary Search (Iterative & Recursive Complexity Analysis)",
+      "Searching: Concept of Searching & Sequential (Linear) Search",
+      "Binary Search (Iterative & Recursive): Time and Space Complexity Computation",
       "Binary Search on Answer Space: Rotated Arrays, Peak Element & Book Allocation"
     ],
     "videos": [
@@ -1509,9 +1568,11 @@ export const SYLLABUS_DATA: Unit[] = [
     "unitTitle": "Unit 2: Comparison & Linear-Time Sorting Algorithms",
     "hours": 8,
     "subtopics": [
-      "Comparison Sorts: Bubble Sort, Selection Sort & Insertion Sort (Best/Avg/Worst Case)",
-      "Dutch National Flag (DNF) 3-Way Partitioning Algorithm (Sort 0s, 1s & 2s)",
-      "Linear-Time Non-Comparison Sorts: Counting Sort, Radix Sort & Bucket Sort"
+      "Bubble Sort, Selection Sort & Insertion Sort: C++ Implementation & Time Complexity (Best/Avg/Worst)",
+      "Dutch National Flag (DNF) 3-Way Partitioning (Sort 0s, 1s & 2s)",
+      "Sorting in Linear Time: Counting Sort - Key Characteristics, Algorithm, C++ Implementation & Complexity",
+      "Radix Sort & Bucket Sort",
+      "Comparison of Sorting Techniques: Best, Average & Worst-Case Time Complexity"
     ],
     "videos": [
       {
@@ -1671,10 +1732,13 @@ export const SYLLABUS_DATA: Unit[] = [
     "unitTitle": "Unit 3: Linked Lists & Polynomial Representation",
     "hours": 10,
     "subtopics": [
-      "Singly Linked List: Dynamic Node Pointers, Insertion, Deletion, Reversal & Fast/Slow Pointers",
-      "Doubly Linked List: Prev/Next Bidirectional Pointers & CRUD Operations",
-      "Circular Linked List: Tail-to-Head Loop Management & Traversal",
-      "Polynomial Representation: Single & Two-Variable Polynomial Addition, Subtraction & Multiplication"
+      "Singly Linked List: Array Implementation vs Pointer Implementation",
+      "Linked List Operations: Insertion, Deletion, Traversal, Reversal & Fast/Slow Pointers",
+      "Doubly Linked List: Prev/Next Pointers & Operations",
+      "Circular Linked List: Tail-to-Head Loop & Operations",
+      "Time Complexity of Linked List Operations: Worst, Average & Best Case",
+      "Polynomial Representation Using Linked Lists: Single-Variable & Two-Variable Polynomials",
+      "Polynomial Addition, Subtraction & Multiplication"
     ],
     "videos": [
       {
@@ -1972,9 +2036,13 @@ export const SYLLABUS_DATA: Unit[] = [
     "unitTitle": "Unit 4: Hashing Functions & Collision Resolution",
     "hours": 8,
     "subtopics": [
-      "Hash Table Architecture & Hash Functions: Division Modulo, Digit Extraction, Mid-Square & Folding",
+      "Introduction to Hashing & Its Need: Definition and Hash Table",
+      "Hash Functions: Division Modulo, Digit Extraction, Mid-Square, Folding & Custom Hash Functions",
+      "Operations over a Hash Table: Search, Insertion & Deletion",
+      "Collisions: Illustration of Collision & Overview of Resolution Techniques",
       "Open Hashing (Separate Chaining): Linked List Buckets & Load Factor (λ) Analysis",
-      "Closed Hashing (Open Addressing): Linear Probing, Quadratic Probing & Double Hashing"
+      "Closed Hashing (Open Addressing): Linear Probing, Quadratic Probing & Double Hashing",
+      "Programming-Based Hashing Techniques: Frequency Counting, Two Sum, Subarray Sums"
     ],
     "videos": [
       {
@@ -2179,9 +2247,13 @@ export const SYLLABUS_DATA: Unit[] = [
     "unitTitle": "Unit 5: STL Ordered/Unordered Sets & Maps",
     "hours": 6,
     "subtopics": [
-      "Ordered vs Unordered Containers: Red-Black Tree O(log N) vs Hash Table O(1) Internals",
-      "STL Set & Multiset Operations: insert(), erase(), find(), count(), Union, Intersection & Difference",
-      "STL Map & Unordered_Map: Frequency Counting, Key-Value Pairs & Custom Comparator Sorting"
+      "Ordered vs Unordered Sets: Definition, Differences & Internals (Red-Black Tree vs Hash Table)",
+      "Set Operations (STL): insert(), erase(), size(), find(), count() & Equality Check of Two Sets",
+      "Set Algorithms: includes(), accumulate(), Union, Intersection & Difference of Sets",
+      "Sorting a Set & Time-Complexity Comparison of Operations: Ordered vs Unordered Sets",
+      "Ordered and Unordered Maps: Definition & the Key-Value Concept",
+      "Map Operations: insert(), erase(), size() & Looping in a Map",
+      "Sorting Using Maps: By Key, By Value & Custom Comparators"
     ],
     "videos": [
       {
@@ -2304,9 +2376,11 @@ export const SYLLABUS_DATA: Unit[] = [
     "unitTitle": "Unit 1A: Stacks & Expression Notations",
     "hours": 3,
     "subtopics": [
-      "Stack LIFO ADT: Array & Linked List Representations, push(), pop(), peek() & STL std::stack",
-      "Arithmetic Expression Notations: Infix, Prefix (Polish) & Postfix (Reverse Polish) Conversions",
-      "Postfix/Prefix Stack Evaluation & Monotonic Stack Patterns (Next Greater Element, Stock Span)"
+      "Stack Introduction: Terminology & Representation (Arrays & Linked List)",
+      "Stack Operations: push(), pop(), peek() & Others (isEmpty, size)",
+      "Infix, Prefix & Postfix Notations and Converting One into Another",
+      "Expression Evaluation Using a Stack (Prefix & Postfix)",
+      "Stack Applications & Monotonic Stack Patterns (Next Greater Element, Stock Span)"
     ],
     "videos": [
       {
@@ -2570,9 +2644,10 @@ export const SYLLABUS_DATA: Unit[] = [
     "unitTitle": "Unit 1B: Queues & Circular/Deque Variations",
     "hours": 3,
     "subtopics": [
-      "Queue FIFO ADT: Linear Queue Array & Linked List Implementation, Enqueue, Dequeue & Peek",
-      "Circular Queue Modulo Indexing, Double-Ended Queue (Deque) & Priority Queue Overview",
-      "STL std::queue and std::deque Applications (Sliding Window Maximum)"
+      "Queue Introduction: Terminology & Representation (Arrays & Linked List)",
+      "Queue Operations: Enqueue, Dequeue, Peek & Others",
+      "Types of Queues: Linear, Circular, Double-Ended (Deque) & Priority Queue",
+      "Stack and Queue in STL: std::stack, std::queue & std::deque (e.g. Sliding Window Maximum)"
     ],
     "videos": [
       {
@@ -2758,9 +2833,12 @@ export const SYLLABUS_DATA: Unit[] = [
     "unitTitle": "Unit 2A: Recursion Mechanics & Recurrence Complexity",
     "hours": 3,
     "subtopics": [
-      "Recursion Taxonomy: Direct, Indirect, Singly, Multiply, Tail, Non-Tail & Nested Recursion",
-      "Iteration vs Recursion Trade-offs, Stack Overflow Prevention & Backtracking Search Trees",
-      "Solving Recurrence Relations: Substitution/Iteration Method, Recursion Tree & Master Theorem"
+      "Recursion Introduction: Terminology & Key Components (Base Case, Recursive Case, Call Stack)",
+      "Types of Recursion: Direct, Indirect, Singly, Multiply, Tail, Non-Tail & Nested",
+      "Optimization of Recursion (Memoization, Tail Calls) & Iteration vs Recursion Trade-offs",
+      "Understanding Recursion Through Problems (Subsets, Permutations, Combinations)",
+      "Backtracking Search Trees & Stack Overflow Prevention",
+      "Time Complexity of Recursive Algorithms: Recurrence Relations - Substitution/Iteration, Recursion Tree & Master Theorem"
     ],
     "videos": [
       {
@@ -3176,10 +3254,18 @@ export const SYLLABUS_DATA: Unit[] = [
     "unitTitle": "Unit 3: Binary Trees, BSTs, Height-Balanced Trees & Tries",
     "hours": 8,
     "subtopics": [
-      "Tree Terminology & Types: Complete, Strict, Skewed & Multi-way Trees; BFS & DFS (Pre/In/Post) Traversals",
-      "Binary Search Trees (BST): Create, Search, Insert, Delete (Inorder Predecessor/Successor) & Expression Trees",
-      "Height-Balanced Trees: AVL Rotations (LL, RR, LR, RL), Red-Black Trees, B-Trees, B+ Trees & Threaded BT",
-      "Tries (Prefix Trees): Node Structure, Building a Trie, Word Insert, Search & Prefix Matching"
+      "Tree Introduction: Terminology & Representation (Array and Linked)",
+      "Tree Types: Complete, Strict (Full), Skewed Binary Trees & Multi-way Trees",
+      "Binary Tree Traversals: Breadth-First (Level Order) & Depth-First (Pre/In/Post-order)",
+      "Binary Search Trees: Definition, Terminology, Create, Search & Insert",
+      "BST Deletion (Inorder Predecessor/Successor) & Expression Trees",
+      "Height-Balanced Trees: Introduction, Terminology & Representation",
+      "AVL Trees: Rotations (LL, RR, LR, RL), Insert & Delete",
+      "Red-Black Trees: Properties, Insert & Delete",
+      "B-Trees & B+ Trees: Structure, Search, Insert & Delete",
+      "Threaded Binary Trees: Representation & Traversal",
+      "Tries: Introduction & Building a Trie (Node Structure)",
+      "Trie Operations: Insert, Search & Prefix Search"
     ],
     "videos": [
       {
@@ -3800,9 +3886,12 @@ export const SYLLABUS_DATA: Unit[] = [
     "unitTitle": "Unit 4: Heaps, Heap Sort & STL Priority Queues",
     "hours": 8,
     "subtopics": [
-      "Heap Fundamentals: Complete Binary Tree Array Representation, Min-Heap & Max-Heap Properties",
-      "Heap Operations: Bottom-up Build-Heap O(N), Sift-Up / Sift-Down (Heapify) & In-Place Heap Sort",
-      "Heap as Priority Queue: Use Cases vs Stack/Queue, STL std::priority_queue & Custom Struct Comparators"
+      "Heap Introduction: Terminology, Array Representation, Heap Property & Types (Max and Min Heap)",
+      "Heap Operations: Building a Heap (Bottom-up), Insert, Delete & Maintaining the Heap (Heapify)",
+      "Heap Sort (In-Place)",
+      "Heap as Priority Queue: Use Cases of Stack, Queue & Priority Queue",
+      "Priority Queue in STL: std::priority_queue & Custom Comparators",
+      "Optional: Binomial & Fibonacci Heaps - Overview (named in Course Outcome CO4)"
     ],
     "videos": [
       {
@@ -3943,7 +4032,7 @@ export const SYLLABUS_DATA: Unit[] = [
     "unitTitle": "Unit 5A: Graph Representations & BFS/DFS Traversals",
     "hours": 4,
     "subtopics": [
-      "Graph Terminology & Types: Directed, Undirected, Weighted, Cyclic, Acyclic, Bipartite & Complete Graphs",
+      "Graph Terminology & Types: Directed, Undirected, Weighted, Unweighted, Cyclic, Acyclic, Bipartite & Complete Graphs",
       "Graph Memory Representations: Adjacency Matrix vs Adjacency List Space/Time Trade-offs",
       "Graph Traversal Algorithms: Breadth-First Search (BFS) & Depth-First Search (DFS) Across Components"
     ],
@@ -4141,9 +4230,11 @@ export const SYLLABUS_DATA: Unit[] = [
     "unitTitle": "Unit 5B: Advanced Graph Algorithms & Applications",
     "hours": 4,
     "subtopics": [
+      "Applications of BFS & DFS: Connected Components",
       "Cycle Detection in Undirected Graphs (BFS & DFS) and Directed Graphs (DFS Recursion Stack)",
       "Directed Acyclic Graphs (DAG) & Topological Sorting: DFS Post-Order Stack & Kahn's BFS Indegree Algorithm",
-      "Strongly Connected Components (Kosaraju's/Tarjan's), Articulation Points, Bridges & Bi-connected Components"
+      "Strongly Connected Components (Kosaraju's / Tarjan's Algorithm)",
+      "Articulation Points, Bridges & Bi-connected Components"
     ],
     "videos": [
       {
